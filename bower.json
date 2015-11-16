@@ -1,0 +1,21 @@
+{
+  "name": "V-observer",
+  "description": "",
+  "main": "",
+  "authors": [
+    "Bruno Goossens <brunogoossens@gmail.com>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/ICTO/v-observer",
+  "moduleType": [],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "Materialize": "materialize#~0.97.3"
+  }
+}
