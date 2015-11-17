@@ -1,12 +1,12 @@
-@extends('layouts.master')
+@extends('layouts.fullcenter')
 
 @section('content')
 <div class="container">
     <div class="section">
         <div class="row">
             <div class="col s12 m8 push-m2 l6 push-l3">
-                <div class="card">
-                    <form method="POST" action="/auth/login">
+                <div class="card left-align">
+                    <form method="POST" action="{{ action('Auth\AuthController@postLogin') }}">
                         {!! csrf_field() !!}
                         <div class="card-content">
                             <div class="row">

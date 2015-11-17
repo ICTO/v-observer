@@ -1,8 +1,9 @@
 (function($){
   $(function(){
     $('.button-collapse').sideNav();
-    if($('#modal-errors').size()){
-      $('#modal-errors').openModal();
+    $('.dropdown-button').dropdown({ hover: false });
+    if($('#modal-messages').size()){
+      $('#modal-messages').openModal();
     }
   });
 })(jQuery);

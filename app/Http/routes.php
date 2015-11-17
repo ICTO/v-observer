@@ -30,7 +30,8 @@ Route::post('password/reset', 'Auth\PasswordController@postReset');
 
 // Requires Authentication
 Route::group(['middleware' => 'auth'], function () {
-    Route::get('/home', function () {
-        return 'logged in';
-    });
+    Route::get('/home', 'User\DashboardController@getDashboard');
+    Route::get('/user', 'User\ProfileController@getProfile');
+    Route::get('/user/edit', 'User\ProfileController@getEditProfile');
+    Route::post('/user/edit', 'User\ProfileController@postEditProfile');
 });

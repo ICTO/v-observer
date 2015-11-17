@@ -35,13 +35,15 @@ elixir(function(mix) {
        ], 'public/javascript/main.js');
 
     // Add version
-    mix.version(["public/javascript/main.js", "public/stylesheets/main.css"]);
+    //mix.version(["public/javascript/main.js", "public/stylesheets/main.css"]);
 
     // copy fonts
-    mix.copy('bower_components/Materialize/dist/font', 'public/build/font');
+    mix.copy('bower_components/Materialize/dist/font', 'public/font');
 
     // remove unused folders
     mix.remove(__dirname + "/resources/assets/generated_css");
-    mix.remove(__dirname + "/public/javascript");
-    mix.remove(__dirname + "/public/stylesheets");
+
+    // remove this folders when using version
+    //mix.remove(__dirname + "/public/javascript");
+    //mix.remove(__dirname + "/public/stylesheets");
 });
