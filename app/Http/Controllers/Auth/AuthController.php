@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Auth;
 
 use App\User;
 use Validator;
+use Cas;
+use Auth;
+use Redirect;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
@@ -61,5 +64,25 @@ class AuthController extends Controller
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
+    }
+
+    /**
+     * Cas login
+     */
+    protected function getCas(){
+        Cas::authenticate();
+        $cas_username = Cas::user();
+        $user = User::where('cas_username', $cas_username)->first();
+
+        if(!$user){
+            $user = new User;
+            $user->cas_username = $cas_username;
+            $user->name = $cas_username;
+            $user->save();
+        }
+
+        Auth::login($user);
+
+        return Redirect::action('User\DashboardController@getDashboard');
     }
 }

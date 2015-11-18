@@ -46,7 +46,8 @@ class ProfileController extends Controller
 
       $validator = Validator::make($request->all(), [
           'name' => 'required',
-          'email' => 'required|email|unique:users,email,' . $user->id
+          'email' => 'required|email|unique:users,email,' . $user->id,
+          'cas_username' => 'unique:users,cas_username,' . $user->id
       ]);
 
       if ($validator->fails()) {
@@ -57,6 +58,7 @@ class ProfileController extends Controller
 
       $user->name = $request->name;
       $user->email = $request->email;
+      $user->cas_username = $request->cas_username;
       $user->save();
 
       return Redirect::action('User\ProfileController@getProfile')->with('status', 'Saved profile');

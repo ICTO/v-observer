@@ -32,6 +32,9 @@
                             <button class="waves-effect waves-light btn" type="submit"><i class="material-icons left">input</i>Login</button>
                             <a class="white teal-text text-lighten-1 waves-effect waves-teal btn-flat" href="/password/email">Forgot password</a>
                         </div>
+                        <div class="card-action">
+                            <a class="waves-effect waves-light btn amber lighten-2 blue-text text-darken-4" type="submit" href="{{ action('Auth\AuthController@getCas') }}">Login with CAS</a>
+                        </div>
                     </form>
                 </div>
             </div>

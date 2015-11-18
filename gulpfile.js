@@ -30,7 +30,7 @@ elixir(function(mix) {
     // scripts
     mix.scripts(['../../../bower_components/jquery/dist/jquery.js',
                  '../../../bower_components/Materialize/dist/js/materialize.js',
-                 '../../../bower_components/Materialize/dist/js/materialize.js',
+                 '../../../bower_components/moment/min/moment-with-locales.js',
                  '../javascript/main.js'
        ], 'public/javascript/main.js');
 

@@ -21,6 +21,12 @@
                                     <label for="email">Email</label>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <input type="text" name="cas_username" value="{{ $user->cas_username }}">
+                                    <label for="cas_username">CAS username</label>
+                                </div>
+                            </div>
                         </div>
                         <div class="card-action">
                             <button class="waves-effect waves-light btn" type="submit"><i class="material-icons left">done</i>Save</button>

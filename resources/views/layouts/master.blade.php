@@ -9,7 +9,7 @@
   </head>
   <body>
     <div class="navbar-fixed">
-      <nav class="light-blue darken-4" role="navigate">
+      <nav class="teal lighten-2" role="navigate">
         <div class="nav-wrapper container">
           <a id="logo-container" href="{{ action("User\DashboardController@getDashboard") }}" class="brand-logo">
             <span class="logo-text-navbar">V-observer</span>
