@@ -3,9 +3,17 @@
     // Materialize
     $('.button-collapse').sideNav();
     $('.dropdown-button').dropdown({ hover: false });
-    if($('#modal-messages').size()){
-      $('#modal-messages').openModal();
-    }
+    $('.message').each(function(){
+      var type = $(this).attr("data-type");
+      var message = $(this).attr("data-message");
+      var n = noty({
+          text: message,
+          type: type,
+          theme: 'relax',
+          layout: 'topCenter'
+      });
+
+    });
 
     // Moment
     moment.locale('en');

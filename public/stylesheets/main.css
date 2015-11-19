@@ -8424,6 +8424,19 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
   .picker--time .picker__box {
     margin-bottom: 5em; } }
 
+main, header {
+  padding-left: 240px; }
+
+@media only screen and (max-width: 992px) {
+  main, header {
+    padding-left: 0; } }
+
+@media only screen and (min-width: 993px) {
+  .container {
+    width: 85%; } }
+
+.noty_message {
+  padding: 20px !important; }
 
 /*# sourceMappingURL=app.css.map */
 

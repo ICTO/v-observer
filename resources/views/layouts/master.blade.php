@@ -8,36 +8,43 @@
     <link rel="stylesheet" href="/stylesheets/main.css">
   </head>
   <body>
-    <div class="navbar-fixed">
+    <!-- sidebar -->
+    <ul id="nav-mobile" class="side-nav fixed">
+      <li class="grey lighten-4">
+        <div class="section center-align">
+            <img src="/images/no_avatar.png" alt="" class="circle responsive-img" width="100px">
+            <a href="{{ action("User\ProfileController@getProfile") }}">
+              <span>{{ Auth::user()->name }}</span>
+            </a>
+          </div>
+        </div>
+      </li>
+      <li class="divider"></li>
+      <li><a href="{{ action("User\DashboardController@getDashboard") }}">Dashboard</a></li>
+      @yield('nav')
+      <li class="divider"></li>
+      <li><a href="{{ action("Auth\AuthController@getLogout") }}">Logout</a></li>
+    </ul>
+
+    <!-- header -->
+    <header>
       <nav class="teal lighten-2" role="navigate">
-        <div class="nav-wrapper container">
-          <a id="logo-container" href="{{ action("User\DashboardController@getDashboard") }}" class="brand-logo">
-            <span class="logo-text-navbar">V-observer</span>
-          </a>
-          <ul class="right hide-on-med-and-down">
-            @section('nav')
-            @show
-            <li><a class="dropdown-button" href="#!" data-activates="dropdown1">{{ Auth::user()->name }}<i class="material-icons right">arrow_drop_down</i></a></li>
-            <ul id="dropdown1" class="dropdown-content">
-              <li><a href="{{ action("User\DashboardController@getDashboard") }}">Dashboard</a></li>
-              <li><a href="{{ action("User\ProfileController@getProfile") }}">Profile</a></li>
-              <li class="divider"></li>
-              <li><a href="{{ action("Auth\AuthController@getLogout") }}">Logout</a></li>
-            </ul>
-          </ul>
-          <ul id="nav-mobile" class="side-nav">
-            <li><a href="{{ action("User\ProfileController@getProfile") }}">Profile</a></li>
-            <li><a href="{{ action("User\DashboardController@getDashboard") }}">Dashboard</a></li>
-            @yield('nav')
-            <li class="divider"></li>
-            <li><a href="{{ action("Auth\AuthController@getLogout") }}">Logout</a></li>
-          </ul>
-          <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+        <div class="nav-wrapper">
+          <div class="container">
+            <a id="logo-container" href="{{ action("User\DashboardController@getDashboard") }}" class="brand-logo">
+              <span class="logo-text-navbar">V-observer</span>
+            </a>
+            <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+          </div>
         </div>
       </nav>
-    </div>
-    @include('common.messages')
-    @yield('content')
+    </header>
+
+    <!-- main -->
+    <main>
+      @include('common.messages')
+      @yield('content')
+    </main>
     <script type="text/javascript" src="/javascript/main.js"></script>
   </body>
 </html>
