@@ -31,8 +31,15 @@ Route::post('password/reset', 'Auth\PasswordController@postReset');
 
 // Requires Authentication
 Route::group(['middleware' => 'auth'], function () {
-    Route::get('/home', 'User\DashboardController@getDashboard');
-    Route::get('/user', 'User\ProfileController@getProfile');
-    Route::get('/user/edit', 'User\ProfileController@getEditProfile');
-    Route::post('/user/edit', 'User\ProfileController@postEditProfile');
+    Route::get('/dashboard/{id?}', 'User\UserController@getDashboard');
+    Route::get('/profile/{id?}', 'User\UserController@getProfile');
+    Route::get('/profile/{id}/edit', 'User\UserController@getEditProfile');
+    Route::post('/profile/{id}/edit', 'User\UserController@postEditProfile');
+    Route::get('/group', 'User\UserController@getGroups');
+    Route::get('/group/create', 'User\UserController@getCreateGroup');
+    Route::post('/group/create', 'User\UserController@postCreateGroup');
+    Route::get('/group/add/{id}', 'User\UserController@getAddUser');
+    Route::post('/group/add', 'User\UserController@postAddUser');
+    Route::get('/user/create/{group_id?}', 'User\UserController@getCreateUser');
+    Route::post('/user/create', 'User\UserController@postCreateUser');
 });

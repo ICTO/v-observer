@@ -9,6 +9,7 @@
                     <form method="POST" action="{{ action('Auth\AuthController@postLogin') }}">
                         {!! csrf_field() !!}
                         <div class="card-content">
+                            <div class="card-title">Login</div>
                             <div class="row">
                                 <div class="input-field col s12">
                                     <input type="email" name="email" value="{{ old('email') }}">
@@ -29,12 +30,14 @@
                             </div>
                         </div>
                         <div class="card-action">
-                            <button class="waves-effect waves-light btn" type="submit"><i class="material-icons left">input</i>Login</button>
+                            <button class="waves-effect waves-light btn" type="submit">Login</button>
                             <a class="white teal-text text-lighten-1 waves-effect waves-teal btn-flat" href="/password/email">Forgot password</a>
                         </div>
+                        @if( Config::get('cas.cas_hostname') )
                         <div class="card-action">
-                            <a class="waves-effect waves-light btn amber lighten-2 blue-text text-darken-4" type="submit" href="{{ action('Auth\AuthController@getCas') }}">Login with CAS</a>
+                            <a class="waves-effect waves-light btn amber lighten-2 blue-text text-darken-4" type="submit" href="{{ action('Auth\AuthController@getCas') }}"><i class="material-icons left">account_balance</i>Login with CAS</a>
                         </div>
+                        @endif
                     </form>
                 </div>
             </div>

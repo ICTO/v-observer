@@ -36,4 +36,20 @@ class User extends Model implements AuthenticatableContract,
      * @var array
      */
     protected $hidden = ['password', 'remember_token'];
+
+    /**
+     * Get the users attached to this group (user).
+     */
+    public function users()
+    {
+        return $this->belongsToMany('App\User','user_group', 'group_id', 'user_id')->withTimestamps();
+    }
+
+    /**
+     * The groups that belongs to this user.
+     */
+    public function groups()
+    {
+        return $this->belongsToMany('App\User','user_group', 'user_id', 'group_id')->withTimestamps();
+    }
 }

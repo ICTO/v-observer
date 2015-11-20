@@ -25671,6 +25671,7 @@ Picker.extend( 'pickadate', DatePicker )
     // Materialize
     $('.button-collapse').sideNav();
     $('.dropdown-button').dropdown({ hover: false });
+    $('select').material_select();
     $('.message').each(function(){
       var type = $(this).attr("data-type");
       var message = $(this).attr("data-message");

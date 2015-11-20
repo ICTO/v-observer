@@ -15,11 +15,19 @@ class CreateUsersTable extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('email')->unique();
+            $table->string('email');
             $table->string('password', 60);
-            $table->string('cas_username')->unique();
-            $table->boolean('group');
+            $table->string('cas_username');
+            $table->boolean('admin');
             $table->rememberToken();
+            $table->timestamps();
+        });
+
+        Schema::create('user_group', function (Blueprint $table) {
+            $table->integer('user_id')->unsigned()->index();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->integer('group_id')->unsigned()->index();
+            $table->foreign('group_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -31,6 +39,7 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
+        Schema::drop('user_group');
         Schema::drop('users');
     }
 }

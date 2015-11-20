@@ -149,6 +149,7 @@ return [
          * Third party providers
          */
         Xavrsl\Cas\CasServiceProvider::class,
+        Barryvdh\Debugbar\ServiceProvider::class,
 
     ],
 
@@ -201,6 +202,7 @@ return [
 
         /* third party */
         'Cas'       => Xavrsl\Cas\Facades\Cas::class,
+        'Debugbar' => Barryvdh\Debugbar\Facade::class,
 
     ],
 

@@ -31,7 +31,7 @@
                             </div>
                         </div>
                         <div class="card-action">
-                            <button class="waves-effect waves-light btn" type="submit"><i class="material-icons left">repeat</i>Reset Password</button>
+                            <button class="waves-effect waves-light btn" type="submit"><i class="material-icons left">vpn_key</i>Reset Password</button>
                         </div>
                     </form>
                 </div>

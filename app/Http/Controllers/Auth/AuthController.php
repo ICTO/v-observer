@@ -24,6 +24,8 @@ class AuthController extends Controller
     |
     */
 
+    protected $redirectPath = '/dashboard';
+
     use AuthenticatesAndRegistersUsers, ThrottlesLogins;
 
     /**
@@ -75,14 +77,11 @@ class AuthController extends Controller
         $user = User::where('cas_username', $cas_username)->first();
 
         if(!$user){
-            $user = new User;
-            $user->cas_username = $cas_username;
-            $user->name = $cas_username;
-            $user->save();
+            abort(403);
         }
 
         Auth::login($user);
 
-        return Redirect::action('User\DashboardController@getDashboard');
+        return Redirect::action('User\UserController@getDashboard');
     }
 }

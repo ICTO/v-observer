@@ -12,26 +12,27 @@
     <ul id="nav-mobile" class="side-nav fixed">
       <li class="grey lighten-4">
         <div class="section center-align">
-            <img src="/images/no_avatar.png" alt="" class="circle responsive-img" width="100px">
-            <a href="{{ action("User\ProfileController@getProfile") }}">
+            <img src="/images/no_avatar.png" alt="" class="circle row" width="100px">
+            <a href="{{ action("User\UserController@getProfile") }}" class="normal-link row">
               <span>{{ Auth::user()->name }}</span>
             </a>
           </div>
         </div>
       </li>
       <li class="divider"></li>
-      <li><a href="{{ action("User\DashboardController@getDashboard") }}">Dashboard</a></li>
+      <li><a href="{{ action("User\UserController@getDashboard") }}"><i class="material-icons icon-small icon-sidebar">dashboard</i>Dashboard</a></li>
+      <li><a href="{{ action("User\UserController@getGroups") }}"><i class="material-icons icon-small icon-sidebar">group_work</i>Groups</a></li>
       @yield('nav')
       <li class="divider"></li>
-      <li><a href="{{ action("Auth\AuthController@getLogout") }}">Logout</a></li>
+      <li><a href="{{ action("Auth\AuthController@getLogout") }}"><i class="material-icons icon-small icon-sidebar">lock</i>Logout</a></li>
     </ul>
 
     <!-- header -->
     <header>
-      <nav class="teal lighten-2" role="navigate">
+      <nav class="teal lighten-1" role="navigate">
         <div class="nav-wrapper">
           <div class="container">
-            <a id="logo-container" href="{{ action("User\DashboardController@getDashboard") }}" class="brand-logo">
+            <a id="logo-container" href="{{ action("User\UserController@getDashboard") }}" class="brand-logo">
               <span class="logo-text-navbar">V-observer</span>
             </a>
             <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>

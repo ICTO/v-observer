@@ -8435,8 +8435,42 @@ main, header {
   .container {
     width: 85%; } }
 
+.side-nav a.normal-link {
+  line-height: 1rem;
+  height: auto; }
+
 .noty_message {
   padding: 20px !important; }
+
+.icon-sidebar {
+  margin-right: 10px;
+  top: 2px;
+  position: relative;
+  font-size: 18px; }
+
+.user-letter {
+  font-size: 1.9rem; }
+
+.user-name {
+  position: relative;
+  padding-left: 89px;
+  padding-top: 23px;
+  padding-bottom: 23px;
+  width: 100%;
+  display: block; }
+
+.user-letter-row-wrapper:hover {
+  background-color: #26a69a;
+  color: white; }
+
+.user-letter-row-wrapper {
+  display: block;
+  color: black; }
+
+.user-row-circle {
+  position: absolute;
+  margin-top: 5px;
+  margin-left: 10px; }
 
 /*# sourceMappingURL=app.css.map */
 
