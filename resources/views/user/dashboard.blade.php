@@ -31,10 +31,18 @@
                     <div class="card-content">
                         <div class="card-title">Users in {{ $user->name }}</div>
                         @foreach( $users as $u )
-                        <a class="user-letter-row-wrapper waves-effect waves-light" href="{{ action('User\UserController@getProfile', $u->id) }}">
-                            <div class="btn-floating btn-large orange user-row-circle"><i class="material-icons">person</i></div>
-                            <div class="user-name">{{ $u->name }}</div>
-                        </a>
+                            @if($u->group)
+                            <a class="user-letter-row-wrapper waves-effect waves-light" href="{{ action('User\UserController@getDashboard', $u->id) }}">
+                                <div class="btn-floating btn-large cyan user-row-circle"><i class="material-icons">group</i></div>
+                                <div class="user-name has-action-button">{{ $u->name }}</div>
+                            </a>
+                            @else
+                            <a class="user-letter-row-wrapper waves-effect waves-light" href="{{ action('User\UserController@getProfile', $u->id) }}">
+                                <div class="btn-floating btn-large orange user-row-circle"><i class="material-icons">person</i></div>
+                                <div class="user-name has-action-button">{{ $u->name }}</div>
+                            </a>
+                            @endif
+                            <a class="circle btn action-btn waves-effect waves-light blue" href="{{ action('User\UserController@getRemoveUser', [$user->id, $u->id] ) }}"><i class="material-icons">delete</i></a>
                         @endforeach
                     </div>
                     <div class="card-action">

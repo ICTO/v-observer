@@ -18,7 +18,6 @@ Route::get('/', function () {
 // Authentication routes...
 Route::get('auth/login', 'Auth\AuthController@getLogin');
 Route::post('auth/login', 'Auth\AuthController@postLogin');
-Route::get('auth/logout', 'Auth\AuthController@getLogout');
 Route::get('auth/cas', 'Auth\AuthController@getCas');
 
 // Password reset link request routes...
@@ -31,15 +30,25 @@ Route::post('password/reset', 'Auth\PasswordController@postReset');
 
 // Requires Authentication
 Route::group(['middleware' => 'auth'], function () {
-    Route::get('/dashboard/{id?}', 'User\UserController@getDashboard');
-    Route::get('/profile/{id?}', 'User\UserController@getProfile');
-    Route::get('/profile/{id}/edit', 'User\UserController@getEditProfile');
-    Route::post('/profile/{id}/edit', 'User\UserController@postEditProfile');
-    Route::get('/group', 'User\UserController@getGroups');
-    Route::get('/group/create', 'User\UserController@getCreateGroup');
-    Route::post('/group/create', 'User\UserController@postCreateGroup');
-    Route::get('/group/add/{id}', 'User\UserController@getAddUser');
-    Route::post('/group/add', 'User\UserController@postAddUser');
-    Route::get('/user/create/{group_id?}', 'User\UserController@getCreateUser');
-    Route::post('/user/create', 'User\UserController@postCreateUser');
+    // Auth routes
+    Route::get('auth/logout', 'Auth\AuthController@getLogout');
+
+    // User routes
+    Route::get('profile/{id?}', 'User\UserController@getProfile');
+    Route::get('profile/{id}/edit', 'User\UserController@getEditProfile');
+    Route::post('profile/{id}/edit', 'User\UserController@postEditProfile');
+    Route::get('dashboard/{id?}', 'User\UserController@getDashboard');
+
+    // Group routes
+    Route::get('group', 'User\UserController@getGroups');
+    Route::get('group/create', 'User\UserController@getCreateGroup');
+    Route::post('group/create', 'User\UserController@postCreateGroup');
+
+    // Group users routes
+    Route::get('group/{group_id}/user/add', 'User\UserController@getAddUser');
+    Route::post('group/{group_id}/user/add', 'User\UserController@postAddUser');
+    Route::get('group/{group_id}/user/create', 'User\UserController@getCreateUser');
+    Route::post('group/{group_id}/user/create', 'User\UserController@postCreateUser');
+    Route::get('group/{group_id}/user/{user_id}/remove', 'User\UserController@getRemoveUser');
+    Route::post('group/{group_id}/user/{user_id}/remove', 'User\UserController@postRemoveUser');
 });

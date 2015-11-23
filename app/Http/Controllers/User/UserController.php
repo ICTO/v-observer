@@ -79,7 +79,7 @@ class UserController extends Controller
   /**
    * Get the users profile edit form.
    *
-   * @return View
+   * @return Redirect
    */
   protected function postEditProfile(Request $request, $id)
   {
@@ -134,7 +134,7 @@ class UserController extends Controller
   /**
    * Create and validate a new group.
    *
-   * @return View
+   * @return Redirect
    */
   protected function postCreateGroup(Request $request)
   {
@@ -150,7 +150,8 @@ class UserController extends Controller
             ->withErrors($validator);
     }
 
-    $group = new User();
+    $group = new User(); // groups are build from users referencing to eachother. This allows complex user/group structures and gives the ability to do user action with a group.
+    $group->group = true;
     $group->name = $request->name;
     $group->save();
     $group->users()->attach($user->id);
@@ -163,10 +164,12 @@ class UserController extends Controller
    *
    * @return View
    */
-  protected function getCreateUser($group_id = false)
+  protected function getCreateUser($group_id)
   {
+    $group = User::where('id',$group_id)->firstOrFail();
+
     $data = array(
-      'group_id' => $group_id
+      'group' => $group
     );
 
     return view('user.createUser', $data);
@@ -175,9 +178,9 @@ class UserController extends Controller
   /**
    * Create and validate a new user.
    *
-   * @return View
+   * @return Redirect
    */
-  protected function postCreateUser(Request $request)
+  protected function postCreateUser(Request $request, $group_id)
   {
     $user = Auth::user();
 
@@ -188,7 +191,7 @@ class UserController extends Controller
     ]);
 
     if ($validator->fails()) {
-        return Redirect::action('User\UserController@getCreateUser', $request->group_id)
+        return Redirect::action('User\UserController@getCreateUser', $group_id)
             ->withInput()
             ->withErrors($validator);
     }
@@ -199,9 +202,8 @@ class UserController extends Controller
     $new_user->cas_username = $request->cas_username;
     $new_user->save();
     // @TODO : check if group_id is one of the allowed ids.
-    if($request->group_id){
-      $new_user->groups()->attach($request->group_id);
-    }
+    $group = User::where('id',$group_id)->firstOrFail();
+    $new_user->groups()->attach($group->id);
 
     if($request->send_email){
       $token = $this->tokens->create($new_user);
@@ -215,11 +217,7 @@ class UserController extends Controller
       });
     }
 
-    if($request->group_id){
-      return Redirect::action('User\UserController@getDashboard', $request->group_id)->with('status', 'User created');
-    }
-
-    return Redirect::action('User\UserController@getProfile', $new_user->id)->with('status', 'User created');
+    return Redirect::action('User\UserController@getDashboard', $group->id)->with('status', 'User created');
   }
 
   /**
@@ -243,28 +241,62 @@ class UserController extends Controller
   /**
    * Add and validate a user that needs to be added to a group
    *
-   * @return View
+   * @return Redirect
    */
-  protected function postAddUser(Request $request)
+  protected function postAddUser(Request $request, $group_id)
   {
     // @TODO : validate that the user is only added once to a group
     $validator = Validator::make($request->all(), [
-        'group_id' => 'required',
         'user_id' => 'required'
     ]);
 
     if ($validator->fails()) {
-        return Redirect::action('User\UserController@getAddUser', $id)
+        return Redirect::action('User\UserController@getAddUser', $request->group_id)
             ->withInput()
             ->withErrors($validator);
     }
 
     User::where('id',$request->user_id)->firstOrFail();
-    $group = User::where('id',$request->group_id)->firstOrFail();
+    $group = User::where('id',$group_id)->firstOrFail();
     $group->users()->attach($request->user_id);
 
     // @TODO : send a mail to the new user and notice him that he is added to the group
 
     return Redirect::action('User\UserController@getDashboard', $group->id)->with('status', 'User added to group');
+  }
+
+  /**
+   * Return the form removing a user.
+   *
+   * @return View
+   */
+  protected function getRemoveUser($group_id, $user_id)
+  {
+    $group = User::where('id',$group_id)->firstOrFail();
+    $user = User::where('id',$user_id)->firstOrFail();
+
+    $data = array(
+      'group' => $group,
+      'user' => $user
+    );
+
+    return view('user.removeUser', $data);
+  }
+
+  /**
+   * Remove a user.
+   *
+   * @return Redirect
+   */
+  protected function postRemoveUser(Request $request, $group_id, $user_id)
+  {
+    $group = User::where('id',$group_id)->firstOrFail();
+    $user = User::where('id',$user_id)->firstOrFail();
+
+    $group->users()->detach($user->id);
+
+    // @TODO : send a mail to the new user and notice him that he is removed from the group
+
+    return Redirect::action('User\UserController@getDashboard', $group->id)->with('status', 'User removed from group');
   }
 }

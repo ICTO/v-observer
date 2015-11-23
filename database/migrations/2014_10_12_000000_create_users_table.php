@@ -19,6 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('password', 60);
             $table->string('cas_username');
             $table->boolean('admin');
+            $table->boolean('group');
             $table->rememberToken();
             $table->timestamps();
         });

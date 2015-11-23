@@ -8463,6 +8463,9 @@ main, header {
   background-color: #26a69a;
   color: white; }
 
+.user-letter-row-wrapper .has-action-button {
+  padding-right: 110px; }
+
 .user-letter-row-wrapper {
   display: block;
   color: black; }
@@ -8471,6 +8474,13 @@ main, header {
   position: absolute;
   margin-top: 5px;
   margin-left: 10px; }
+
+.action-btn {
+  position: relative;
+  float: right;
+  margin-top: -52px;
+  margin-right: 20px;
+  z-index: 1; }
 
 /*# sourceMappingURL=app.css.map */
 

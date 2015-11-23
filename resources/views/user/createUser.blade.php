@@ -6,11 +6,10 @@
         <div class="row">
             <div class="col s12 m8 push-m2 l6 push-l3">
                 <div class="card left-align">
-                    <form method="POST" action="{{ action('User\UserController@postCreateUser') }}">
+                    <form method="POST" action="{{ action('User\UserController@postCreateUser', $group->id) }}">
                         {!! csrf_field() !!}
-                        <input type="hidden" name="group_id" value="{{ $group_id }}">
                         <div class="card-content">
-                            <div class="card-title">Create new user</div>
+                            <div class="card-title">Create new user in {{ $group->name }}</div>
                             <div class="row">
                                 <div class="input-field col s12">
                                     <input type="text" name="name" value="{{ old('name') }}">
