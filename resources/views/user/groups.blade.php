@@ -7,7 +7,11 @@
             <div class="col s12 m8 push-m2 l6 push-l3">
                 <div class="card left-align">
                     <div class="card-content">
+                        @if(count($groups))
                         <div class="card-title">Select a group</div>
+                        @else
+                        <div class="card-title">No groups found</div>
+                        @endif
                         @foreach( $groups as $group )
                         <a class="user-letter-row-wrapper waves-effect waves-light" href="{{ action('User\UserController@getDashboard', $group->id) }}">
                             <div class="btn-floating btn-large cyan user-row-circle"><i class="material-icons">group</i></div>

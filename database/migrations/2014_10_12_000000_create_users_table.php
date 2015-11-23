@@ -18,7 +18,7 @@ class CreateUsersTable extends Migration
             $table->string('email');
             $table->string('password', 60);
             $table->string('cas_username');
-            $table->boolean('admin');
+            $table->boolean('super_admin');
             $table->boolean('group');
             $table->rememberToken();
             $table->timestamps();
@@ -29,6 +29,7 @@ class CreateUsersTable extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->integer('group_id')->unsigned()->index();
             $table->foreign('group_id')->references('id')->on('users')->onDelete('cascade');
+            $table->boolean('admin');
             $table->timestamps();
         });
     }

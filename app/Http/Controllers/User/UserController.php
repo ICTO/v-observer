@@ -34,6 +34,8 @@ class UserController extends Controller
       $user = Auth::user();
     }
 
+    $this->authorize('dashboard', $user);
+
     $data = array(
       'user' => $user,
       'users' => $user->users()->get(),
@@ -56,6 +58,8 @@ class UserController extends Controller
       $user = Auth::user();
     }
 
+    $this->authorize('profile-view', $user);
+
     $data = array(
       'user'=> $user
     );
@@ -69,6 +73,8 @@ class UserController extends Controller
   protected function getEditProfile($id)
   {
     $user = User::where('id',$id)->firstOrFail();
+
+    $this->authorize('profile-edit', $user);
 
     $data = array(
       'user'=> $user
@@ -84,6 +90,8 @@ class UserController extends Controller
   protected function postEditProfile(Request $request, $id)
   {
     $user = User::where('id',$id)->firstOrFail();
+
+    $this->authorize('profile-edit', $user);
 
     $validator = Validator::make($request->all(), [
         'name' => 'required',
@@ -154,7 +162,7 @@ class UserController extends Controller
     $group->group = true;
     $group->name = $request->name;
     $group->save();
-    $group->users()->attach($user->id);
+    $group->users()->attach($user->id, array('admin'=> 1));
 
     return Redirect::action('User\UserController@getGroups')->with('status', 'Group created');
   }
@@ -167,6 +175,8 @@ class UserController extends Controller
   protected function getCreateUser($group_id)
   {
     $group = User::where('id',$group_id)->firstOrFail();
+
+    $this->authorize('user-create', $group);
 
     $data = array(
       'group' => $group
@@ -183,6 +193,9 @@ class UserController extends Controller
   protected function postCreateUser(Request $request, $group_id)
   {
     $user = Auth::user();
+    $group = User::where('id',$group_id)->firstOrFail();
+
+    $this->authorize('user-create', $group);
 
     $validator = Validator::make($request->all(), [
         'name' => 'required',
@@ -201,8 +214,6 @@ class UserController extends Controller
     $new_user->email = $request->email;
     $new_user->cas_username = $request->cas_username;
     $new_user->save();
-    // @TODO : check if group_id is one of the allowed ids.
-    $group = User::where('id',$group_id)->firstOrFail();
     $new_user->groups()->attach($group->id);
 
     if($request->send_email){
@@ -230,6 +241,8 @@ class UserController extends Controller
     $group = User::where('id',$id)->firstOrFail();
     $users = User::all();
 
+    $this->authorize('user-add', $group);
+
     $data = array(
       'group' => $group,
       'users' => $users
@@ -245,6 +258,9 @@ class UserController extends Controller
    */
   protected function postAddUser(Request $request, $group_id)
   {
+    $group = User::where('id',$group_id)->firstOrFail();
+    $this->authorize('user-add', $group);
+
     // @TODO : validate that the user is only added once to a group
     $validator = Validator::make($request->all(), [
         'user_id' => 'required'
@@ -257,7 +273,6 @@ class UserController extends Controller
     }
 
     User::where('id',$request->user_id)->firstOrFail();
-    $group = User::where('id',$group_id)->firstOrFail();
     $group->users()->attach($request->user_id);
 
     // @TODO : send a mail to the new user and notice him that he is added to the group
@@ -274,6 +289,8 @@ class UserController extends Controller
   {
     $group = User::where('id',$group_id)->firstOrFail();
     $user = User::where('id',$user_id)->firstOrFail();
+
+    $this->authorize('user-remove', $group);
 
     $data = array(
       'group' => $group,
@@ -292,6 +309,8 @@ class UserController extends Controller
   {
     $group = User::where('id',$group_id)->firstOrFail();
     $user = User::where('id',$user_id)->firstOrFail();
+
+    $this->authorize('user-remove', $group);
 
     $group->users()->detach($user->id);
 

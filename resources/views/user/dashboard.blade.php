@@ -20,9 +20,11 @@
                             </div>
                         </div>
                     </div>
+                    @can('profile-edit', $user)
                     <div class="card-action">
                         <a class="waves-effect waves-light btn white-text" href="{{ action('User\UserController@getEditProfile', $user->id) }}"><i class="material-icons left">mode_edit</i>Edit</a>
                     </div>
+                    @endcan
                 </div>
             </div>
             @if(count($users))
@@ -39,15 +41,26 @@
                             @else
                             <a class="user-letter-row-wrapper waves-effect waves-light" href="{{ action('User\UserController@getProfile', $u->id) }}">
                                 <div class="btn-floating btn-large orange user-row-circle"><i class="material-icons">person</i></div>
-                                <div class="user-name has-action-button">{{ $u->name }}</div>
+                                <div class="user-name has-action-button">
+                                    {{ $u->name }}
+                                    @if($u->pivot->admin)
+                                    <span class="small">(Admin)</span>
+                                    @endif
+                                </div>
                             </a>
                             @endif
+                            @if(count($users) != 1)
+                            @can('user-remove', $user)
                             <a class="circle btn action-btn waves-effect waves-light blue" href="{{ action('User\UserController@getRemoveUser', [$user->id, $u->id] ) }}"><i class="material-icons">delete</i></a>
+                            @endcan
+                            @endif
                         @endforeach
                     </div>
+                    @can('user-add', $user)
                     <div class="card-action">
                         <a class="waves-effect waves-light btn white-text" href="{{ action('User\UserController@getAddUser', $user->id) }}"><i class="material-icons left">person_add</i>Add user</a>
                     </div>
+                    @endcan
                 </div>
             </div>
             @endif

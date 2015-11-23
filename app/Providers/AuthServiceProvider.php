@@ -13,7 +13,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        'App\Model' => 'App\Policies\ModelPolicy',
+        'App\User' => 'App\Policies\UserPolicy',
     ];
 
     /**
@@ -26,6 +26,10 @@ class AuthServiceProvider extends ServiceProvider
     {
         parent::registerPolicies($gate);
 
-        //
+        $gate->before(function ($user, $ability) {
+            if ($user->super_admin) {
+                return true;
+            }
+        });
     }
 }

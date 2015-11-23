@@ -42,7 +42,7 @@ class User extends Model implements AuthenticatableContract,
      */
     public function users()
     {
-        return $this->belongsToMany('App\User','user_group', 'group_id', 'user_id')->withTimestamps();
+        return $this->belongsToMany('App\User','user_group', 'group_id', 'user_id')->withPivot('admin')->withTimestamps();
     }
 
     /**
@@ -50,6 +50,6 @@ class User extends Model implements AuthenticatableContract,
      */
     public function groups()
     {
-        return $this->belongsToMany('App\User','user_group', 'user_id', 'group_id')->withTimestamps();
+        return $this->belongsToMany('App\User','user_group', 'user_id', 'group_id')->withPivot('admin')->withTimestamps();
     }
 }

@@ -24,9 +24,11 @@
                             </div>
                             <button class="waves-effect waves-light btn" type="submit"><i class="material-icons left">person_add</i>Add user</button>
                         </div>
+                        @can('user-create', $group)
                         <div class="card-action">
                             <a class="waves-effect waves-light btn white-text" type="submit" href="{{ action('User\UserController@getCreateUser', $group->id) }}"><i class="material-icons left">person_add</i>Create new user</a>
                         </div>
+                        @endcan
                     </form>
                 </div>
             </div>

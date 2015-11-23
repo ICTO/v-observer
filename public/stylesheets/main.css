@@ -8482,6 +8482,10 @@ main, header {
   margin-right: 20px;
   z-index: 1; }
 
+.small {
+  font-size: 12px;
+  color: #cfd8dc; }
+
 /*# sourceMappingURL=app.css.map */
 
 /*# sourceMappingURL=main.css.map */
