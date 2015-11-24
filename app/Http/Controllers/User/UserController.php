@@ -332,9 +332,15 @@ class UserController extends Controller
 
     $this->authorize('user-remove', $group);
 
+    $admin_count_error = false;
+    if($user->pivot->role == 'admin' && $this->countAdmins($group) == 1) {
+      $admin_count_error = true;
+    }
+
     $data = array(
       'group' => $group,
-      'user' => $user
+      'user' => $user,
+      'admin_count_error' => $admin_count_error
     );
 
     return view('user.removeUser', $data);
@@ -351,6 +357,10 @@ class UserController extends Controller
     $user = $group->users()->where('id', $user_id)->firstOrFail();
 
     $this->authorize('user-remove', $group);
+
+    if($user->pivot->role == 'admin' && $this->countAdmins($group) == 1) {
+      abort(403, 'You need at least one admin role for this group');
+    }
 
     $group->users()->detach($user->id);
 
