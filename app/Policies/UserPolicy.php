@@ -54,7 +54,9 @@ class UserPolicy
             return true;
         }
 
-        // @TODO : if admin of group
+        if($this->isGroupAdmin($user, $user_profile)){
+            return true;
+        }
 
         return false;
     }
@@ -100,17 +102,32 @@ class UserPolicy
     }
 
     /**
+     * Determine if user can change the users role in a group.
+     *
+     * @return bool
+     */
+    public function userRoleEdit(User $user, User $group)
+    {
+        return $this->isGroupAdmin($user, $group);
+    }
+
+    /**
+     * Determine if user can view admin dropdowns.
+     *
+     * @return bool
+     */
+    public function userAdminActions(User $user, User $group)
+    {
+        return $this->isGroupAdmin($user, $group);
+    }
+
+    /**
      * Helper function to determin if the user is admin of the group.
      */
     private function isGroupAdmin(User $user, User $group){
-        // @TODO : this can be more efficient without the loop.
-        $user_groups = $user->groups()->get();
-        foreach ( $user_groups as $user_group) {
-            if($user_group->id === $group->id ){
-                if($user_group->pivot->admin){
-                    return true;
-                }
-            }
+        $user_group = $user->groups()->where('id', $group->id)->get();
+        if(!$user_group->isEmpty() && $user_group->first()->pivot->role == 'admin'){
+            return true;
         }
         return false;
     }

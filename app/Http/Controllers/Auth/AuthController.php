@@ -77,7 +77,7 @@ class AuthController extends Controller
         $user = User::where('cas_username', $cas_username)->first();
 
         if(!$user){
-            abort(403);
+            abort(404, 'No user found for this CAS login');
         }
 
         Auth::login($user);

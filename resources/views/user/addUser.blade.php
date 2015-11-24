@@ -10,19 +10,23 @@
                         {!! csrf_field() !!}
                         <div class="card-content">
                             <div class="card-title">Add user to {{ $group->name }}</div>
+                            @if(count($users))
                             <div class="row">
                                 <div class="input-field col s12">
                                     <select class="icons" name="user_id">
                                       <option value="" disabled selected>Select a user</option>
                                       @foreach($users as $user)
-                                      @if( $user->id != $group->id )
                                       <option value="{{ $user->id }}" data-icon="/images/no_avatar.png" class="left circle">{{ $user->name }}</option>
-                                      @endif
                                       @endforeach
                                     </select>
                                 </div>
                             </div>
                             <button class="waves-effect waves-light btn" type="submit"><i class="material-icons left">person_add</i>Add user</button>
+                            @else
+                            <div class="card-content">
+                                There are no users to add. Start by creating new users.
+                            </div>
+                            @endif
                         </div>
                         @can('user-create', $group)
                         <div class="card-action">

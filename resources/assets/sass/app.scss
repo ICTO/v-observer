@@ -35,39 +35,37 @@ main, header {
 }
 
 // display user row
-.user-letter{
-  font-size: 1.9rem;
-}
-.user-name{
-  position: relative;
-  padding-left: 89px;
-  padding-top: 23px;
-  padding-bottom: 23px;
-  width: 100%;
+.list-row-link{
   display: block;
+  color:black;
+  padding: 25px
 }
-.user-letter-row-wrapper:hover{
+.list-row-wrapper{
+  position: relative;
+}
+.list-row-wrapper:hover{
   background-color: #26a69a;
   color: white;
 }
-.user-letter-row-wrapper .has-action-button{
-  padding-right: 110px;
+.list-row-wrapper a.has-action-button{
+  margin-right: 110px;
 }
-.user-letter-row-wrapper{
-  display: block;
-  color: black;
+.list-row-wrapper a.has-image{
+  padding-left: 80px;
 }
-.user-row-circle{
+.list-row-image{
   position: absolute;
-  margin-top: 5px;
-  margin-left: 10px;
+  height: 40px;
+  width: 40px;
+  left: 20px;
+  top: 15px;
+  float: left;
 }
 .action-btn{
   position: relative;
   float: right;
-  margin-top: -52px;
+  margin-top: -55px;
   margin-right: 20px;
-  z-index: 1;
 }
 .small{
   font-size: 12px;

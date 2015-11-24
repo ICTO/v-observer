@@ -20,9 +20,11 @@
                             </div>
                         </div>
                     </div>
+                    <!-- Add remove user button -->
                     @can('profile-edit', $user)
                     <div class="card-action">
                         <a class="waves-effect waves-light btn white-text" href="{{ action('User\UserController@getEditProfile', $user->id) }}"><i class="material-icons left">mode_edit</i>Edit</a>
+                        <a class="waves-effect waves-light btn white-text" href="{{ action('User\UserController@getRemoveProfile', $user->id) }}"><i class="material-icons left">delete</i>Remove</a>
                     </div>
                     @endcan
                 </div>
@@ -32,28 +34,33 @@
                 <div class="card left-align">
                     <div class="card-content">
                         <div class="card-title">Users in {{ $user->name }}</div>
-                        @foreach( $users as $u )
-                            @if($u->group)
-                            <a class="user-letter-row-wrapper waves-effect waves-light" href="{{ action('User\UserController@getDashboard', $u->id) }}">
-                                <div class="btn-floating btn-large cyan user-row-circle"><i class="material-icons">group</i></div>
-                                <div class="user-name has-action-button">{{ $u->name }}</div>
-                            </a>
-                            @else
-                            <a class="user-letter-row-wrapper waves-effect waves-light" href="{{ action('User\UserController@getProfile', $u->id) }}">
-                                <div class="btn-floating btn-large orange user-row-circle"><i class="material-icons">person</i></div>
-                                <div class="user-name has-action-button">
+                        @foreach( $users as $key=>$u )
+                            <div class="list-row-wrapper">
+                                <div class="list-row-image"><img src="/images/no_avatar.png" alt="" class="circle responsive-img"></div>
+                                <a class="list-row-link has-action-button has-image waves-effect waves-light" href="{{ action('User\UserController@getDashboard', $u->id) }}">
                                     {{ $u->name }}
-                                    @if($u->pivot->admin)
-                                    <span class="small">(Admin)</span>
+                                    @if($u->pivot->role)
+                                    <span class="small">({{ $u->pivot->role }})</span>
                                     @endif
-                                </div>
-                            </a>
-                            @endif
-                            @if(count($users) != 1)
-                            @can('user-remove', $user)
-                            <a class="circle btn action-btn waves-effect waves-light blue" href="{{ action('User\UserController@getRemoveUser', [$user->id, $u->id] ) }}"><i class="material-icons">delete</i></a>
-                            @endcan
-                            @endif
+                                </a>
+                                @if(count($users) != 1)
+                                @can('user-admin-actions', $user)
+                                <a class='dropdown-button btn blue action-btn' href='#' data-activates='dropdown{{ $key }}'><i class="material-icons">more_horiz</i></a>
+                                <ul id='dropdown{{ $key }}' class='dropdown-content action-btn'>
+                                    @can('user-role-edit', $user)
+                                    @if($u->pivot->role == 'admin')
+                                    <li><a href="{{ action('User\UserController@getRoleUser', [$user->id, $u->id, 'member'] ) }}">Remove admin role</a></li>
+                                    @else
+                                    <li><a href="{{ action('User\UserController@getRoleUser', [$user->id, $u->id, 'admin'] ) }}">Add admin role</a></li>
+                                    @endif
+                                    @endcan
+                                    @can('user-remove', $user)
+                                    <li><a href="{{ action('User\UserController@getRemoveUser', [$user->id, $u->id] ) }}">Remove user</a></li>
+                                    @endcan
+                                </ul>
+                                @endcan
+                                @endif
+                            </div>
                         @endforeach
                     </div>
                     @can('user-add', $user)

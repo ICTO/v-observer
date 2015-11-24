@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->boolean('group');
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::create('user_group', function (Blueprint $table) {
@@ -29,7 +30,7 @@ class CreateUsersTable extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->integer('group_id')->unsigned()->index();
             $table->foreign('group_id')->references('id')->on('users')->onDelete('cascade');
-            $table->boolean('admin');
+            $table->string('role');
             $table->timestamps();
         });
     }

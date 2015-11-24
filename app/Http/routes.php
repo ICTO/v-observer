@@ -37,6 +37,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('profile/{id?}', 'User\UserController@getProfile');
     Route::get('profile/{id}/edit', 'User\UserController@getEditProfile');
     Route::post('profile/{id}/edit', 'User\UserController@postEditProfile');
+    Route::get('profile/{id}/remove', 'User\UserController@getRemoveProfile');
+    Route::post('profile/{id}/remove', 'User\UserController@postRemoveProfile');
     Route::get('dashboard/{id?}', 'User\UserController@getDashboard');
 
     // Group routes
@@ -51,4 +53,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('group/{group_id}/user/create', 'User\UserController@postCreateUser');
     Route::get('group/{group_id}/user/{user_id}/remove', 'User\UserController@getRemoveUser');
     Route::post('group/{group_id}/user/{user_id}/remove', 'User\UserController@postRemoveUser');
+    Route::get('group/{group_id}/user/{user_id}/role/{role}', 'User\UserController@getRoleUser');
+    Route::post('group/{group_id}/user/{user_id}/role/{role}', 'User\UserController@postRoleUser');
 });

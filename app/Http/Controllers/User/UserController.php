@@ -65,6 +65,7 @@ class UserController extends Controller
     );
     return view('user.profile', $data);
   }
+
   /**
    * Get the users profile edit form.
    *
@@ -83,7 +84,7 @@ class UserController extends Controller
   }
 
   /**
-   * Get the users profile edit form.
+   * Edit the user.
    *
    * @return Redirect
    */
@@ -111,6 +112,39 @@ class UserController extends Controller
     $user->save();
 
     return Redirect::action('User\UserController@getProfile', $user->id)->with('status', 'Saved profile');
+  }
+
+  /**
+   * Get the users profile remove form
+   *
+   * @return View
+   */
+  protected function getRemoveProfile($id)
+  {
+    $user = User::where('id',$id)->firstOrFail();
+
+    $this->authorize('profile-edit', $user);
+
+    $data = array(
+      'user'=> $user
+    );
+    return view('user.removeProfile', $data);
+  }
+
+  /**
+   * Remove the user
+   *
+   * @return Redirect
+   */
+  protected function postRemoveProfile(Request $request, $id)
+  {
+    $user = User::where('id',$id)->firstOrFail();
+
+    $this->authorize('profile-edit', $user);
+
+    $user->delete();
+
+    return Redirect::action('User\UserController@getProfile')->with('status', 'Removed');
   }
 
   /**
@@ -162,7 +196,7 @@ class UserController extends Controller
     $group->group = true;
     $group->name = $request->name;
     $group->save();
-    $group->users()->attach($user->id, array('admin'=> 1));
+    $group->users()->attach($user->id, array('role'=> 'admin'));
 
     return Redirect::action('User\UserController@getGroups')->with('status', 'Group created');
   }
@@ -214,7 +248,7 @@ class UserController extends Controller
     $new_user->email = $request->email;
     $new_user->cas_username = $request->cas_username;
     $new_user->save();
-    $new_user->groups()->attach($group->id);
+    $new_user->groups()->attach($group->id, array('role'=> 'member'));
 
     if($request->send_email){
       $token = $this->tokens->create($new_user);
@@ -240,12 +274,13 @@ class UserController extends Controller
   {
     $group = User::where('id',$id)->firstOrFail();
     $users = User::all();
+    $users_in_group = $group->users()->get();
 
     $this->authorize('user-add', $group);
 
     $data = array(
       'group' => $group,
-      'users' => $users
+      'users' => $users->diff($users_in_group)->except($group->id)
     );
 
     return view('user.addUser', $data);
@@ -259,9 +294,9 @@ class UserController extends Controller
   protected function postAddUser(Request $request, $group_id)
   {
     $group = User::where('id',$group_id)->firstOrFail();
+
     $this->authorize('user-add', $group);
 
-    // @TODO : validate that the user is only added once to a group
     $validator = Validator::make($request->all(), [
         'user_id' => 'required'
     ]);
@@ -272,10 +307,15 @@ class UserController extends Controller
             ->withErrors($validator);
     }
 
-    User::where('id',$request->user_id)->firstOrFail();
-    $group->users()->attach($request->user_id);
-
-    // @TODO : send a mail to the new user and notice him that he is added to the group
+    $user = User::where('id',$request->user_id)->firstOrFail();
+    $users_in_group = $group->users()->get();
+    if($users_in_group->keyBy('id')->has($user->id)){
+      abort(403, 'User already in group');
+    }
+    if( $group->id === $user->id ){
+      abort(403, 'User is same as group');
+    }
+    $group->users()->attach($user->id, array('role'=> 'member'));
 
     return Redirect::action('User\UserController@getDashboard', $group->id)->with('status', 'User added to group');
   }
@@ -288,7 +328,7 @@ class UserController extends Controller
   protected function getRemoveUser($group_id, $user_id)
   {
     $group = User::where('id',$group_id)->firstOrFail();
-    $user = User::where('id',$user_id)->firstOrFail();
+    $user = $group->users()->where('id', $user_id)->firstOrFail();
 
     $this->authorize('user-remove', $group);
 
@@ -308,14 +348,65 @@ class UserController extends Controller
   protected function postRemoveUser(Request $request, $group_id, $user_id)
   {
     $group = User::where('id',$group_id)->firstOrFail();
-    $user = User::where('id',$user_id)->firstOrFail();
+    $user = $group->users()->where('id', $user_id)->firstOrFail();
 
     $this->authorize('user-remove', $group);
 
     $group->users()->detach($user->id);
 
-    // @TODO : send a mail to the new user and notice him that he is removed from the group
-
     return Redirect::action('User\UserController@getDashboard', $group->id)->with('status', 'User removed from group');
+  }
+
+  /**
+   * Return the form for changing a role inside the group.
+   *
+   * @return View
+   */
+  protected function getRoleUser($group_id, $user_id, $role)
+  {
+    $group = User::where('id',$group_id)->firstOrFail();
+    $user = $group->users()->where('id', $user_id)->firstOrFail();
+    $admin_count_error = false;
+    if($role != 'admin' && $user->pivot->role == 'admin' && $this->countAdmins($group) == 1) {
+      $admin_count_error = true;
+    }
+
+    $this->authorize('user-role-edit', $group);
+
+    $data = array(
+      'group' => $group,
+      'user' => $user,
+      'role' => $role,
+      'admin_count_error' => $admin_count_error
+    );
+
+    return view('user.roleUser', $data);
+  }
+
+  /**
+   * Change the role of a user.
+   *
+   * @return Redirect
+   */
+  protected function postRoleUser(Request $request, $group_id, $user_id, $role)
+  {
+    $group = User::where('id',$group_id)->firstOrFail();
+    //$user = User::where('id',$user_id)->firstOrFail();
+
+    $this->authorize('user-role-edit', $group);
+
+    $user = $group->users()->where('id', $user_id)->firstOrFail();
+    if($role != 'admin' && $user->pivot->role == 'admin' && $this->countAdmins($group) == 1) {
+      abort(403, 'You need at least one admin role for this group');
+    }
+
+    $group->users()->updateExistingPivot($user->id, array('role' => $role));
+
+    return Redirect::action('User\UserController@getDashboard', $group->id)->with('status', 'Changed user role');
+  }
+
+  private function countAdmins($group){
+    $users = $group->users()->withPivot('role')->where('role','admin')->get();
+    return $users->count();
   }
 }

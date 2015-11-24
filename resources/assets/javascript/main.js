@@ -2,7 +2,10 @@
   $(function(){
     // Materialize
     $('.button-collapse').sideNav();
-    $('.dropdown-button').dropdown({ hover: false });
+    $('.dropdown-button').dropdown({
+      hover: false,
+      constrain_width: false
+    });
     $('select').material_select();
     $('.message').each(function(){
       var type = $(this).attr("data-type");

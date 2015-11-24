@@ -13,10 +13,12 @@
                         <div class="card-title">No groups found</div>
                         @endif
                         @foreach( $groups as $group )
-                        <a class="user-letter-row-wrapper waves-effect waves-light" href="{{ action('User\UserController@getDashboard', $group->id) }}">
-                            <div class="btn-floating btn-large cyan user-row-circle"><i class="material-icons">group</i></div>
-                            <div class="user-name">{{ $group->name }}</div>
-                        </a>
+                        <div class="list-row-wrapper">
+                            <div class="list-row-image"><img src="/images/no_avatar.png" alt="" class="circle responsive-img"></div>
+                            <a class="list-row-link has-image waves-effect waves-light" href="{{ action('User\UserController@getDashboard', $group->id) }}">
+                                {{ $group->name }}
+                            </a>
+                        </div>
                         @endforeach
                     </div>
                     <div class="card-action">
