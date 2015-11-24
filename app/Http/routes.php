@@ -11,9 +11,9 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'Pages\PageController@getWelcome');
+Route::get('setup', 'Pages\PageController@getSetup');
+Route::post('setup', 'Pages\PageController@postSetup');
 
 // Authentication routes...
 Route::get('auth/login', 'Auth\AuthController@getLogin');
@@ -30,6 +30,9 @@ Route::post('password/reset', 'Auth\PasswordController@postReset');
 
 // Requires Authentication
 Route::group(['middleware' => 'auth'], function () {
+
+    /** User **/
+
     // Auth routes
     Route::get('auth/logout', 'Auth\AuthController@getLogout');
 
@@ -55,4 +58,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('group/{group_id}/user/{user_id}/remove', 'User\UserController@postRemoveUser');
     Route::get('group/{group_id}/user/{user_id}/role/{role}', 'User\UserController@getRoleUser');
     Route::post('group/{group_id}/user/{user_id}/role/{role}', 'User\UserController@postRoleUser');
+
+    /** Obeservation tool **/
 });
