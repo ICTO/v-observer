@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
-use App\User;
+use App\Models\User;
 use Auth;
 use Validator;
 use Illuminate\Http\Request;
@@ -40,6 +40,7 @@ class UserController extends Controller
       'user' => $user,
       'users' => $user->users()->get(),
       'groups' => $user->groups()->get(),
+      'questionaires' => $user->questionaires()->get(),
     );
 
     return view('user.dashboard', $data);
@@ -193,7 +194,6 @@ class UserController extends Controller
     }
 
     $group = new User(); // groups are build from users referencing to eachother. This allows complex user/group structures and gives the ability to do user action with a group.
-    $group->group = true;
     $group->name = $request->name;
     $group->save();
     $group->users()->attach($user->id, array('role'=> 'admin'));

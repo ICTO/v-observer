@@ -3,7 +3,7 @@
 namespace App\Policies;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
-use App\User;
+use App\Models\User;
 
 class UserPolicy
 {
@@ -66,9 +66,22 @@ class UserPolicy
      *
      * @return bool
      */
-    public function dashboard(User $user, User $user_profile)
+    public function dashboard(User $user, User $user_dashboard)
     {
-        return $this->profileView($user,$user_profile);
+        // if own profile
+        if($user->id === $user_dashboard->id){
+            return true;
+        }
+
+        // if profile of parent
+        $user_groups = $user->groups()->get();
+        foreach ($user_groups as $user_group) {
+            if($user_group->id === $user_dashboard->id){
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -119,6 +132,25 @@ class UserPolicy
     public function userAdminActions(User $user, User $group)
     {
         return $this->isGroupAdmin($user, $group);
+    }
+
+    /**
+     * Determine if user can add a questionaire.
+     *
+     * @return bool
+     */
+    public function QuestionaireCreate(User $user, User $owner)
+    {
+        // if own profile
+        if($owner->id === $user->id){
+            return true;
+        }
+
+        if($this->isGroupAdmin($user, $owner)){
+            return true;
+        }
+
+        return false;
     }
 
     /**

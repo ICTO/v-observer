@@ -60,4 +60,12 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('group/{group_id}/user/{user_id}/role/{role}', 'User\UserController@postRoleUser');
 
     /** Obeservation tool **/
+    Route::get('questionaire/create/{owner_id?}', 'Observation\ObservationController@getCreateQuestionaire');
+    Route::post('questionaire/create', 'Observation\ObservationController@postCreateQuestionaire');
+    Route::get('questionaire/{id}', 'Observation\ObservationController@getQuestionaire');
+    Route::get('questionaire/{id}/edit', 'Observation\ObservationController@getEditQuestionaire');
+    Route::post('questionaire/{id}/edit', 'Observation\ObservationController@postEditQuestionaire');
+    Route::get('questionaire/{id}/remove', 'Observation\ObservationController@getRemoveQuestionaire');
+    Route::post('questionaire/{id}/remove', 'Observation\ObservationController@postRemoveQuestionaire');
+
 });

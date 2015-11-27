@@ -19,7 +19,6 @@ class CreateUsersTable extends Migration
             $table->string('password', 60);
             $table->string('cas_username');
             $table->boolean('super_admin');
-            $table->boolean('group');
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
@@ -42,7 +41,7 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        Schema::drop('user_group');
-        Schema::drop('users');
+        Schema::dropIfExists('user_group');
+        Schema::dropIfExists('users');
     }
 }

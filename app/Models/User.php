@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
@@ -50,7 +50,7 @@ class User extends Model implements AuthenticatableContract,
      */
     public function users()
     {
-        return $this->belongsToMany('App\User','user_group', 'group_id', 'user_id')->withPivot('role')->withTimestamps();
+        return $this->belongsToMany('App\Models\User','user_group', 'group_id', 'user_id')->withPivot('role')->withTimestamps();
     }
 
     /**
@@ -58,6 +58,27 @@ class User extends Model implements AuthenticatableContract,
      */
     public function groups()
     {
-        return $this->belongsToMany('App\User','user_group', 'user_id', 'group_id')->withPivot('role')->withTimestamps();
+        return $this->belongsToMany('App\Models\User','user_group', 'user_id', 'group_id')->withPivot('role')->withTimestamps();
+    }
+
+    /**
+     * Get all of the questions.
+     */
+    public function questionaires()
+    {
+        return $this->hasMany('App\Models\Questionaire', 'owner_id');
+    }
+
+    /**
+     * Helper function to determin if the user is admin of the group.
+     */
+    private function isGroupAdmin(User $user){
+        $group = $this;
+        $user_group = $user->groups()->where('id', $group->id)->get();
+        if(!$user_group->isEmpty() && $user_group->first()->pivot->role == 'admin'){
+            return true;
+        }
+
+        return false;
     }
 }
