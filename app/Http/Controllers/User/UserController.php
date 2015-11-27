@@ -124,7 +124,7 @@ class UserController extends Controller
   {
     $user = User::where('id',$id)->firstOrFail();
 
-    $this->authorize('profile-edit', $user);
+    $this->authorize('profile-remove', $user);
 
     $data = array(
       'user'=> $user
@@ -141,7 +141,7 @@ class UserController extends Controller
   {
     $user = User::where('id',$id)->firstOrFail();
 
-    $this->authorize('profile-edit', $user);
+    $this->authorize('profile-remove', $user);
 
     $user->delete();
 

@@ -11,13 +11,40 @@ class ObservationPolicy
     use HandlesAuthorization;
 
     /**
+     * Determine if user can view the questionaire menu.
+     *
+     * @return bool
+     */
+    public function QuestionaireMenu(User $user, Questionaire $questionaire)
+    {
+        if(    $this->QuestionaireEdit($user, $questionaire)
+            || $this->QuestionaireRemove($user, $questionaire)
+        ){
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Determine if user can view the questionaire.
      *
      * @return bool
      */
     public function QuestionaireView(User $user, Questionaire $questionaire)
     {
-        return $this->QuestionaireEdit($user, $questionaire);
+        // if own questionaire
+        if($questionaire->owner_id === $user->id){
+            return true;
+        }
+
+        // if questionaire of parent
+        $user_groups = $user->groups()->get();
+        foreach ($user_groups as $user_group) {
+            if($user_group->id === $questionaire->owner_id){
+                return true;
+            }
+        }
     }
 
     /**
@@ -27,7 +54,7 @@ class ObservationPolicy
      */
     public function QuestionaireEdit(User $user, Questionaire $questionaire)
     {
-        // if own profile
+        // if own questionaire
         if($questionaire->owner_id === $user->id){
             return true;
         }

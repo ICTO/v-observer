@@ -62,6 +62,41 @@ class UserPolicy
     }
 
     /**
+     * Determine if user can remove the profile.
+     *
+     * @return bool
+     */
+    public function profileRemove(User $user, User $user_profile)
+    {
+        // if own profile
+        if($user->id === $user_profile->id){
+            return true;
+        }
+
+        if($this->isGroupAdmin($user, $user_profile)){
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Determine if user can view admin dropdowns.
+     *
+     * @return bool
+     */
+    public function profileMenu(User $user, User $group)
+    {
+        if(    $this->profileEdit($user, $group)
+            || $this->profileRemove($user, $group)
+        ){
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Determine if user can view the dashboard of a profile.
      *
      * @return bool
@@ -129,9 +164,15 @@ class UserPolicy
      *
      * @return bool
      */
-    public function userAdminActions(User $user, User $group)
+    public function userMenu(User $user, User $group)
     {
-        return $this->isGroupAdmin($user, $group);
+        if(    $this->userRoleEdit($user, $group)
+            || $this->userRemove($user, $group)
+        ){
+            return true;
+        }
+
+        return false;
     }
 
     /**

@@ -24,9 +24,14 @@
                             </div>
                         </div>
                     </div>
-                    @can('profile-edit', $user)
+                    @can('profile-menu', $user)
                     <div class="card-action">
+                        @can('profile-edit', $user)
                         <a class="waves-effect waves-light btn white-text" href="{{ action('User\UserController@getEditProfile', $user->id) }}"><i class="material-icons left">mode_edit</i>Edit</a>
+                        @endcan
+                        @can('profile-remove', $user)
+                        <a class="waves-effect waves-light btn white-text" href="{{ action('User\UserController@getRemoveProfile', $user->id) }}"><i class="material-icons left">delete</i>Remove</a>
+                        @endcan
                     </div>
                     @endcan
                 </div>
