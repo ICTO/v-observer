@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Question extends Model
+class Block extends Model
 {
     use SoftDeletes;
 
@@ -14,7 +14,7 @@ class Question extends Model
      *
      * @var string
      */
-    protected $table = 'questions';
+    protected $table = 'blocks';
 
     /**
      * Indicates if the model should be timestamped.
@@ -28,7 +28,7 @@ class Question extends Model
      *
      * @var array
      */
-    protected $fillable = ['type', 'order', 'data'];
+    protected $fillable = ['type', 'order', 'parent_id', 'data'];
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -59,5 +59,21 @@ class Question extends Model
     public function questionaire()
     {
         return $this->belongsTo('App\Models\Questionaire', 'questionaire_id');
+    }
+
+    /**
+     * Get the parent block.
+     */
+    public function parent()
+    {
+        return $this->belongsTo('App\Models\Block', 'parent_id');
+    }
+
+    /**
+     * Get the child blocks.
+     */
+    public function children()
+    {
+        return $this->hasMany('App\Models\Block', 'parent_id');
     }
 }

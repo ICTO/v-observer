@@ -40,10 +40,13 @@
                                     {{ $questionaire->name }}
                                 </a>
                                 @can('questionaire-menu', $questionaire)
-                                <a class='dropdown-button btn blue action-btn' href='#' data-activates='dropdown-questionaire-{{ $key }}'><i class="material-icons">more_horiz</i></a>
+                                <a class='dropdown-button btn blue action-btn' data-alignment="right" href='#' data-activates='dropdown-questionaire-{{ $key }}'><i class="material-icons">more_horiz</i></a>
                                 <ul id='dropdown-questionaire-{{ $key }}' class='dropdown-content action-btn'>
                                     @can('questionaire-edit', $questionaire)
                                     <li><a href="{{ action('Observation\ObservationController@getEditQuestionaire', $questionaire->id ) }}">Edit questionaire</a></li>
+                                    @endcan
+                                    @can('questionaire-questions-edit', $questionaire)
+                                    <li><a href="{{ action('Observation\ObservationController@getBlocks', $questionaire->id ) }}">Edit blocks</a></li>
                                     @endcan
                                     @can('questionaire-remove', $questionaire)
                                     <li><a href="{{ action('Observation\ObservationController@getRemoveQuestionaire', $questionaire->id ) }}">Remove questionaire</a></li>
@@ -79,7 +82,7 @@
                                 </a>
                                 @if(count($users) != 1)
                                 @can('user-menu', $user)
-                                <a class='dropdown-button btn blue action-btn' href='#' data-activates='dropdown-user-{{ $key }}'><i class="material-icons">more_horiz</i></a>
+                                <a class='dropdown-button btn blue action-btn' data-alignment="right" href='#' data-activates='dropdown-user-{{ $key }}'><i class="material-icons">more_horiz</i></a>
                                 <ul id='dropdown-user-{{ $key }}' class='dropdown-content action-btn'>
                                     @can('user-role-edit', $user)
                                     @if($u->pivot->role == 'admin')

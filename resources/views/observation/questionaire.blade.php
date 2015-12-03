@@ -16,6 +16,9 @@
                         @can('questionaire-edit', $questionaire)
                         <a class="waves-effect waves-light btn white-text" href="{{ action('Observation\ObservationController@getEditQuestionaire', $questionaire->id) }}"><i class="material-icons left">mode_edit</i>Edit</a>
                         @endcan
+                        @can('questionaire-block-view', $questionaire)
+                        <a class="waves-effect waves-light btn white-text" href="{{ action('Observation\ObservationController@getBlocks', $questionaire->id) }}"><i class="material-icons left">mode_edit</i>Questions</a>
+                        @endcan
                         @can('questionaire-remove', $questionaire)
                         <a class="waves-effect waves-light btn white-text" href="{{ action('Observation\ObservationController@getRemoveQuestionaire', $questionaire->id) }}"><i class="material-icons left">delete</i>Remove</a>
                         @endcan

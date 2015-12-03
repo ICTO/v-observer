@@ -47,9 +47,9 @@ class Questionaire extends Model
     /**
      * Get all of the questions.
      */
-    public function questions()
+    public function blocks()
     {
-        return $this->hasMany('App\Models\Question', 'questionaire_id');
+        return $this->hasMany('App\Models\Block', 'questionaire_id');
     }
 
     /**

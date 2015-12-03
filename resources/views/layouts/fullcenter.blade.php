@@ -1,7 +1,7 @@
 <?php $color = "grey" ?>
 
 <!DOCTYPE html>
-<html style="height:100%">
+<html style="height:100%; min-height:610px">
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0">
     <?php $title = 'Video observation application'; ?>

@@ -77,6 +77,26 @@ class ObservationPolicy
     }
 
     /**
+     * Determine if user can view the blocks of a questionaire.
+     *
+     * @return bool
+     */
+    public function QuestionaireBlockView(User $user, Questionaire $questionaire)
+    {
+        return $this->QuestionaireView($user, $questionaire);
+    }
+
+    /**
+     * Determine if user can edit a block of a questionaire.
+     *
+     * @return bool
+     */
+    public function QuestionaireBlockEdit(User $user, Questionaire $questionaire)
+    {
+        return $this->QuestionaireEdit($user, $questionaire);
+    }
+
+    /**
      * Helper function to determin if the user is admin of the group.
      */
     private function isGroupAdmin(User $user, User $group){

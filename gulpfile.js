@@ -35,6 +35,9 @@ elixir(function(mix) {
                  '../javascript/main.js'
        ], 'public/javascript/main.js');
 
+    mix.scripts(['../javascript/MultipleChoiceQuestion.js'
+], 'public/javascript/MultipleChoiceQuestion.js');
+
     // Add version
     //mix.version(["public/javascript/main.js", "public/stylesheets/main.css"]);
 

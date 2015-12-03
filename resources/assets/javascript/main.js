@@ -4,7 +4,8 @@
     $('.button-collapse').sideNav();
     $('.dropdown-button').dropdown({
       hover: false,
-      constrain_width: false
+      constrain_width: false,
+      belowOrigin: true
     });
     $('select').material_select();
     $('.message').each(function(){

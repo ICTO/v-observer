@@ -44,13 +44,26 @@ main, header {
   position: relative;
 }
 .list-row-wrapper:hover{
-  background-color: #26a69a;
-  color: white;
+  background-color: #e0f2f1;
 }
-.list-row-wrapper a.has-action-button{
+.list-row-wrapper .list-row-wrapper:hover{
+  background-color: #b2dfdb;
+}
+.list-row-wrapper .list-row-wrapper .list-row-wrapper:hover{
+  background-color: #80cbc4;
+}
+.list-row-wrapper .list-row-wrapper .list-row-wrapper .list-row-wrapper:hover{
+  background-color: #4db6ac;
+}
+.list-row-wrapper .has-action-button .list-row-wrapper{
+  margin-right:-100px;
+}
+.list-row-wrapper a.has-action-button,
+.list-row-wrapper .has-action-button{
   margin-right: 110px;
 }
-.list-row-wrapper a.has-image{
+.list-row-wrapper a.has-image,
+.list-row-wrapper .has-image{
   padding-left: 80px;
 }
 .list-row-image{
@@ -65,12 +78,23 @@ main, header {
   padding: 8px;
 }
 .action-btn{
-  position: relative;
-  float: right;
-  margin-top: -55px;
-  margin-right: 20px;
+  position: absolute;
+  right: 20px;
+  top: 18px;
 }
 .small{
   font-size: 12px;
   color: #cfd8dc;
+}
+
+// bullet list
+ul.bullets li {
+  list-style-type: disc;
+  list-style-position: inside;
+  margin-left: 10px;
+}
+
+// tab
+.tab{
+  margin-left: 40px;
 }
