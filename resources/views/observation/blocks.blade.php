@@ -18,17 +18,17 @@
                             @foreach( $blocks as $key => $block )
                                 @include($block_types[$block->type]::getPreviewViewName(), ['block' => $block, 'questionaire' => $questionaire, 'block_types' => $block_types])
                             @endforeach
-                            <div class="row">
-                                <div class="input-field col s12">
-                                    <a class='dropdown-button btn' href='#' data-activates='dropdown-add-block'><i class="material-icons left">more_vert</i>Add</a>
-                                    <ul id='dropdown-add-block' class='dropdown-content'>
-                                        @foreach($block_types as $key => $class)
-                                        <li><a href="{{ action('Observation\ObservationController@getCreateBlock', [$questionaire->id, $key]) }}" ><i class="material-icons left">add</i>{{ $class::getHumanName() }}</a></li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            </div>
                         </div>
+                        @can('questionaire-block-edit', $questionaire)
+                        <div class="card-action">
+                            <a class='dropdown-button btn white-text' href='#' data-activates='dropdown-add-block'><i class="material-icons left">more_vert</i>Add</a>
+                            <ul id='dropdown-add-block' class='dropdown-content'>
+                                @foreach($block_types as $key => $class)
+                                <li><a class="teal-text text-lighten-1" href="{{ action('Observation\ObservationController@getCreateBlock', [$questionaire->id, $key]) }}" ><i class="material-icons left">add</i>{{ $class::getHumanName() }}</a></li>
+                                @endforeach
+                            </ul>
+                        </div>
+                        @endcan
                     </form>
                 </div>
             </div>

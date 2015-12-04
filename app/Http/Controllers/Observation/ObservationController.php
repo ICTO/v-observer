@@ -388,7 +388,7 @@ class ObservationController extends Controller
   /**
    * Block types
    */
-  protected function getBlockTypes(){
+  private function getBlockTypes(){
     return array(
       'Group' => '\App\Blocks\Group',
       'MultipleChoiceQuestion' => '\App\Blocks\MultipleChoiceQuestion',
