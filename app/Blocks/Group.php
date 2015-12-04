@@ -3,11 +3,12 @@
 namespace App\Blocks;
 
 use Validator;
+use App\Blocks\BlockInterface;
 
-class Group {
+class Group implements BlockInterface{
 
   /**
-   * Validate the create form
+   * {@inheritdoc}
    */
   static function validatorCreateForm($request){
     return Validator::make($request->all(), [
@@ -16,7 +17,7 @@ class Group {
   }
 
   /**
-   * Validate the edit form
+   * {@inheritdoc}
    */
   static function validatorEditForm($request){
     return Validator::make($request->all(), [
@@ -25,7 +26,7 @@ class Group {
   }
 
   /**
-   * Process the create form
+   * {@inheritdoc}
    */
   static function processCreateForm($request){
     return array(
@@ -34,7 +35,14 @@ class Group {
   }
 
   /**
-   * Process the edit form
+   * {@inheritdoc}
+   */
+  static function processRemoveForm($request){
+    // no extra actions needed
+  }
+
+  /**
+   * {@inheritdoc}
    */
   static function processEditForm($request){
     return array(
@@ -43,35 +51,42 @@ class Group {
   }
 
   /**
-   * Can add child blocks
+   * {@inheritdoc}
    */
   static function canAddChildBlock(){
     return true;
   }
 
   /**
-   * return the name of the create template
+   * {@inheritdoc}
    */
   static function getCreateViewName(){
-    return 'observation.blocks.createGroup';
+    return 'observation.blocks.Group.create';
   }
 
   /**
-   * return the name of the edit template
+   * {@inheritdoc}
    */
   static function getEditViewName(){
-    return 'observation.blocks.editGroup';
+    return 'observation.blocks.Group.edit';
   }
 
   /**
-   * return the name of the preview template
+   * {@inheritdoc}
+   */
+  static function getRemoveViewName(){
+    return 'observation.blocks.Group.remove';
+  }
+
+  /**
+   * {@inheritdoc}
    */
   static function getPreviewViewName(){
-    return 'observation.blocks.previewGroup';
+    return 'observation.blocks.Group.preview';
   }
 
   /**
-   * Add button name
+   * {@inheritdoc}
    */
   static function getHumanName(){
     return 'Subtitle';

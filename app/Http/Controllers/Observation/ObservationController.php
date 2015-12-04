@@ -288,7 +288,7 @@ class ObservationController extends Controller
   {
     $block = Block::where('id',$id)->firstOrFail();
 
-    $this->authorize('questionaire-block-edit', $block->questionaire()->get());
+    $this->authorize('questionaire-block-edit', $block->questionaire()->get()->first());
 
     $data = array(
       'block' => $block,
@@ -328,6 +328,61 @@ class ObservationController extends Controller
     $block->save();
 
     return Redirect::action('Observation\ObservationController@getBlocks', $questionaire->id)->with('status', 'Block saved');
+  }
+
+  /**
+   * Get the remove form from a block
+   *
+   * @return View
+   */
+  protected function getRemoveBlock($id)
+  {
+    $block = Block::where('id',$id)->firstOrFail();
+
+    $this->authorize('questionaire-block-edit', $block->questionaire()->get()->first());
+
+    $data = array(
+      'block' => $block,
+    );
+
+    $blockTypes = $this->getBlockTypes();
+
+    return view($blockTypes[$block->type]::getRemoveViewName(), $data);
+  }
+
+  /**
+   * remove a block
+   *
+   * @return Redirect
+   */
+  protected function postRemoveBlock(Request $request, $id )
+  {
+    $block = Block::where('id',$id)->firstOrFail();
+
+    $questionaire = $block->questionaire()->get()->first();
+
+    $this->authorize('questionaire-block-edit', $questionaire);
+
+    $this->removeBlock($block, $request);
+
+    return Redirect::action('Observation\ObservationController@getBlocks', $questionaire->id)->with('status', 'Removed');
+  }
+
+  /**
+   * remove child blocks
+   */
+  private function removeBlock($block, $request){
+    $blockTypes = $this->getBlockTypes();
+    $class = $blockTypes[$block->type];
+    $class::processRemoveForm($request);
+
+    if($blockTypes[$block->type]::canAddChildBlock()){
+      foreach ($block->children()->get() as $child_block) {
+        $this->removeBlock($child_block, $request);
+      }
+    }
+
+    $block->delete();
   }
 
   /**

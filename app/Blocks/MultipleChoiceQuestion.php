@@ -3,22 +3,28 @@
 namespace App\Blocks;
 
 use Validator;
+use App\Blocks\BlockInterface;
 
-class MultipleChoiceQuestion {
+class MultipleChoiceQuestion implements BlockInterface {
 
   /**
-   * Validate the create form
+   * {@inheritdoc}
    */
   static function validatorCreateForm($request){
     return Validator::make($request->all(), [
-        'question' => 'required',
-        'option.0.text' => 'required',
-        'option.0.score' => 'required|numeric'
+        'question' => 'required'
     ]);
   }
 
   /**
-   * Process the create form
+   * {@inheritdoc}
+   */
+  static function validatorEditForm($request){
+    return self::validatorCreateForm($request);
+  }
+
+  /**
+   * {@inheritdoc}
    */
   static function processCreateForm($request){
 
@@ -27,10 +33,11 @@ class MultipleChoiceQuestion {
     );
 
     foreach($request->option as $option){
-      if(!empty($option['text']) && !empty($option['score']))
+
+      if($option['text'] != "")
       $data['options'][] = array(
         'text' => $option['text'],
-        'score' => $option['score']
+        'score' => ( is_numeric($option['score']) ? $option['score'] : false )
       );
     }
 
@@ -38,35 +45,56 @@ class MultipleChoiceQuestion {
   }
 
   /**
-   * Can add child blocks
+   * {@inheritdoc}
+   */
+  static function processRemoveForm($request){
+    // no extra actions needed
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  static function processEditForm($request){
+    return self::processCreateForm($request);
+  }
+
+  /**
+   * {@inheritdoc}
    */
   static function canAddChildBlock(){
     return false;
   }
 
   /**
-   * return the name of the create template
+   * {@inheritdoc}
    */
   static function getCreateViewName(){
-    return 'observation.blocks.createMultipleChoiceQuestion';
+    return 'observation.blocks.MultipleChoiceQuestion.create';
   }
 
   /**
-   * return the name of the edit template
+   * {@inheritdoc}
    */
   static function getEditViewName(){
-    return 'observation.blocks.editMultipleChoiceQuestion';
+    return 'observation.blocks.MultipleChoiceQuestion.edit';
   }
 
   /**
-   * return the name of the preview template
+   * {@inheritdoc}
+   */
+  static function getRemoveViewName(){
+    return 'observation.blocks.MultipleChoiceQuestion.remove';
+  }
+
+  /**
+   * {@inheritdoc}
    */
   static function getPreviewViewName(){
-    return 'observation.blocks.previewMultipleChoiceQuestion';
+    return 'observation.blocks.MultipleChoiceQuestion.preview';
   }
 
   /**
-   * Add button name
+   * {@inheritdoc}
    */
   static function getHumanName(){
     return 'Multiple choice question';
