@@ -69,16 +69,4 @@ class User extends Model implements AuthenticatableContract,
         return $this->hasMany('App\Models\Questionaire', 'owner_id');
     }
 
-    /**
-     * Helper function to determin if the user is admin of the group.
-     */
-    private function isGroupAdmin(User $user){
-        $group = $this;
-        $user_group = $user->groups()->where('id', $group->id)->get();
-        if(!$user_group->isEmpty() && $user_group->first()->pivot->role == 'admin'){
-            return true;
-        }
-
-        return false;
-    }
 }

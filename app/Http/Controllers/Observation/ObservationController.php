@@ -189,27 +189,11 @@ class ObservationController extends Controller
 
     $data = array(
       'questionaire' => $questionaire,
-      'blocks' => $questionaire->blocks()->whereNull('parent_id')->get(),
+      'blocks' => $questionaire->blocks()->whereNull('parent_id')->orderBy('order', 'asc')->get(),
       'block_types' => $this->getBlockTypes()
     );
 
     return view('observation.blocks', $data);
-  }
-
-  /**
-   * save the order of the blocks
-   *
-   * @return Redirect
-   */
-  protected function postBlocks(Request $request, $id)
-  {
-    $questionaire = Questionaire::where('id',$id)->firstOrFail();
-
-    $this->authorize('questionaire-block-edit', $questionaire);
-
-    // @TODO : save blocks order
-
-    return Redirect::action('Observation\ObservationController@getBlocks', $questionaire->id)->with('status', 'Blocks order saved');
   }
 
   /**
@@ -394,4 +378,5 @@ class ObservationController extends Controller
       'MultipleChoiceQuestion' => '\App\Blocks\MultipleChoiceQuestion',
     );
   }
+
 }

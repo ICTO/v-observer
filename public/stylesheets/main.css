@@ -8457,16 +8457,7 @@ main, header {
   position: relative; }
 
 .list-row-wrapper:hover {
-  background-color: #e0f2f1; }
-
-.list-row-wrapper .list-row-wrapper:hover {
-  background-color: #b2dfdb; }
-
-.list-row-wrapper .list-row-wrapper .list-row-wrapper:hover {
-  background-color: #80cbc4; }
-
-.list-row-wrapper .list-row-wrapper .list-row-wrapper .list-row-wrapper:hover {
-  background-color: #4db6ac; }
+  background-color: rgba(0, 150, 136, 0.1); }
 
 .list-row-wrapper .has-action-button .list-row-wrapper {
   margin-right: -100px; }

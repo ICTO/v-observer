@@ -19,7 +19,7 @@ elixir.extend('remove', function(path) {
 });
 
 elixir(function(mix) {
-    // stylesheets
+    // global stylesheets
     mix.sass('app.scss', 'resources/assets/generated_css');
 
     mix.styles([
@@ -27,7 +27,7 @@ elixir(function(mix) {
             "../generated_css/app.css"
        ], 'public/stylesheets/main.css');
 
-    // scripts
+    // global scripts
     mix.scripts(['../../../bower_components/jquery/dist/jquery.js',
                  '../../../bower_components/Materialize/dist/js/materialize.js',
                  '../../../bower_components/moment/min/moment-with-locales.js',
@@ -35,19 +35,12 @@ elixir(function(mix) {
                  '../javascript/main.js'
        ], 'public/javascript/main.js');
 
-    mix.scripts(['../javascript/MultipleChoiceQuestion.js'
-], 'public/javascript/MultipleChoiceQuestion.js');
+    // single page scripts
+    mix.scripts(['../javascript/MultipleChoiceQuestion.js'], 'public/javascript/MultipleChoiceQuestion.js');
 
-    // Add version
-    //mix.version(["public/javascript/main.js", "public/stylesheets/main.css"]);
-
-    // copy fonts
+    // fonts
     mix.copy('bower_components/Materialize/dist/font', 'public/font');
 
     // remove unused folders
     mix.remove(__dirname + "/resources/assets/generated_css");
-
-    // remove this folders when using version
-    //mix.remove(__dirname + "/public/javascript");
-    //mix.remove(__dirname + "/public/stylesheets");
 });

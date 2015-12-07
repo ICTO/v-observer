@@ -67,4 +67,12 @@ class Questionaire extends Model
     {
         return $this->belongsTo('App\Models\User', 'creator_id');
     }
+
+    /**
+     * Get the videos attached to this questionaire.
+     */
+    public function videos()
+    {
+        return $this->belongsToMany('App\Models\Video','video_questionaire', 'questionaire_id', 'video_id')->withTimestamps();
+    }
 }

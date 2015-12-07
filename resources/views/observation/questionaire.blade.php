@@ -9,7 +9,7 @@
                     <div class="card-content">
                         <div class="card-title">{{ $questionaire->name }}</div>
                         <p><strong>Owner: </strong><span>{{ $questionaire->owner()->get()->first()->name }}</span></p>
-                        <p><strong>Created: </strong><span class="moment-date" data-datetime="{{ $questionaire->created_at }}"></span></p>
+                        <p><strong>Created: </strong><span class="moment-date" data-datetime="{{ $questionaire->created_at }}"></span> by {{$questionaire->creator()->get()->first()->name }}</p>
                     </div>
                     <div class="card-action">
                         @can('questionaire-edit', $questionaire)
