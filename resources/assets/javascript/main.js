@@ -17,7 +17,6 @@
           theme: 'relax',
           layout: 'topCenter'
       });
-
     });
 
     // Moment
@@ -29,5 +28,13 @@
       });
     }
     setInterval( displayDates() , 1000);
+
+    // numeral
+    numeral.language('nl-nl');
+    $('.numeral').each(function(){
+      var number = $(this).attr("data-number");
+      $(this).text(numeral(number).format($(this).attr("data-format")));
+    });
+
   });
 })(jQuery);

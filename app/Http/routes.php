@@ -61,26 +61,26 @@ Route::group(['middleware' => 'auth'], function () {
 
     /** Obeservation tool **/
     // questionaire
-    Route::get('questionaire/create/{owner_id?}', 'Observation\ObservationController@getCreateQuestionaire');
-    Route::post('questionaire/create', 'Observation\ObservationController@postCreateQuestionaire');
-    Route::get('questionaire/{id}', 'Observation\ObservationController@getQuestionaire');
-    Route::get('questionaire/{id}/edit', 'Observation\ObservationController@getEditQuestionaire');
-    Route::post('questionaire/{id}/edit', 'Observation\ObservationController@postEditQuestionaire');
-    Route::get('questionaire/{id}/remove', 'Observation\ObservationController@getRemoveQuestionaire');
-    Route::post('questionaire/{id}/remove', 'Observation\ObservationController@postRemoveQuestionaire');
-    // blocks
-    Route::get('questionaire/{id}/blocks', 'Observation\ObservationController@getBlocks');
-    Route::get('questionaire/{id}/block/create/{type}/{parent_id?}', 'Observation\ObservationController@getCreateBlock');
-    Route::post('questionaire/{id}/block/create/{type}/{parent_id?}', 'Observation\ObservationController@postCreateBlock');
-    Route::get('block/{id}/edit', 'Observation\ObservationController@getEditBlock');
-    Route::post('block/{id}/edit', 'Observation\ObservationController@postEditBlock');
-    Route::get('block/{id}/remove', 'Observation\ObservationController@getRemoveBlock');
-    Route::post('block/{id}/remove', 'Observation\ObservationController@postRemoveBlock');
+    Route::get('questionaire/create/{owner_id?}', 'Observation\QuestionaireController@getCreateQuestionaire');
+    Route::post('questionaire/create', 'Observation\QuestionaireController@postCreateQuestionaire');
+    Route::get('questionaire/{id}', 'Observation\QuestionaireController@getQuestionaire');
+    Route::get('questionaire/{id}/edit', 'Observation\QuestionaireController@getEditQuestionaire');
+    Route::post('questionaire/{id}/edit', 'Observation\QuestionaireController@postEditQuestionaire');
+    Route::get('questionaire/{id}/remove', 'Observation\QuestionaireController@getRemoveQuestionaire');
+    Route::post('questionaire/{id}/remove', 'Observation\QuestionaireController@postRemoveQuestionaire');
+    Route::get('questionaire/{id}/blocks', 'Observation\QuestionaireController@getBlocks');
+    Route::get('questionaire/{id}/block/create/{type}/{parent_id?}', 'Observation\QuestionaireController@getCreateBlock');
+    Route::post('questionaire/{id}/block/create/{type}/{parent_id?}', 'Observation\QuestionaireController@postCreateBlock');
+    Route::get('block/{id}/edit', 'Observation\QuestionaireController@getEditBlock');
+    Route::post('block/{id}/edit', 'Observation\QuestionaireController@postEditBlock');
+    Route::get('block/{id}/remove', 'Observation\QuestionaireController@getRemoveBlock');
+    Route::post('block/{id}/remove', 'Observation\QuestionaireController@postRemoveBlock');
     // video
-    Route::get('questionaire/{id}/video/create/{type}', 'Observation\ObservationController@getCreateVideo');
-    Route::post('questionaire/{id}/video/create/{type}', 'Observation\ObservationController@postCreateVideo');
-    Route::get('video/{id}/edit', 'Observation\ObservationController@getEditVideo');
-    Route::post('video/{id}/edit', 'Observation\ObservationController@postEditVideo');
-    Route::get('video/{id}/remove', 'Observation\ObservationController@getRemoveVideo');
-    Route::post('video/{id}/remove', 'Observation\ObservationController@postRemoveVideo');
+    Route::get('questionaire/{id}/video/create/{type}', 'Observation\VideoController@getCreateVideo');
+    Route::post('questionaire/{id}/video/create/{type}', 'Observation\VideoController@postCreateVideo');
+    Route::get('video/{id}', 'Observation\VideoController@getVideo');
+    Route::get('video/{id}/edit', 'Observation\VideoController@getEditVideo');
+    Route::post('video/{id}/edit', 'Observation\VideoController@postEditVideo');
+    Route::get('video/{id}/remove', 'Observation\VideoController@getRemoveVideo');
+    Route::post('video/{id}/remove', 'Observation\VideoController@postRemoveVideo');
 });

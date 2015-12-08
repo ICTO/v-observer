@@ -38,11 +38,20 @@ class Video extends Model
     protected $dates = ['deleted_at'];
 
     /**
+     * The attributes that should be casted to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'data' => 'array',
+    ];
+
+    /**
      * Get the questionaires attached to this video.
      */
-    public function questionaires()
+    public function questionaire()
     {
-        return $this->belongsToMany('App\Models\Video','video_questionaire', 'video_id', 'questionaire_id')->withTimestamps();
+        return $this->belongsTo('App\Models\Video','questionaire_id');
     }
 
 }

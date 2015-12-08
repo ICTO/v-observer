@@ -10,8 +10,9 @@ use Validator;
 use Auth;
 use Illuminate\Http\Request;
 use Redirect;
+use App\Http\Controllers\Observation\VideoController;
 
-class ObservationController extends Controller
+class QuestionaireController extends Controller
 {
   /**
    * Get the questionaire.
@@ -26,6 +27,7 @@ class ObservationController extends Controller
 
     $data = array(
       'questionaire' => $questionaire,
+      'video_types' => VideoController::getVideoTypes()
     );
 
     return view('observation.questionaire', $data);
@@ -72,7 +74,7 @@ class ObservationController extends Controller
     ]);
 
     if ($validator->fails()) {
-        return Redirect::action('Observation\ObservationController@getCreateQuestionaire', $owner->id)
+        return Redirect::action('Observation\QuestionaireController@getCreateQuestionaire', $owner->id)
             ->withInput()
             ->withErrors($validator);
     }
@@ -85,7 +87,7 @@ class ObservationController extends Controller
     $questionaire->creator_id = Auth::user()->id;
     $questionaire->save();
 
-    return Redirect::action('Observation\ObservationController@getBlocks', $questionaire->id);
+    return Redirect::action('Observation\QuestionaireController@getBlocks', $questionaire->id);
   }
 
   /**
@@ -127,7 +129,7 @@ class ObservationController extends Controller
     ]);
 
     if ($validator->fails()) {
-        return Redirect::action('Observation\ObservationController@getEditQuestionaire', $questionaire->id)
+        return Redirect::action('Observation\QuestionaireController@getEditQuestionaire', $questionaire->id)
             ->withInput()
             ->withErrors($validator);
     }
@@ -138,7 +140,7 @@ class ObservationController extends Controller
     $questionaire->owner_id = $owner->id;
     $questionaire->save();
 
-    return Redirect::action('Observation\ObservationController@getQuestionaire', $questionaire->id)->with('status', 'Questionaire saved');
+    return Redirect::action('Observation\QuestionaireController@getQuestionaire', $questionaire->id)->with('status', 'Questionaire saved');
   }
 
   /**
@@ -251,7 +253,7 @@ class ObservationController extends Controller
     $validator = $class::validatorCreateForm($request);
 
     if ($validator->fails()) {
-        return Redirect::action('Observation\ObservationController@getCreateBlock', array($questionaire->id, $type, $parent_id) )
+        return Redirect::action('Observation\QuestionaireController@getCreateBlock', array($questionaire->id, $type, $parent_id) )
             ->withInput()
             ->withErrors($validator);
     }
@@ -260,7 +262,7 @@ class ObservationController extends Controller
 
     $block->save();
 
-    return Redirect::action('Observation\ObservationController@getBlocks', $questionaire->id)->with('status', 'Block saved');
+    return Redirect::action('Observation\QuestionaireController@getBlocks', $questionaire->id)->with('status', 'Block saved');
   }
 
   /**
@@ -302,16 +304,16 @@ class ObservationController extends Controller
     $validator = $class::validatorEditForm($request);
 
     if ($validator->fails()) {
-        return Redirect::action('Observation\ObservationController@getEditBlock', $id )
+        return Redirect::action('Observation\QuestionaireController@getEditBlock', $id )
             ->withInput()
             ->withErrors($validator);
     }
 
-    $block->data = $class::processEditForm($request);
+    $block->data = array_merge($block->data, $class::processEditForm($request));
 
     $block->save();
 
-    return Redirect::action('Observation\ObservationController@getBlocks', $questionaire->id)->with('status', 'Block saved');
+    return Redirect::action('Observation\QuestionaireController@getBlocks', $questionaire->id)->with('status', 'Block saved');
   }
 
   /**
@@ -349,7 +351,7 @@ class ObservationController extends Controller
 
     $this->removeBlock($block, $request);
 
-    return Redirect::action('Observation\ObservationController@getBlocks', $questionaire->id)->with('status', 'Removed');
+    return Redirect::action('Observation\QuestionaireController@getBlocks', $questionaire->id)->with('status', 'Removed');
   }
 
   /**

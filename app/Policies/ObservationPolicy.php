@@ -38,7 +38,7 @@ class ObservationPolicy
             return true;
         }
 
-        // if questionaire of parent
+        // if questionaire of parent (in group)
         $user_groups = $user->groups()->get();
         foreach ($user_groups as $user_group) {
             if($user_group->id === $questionaire->owner_id){
@@ -94,6 +94,52 @@ class ObservationPolicy
     public function QuestionaireBlockEdit(User $user, Questionaire $questionaire)
     {
         return $this->QuestionaireEdit($user, $questionaire);
+    }
+
+    /**
+     * Determine if user can edit a video.
+     *
+     * @return bool
+     */
+    public function VideoEdit(User $user, Questionaire $questionaire)
+    {
+        return $this->QuestionaireEdit($user, $questionaire);
+    }
+
+    /**
+     * Determine if user can create a video.
+     *
+     * @return bool
+     */
+    public function VideoCreate(User $user, Questionaire $questionaire)
+    {
+        return $this->QuestionaireEdit($user, $questionaire);
+    }
+
+    /**
+     * Determine if user can remove a video.
+     *
+     * @return bool
+     */
+    public function VideoRemove(User $user, Questionaire $questionaire)
+    {
+        return $this->QuestionaireEdit($user, $questionaire);
+    }
+
+    /**
+     * Determine if user can view the video menu.
+     *
+     * @return bool
+     */
+    public function VideoMenu(User $user, Questionaire $questionaire)
+    {
+        if(    $this->VideoEdit($user, $questionaire)
+            || $this->VideoRemove($user, $questionaire)
+        ){
+            return true;
+        }
+
+        return false;
     }
 
     /**

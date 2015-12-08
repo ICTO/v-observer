@@ -24,7 +24,7 @@
                         <a class='dropdown-button btn white-text' href='#' data-activates='dropdown-add-block'><i class="material-icons left">more_vert</i>Add</a>
                         <ul id='dropdown-add-block' class='dropdown-content'>
                             @foreach($block_types as $key => $class)
-                            <li><a class="teal-text text-lighten-1" href="{{ action('Observation\ObservationController@getCreateBlock', [$questionaire->id, $key]) }}" ><i class="material-icons left">add</i>{{ $class::getHumanName() }}</a></li>
+                            <li><a class="teal-text text-lighten-1" href="{{ action('Observation\QuestionaireController@getCreateBlock', [$questionaire->id, $key]) }}" ><i class="material-icons left">add</i>{{ $class::getHumanName() }}</a></li>
                             @endforeach
                         </ul>
                     </div>
