@@ -26,14 +26,13 @@ class MultipleChoiceQuestion implements BlockInterface {
   /**
    * {@inheritdoc}
    */
-  static function processCreateForm($request){
+  static function processCreateForm($request, $block){
 
     $data = array(
       'question' => $request->question
     );
 
     foreach($request->option as $option){
-
       if($option['text'] != "")
       $data['options'][] = array(
         'text' => $option['text'],
@@ -41,21 +40,21 @@ class MultipleChoiceQuestion implements BlockInterface {
       );
     }
 
-    return $data;
+    $block->data = $data;
   }
 
   /**
    * {@inheritdoc}
    */
-  static function processRemoveForm($request){
+  static function processRemoveForm($request, $block){
     // no extra actions needed
   }
 
   /**
    * {@inheritdoc}
    */
-  static function processEditForm($request){
-    return self::processCreateForm($request);
+  static function processEditForm($request, $block){
+    return self::processCreateForm($request, $block);
   }
 
   /**
@@ -63,34 +62,6 @@ class MultipleChoiceQuestion implements BlockInterface {
    */
   static function canAddChildBlock(){
     return false;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  static function getCreateViewName(){
-    return 'observation.blocks.MultipleChoiceQuestion.create';
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  static function getEditViewName(){
-    return 'observation.blocks.MultipleChoiceQuestion.edit';
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  static function getRemoveViewName(){
-    return 'observation.blocks.MultipleChoiceQuestion.remove';
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  static function getPreviewViewName(){
-    return 'observation.blocks.MultipleChoiceQuestion.preview';
   }
 
   /**

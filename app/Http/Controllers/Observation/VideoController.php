@@ -14,6 +14,15 @@ use Redirect;
 class VideoController extends Controller
 {
   /**
+   * Video types
+   */
+  static function getVideoTypes(){
+    return array(
+      'Mediamosa' => '\App\Videos\Mediamosa',
+    );
+  }
+
+  /**
    * Get the video.
    *
    * @return View
@@ -22,12 +31,15 @@ class VideoController extends Controller
   {
     $video = Video::where('id',$id)->firstOrFail();
 
+    $video_types = $this->getVideoTypes();
+
     $data = array(
       'video' => $video,
-      'video_types' => $this->getVideoTypes()
+      'video_types' => $video_types,
+      'questionaire' => $video->questionaire()->get()->first()
     );
 
-    return view('observation.videoPreview', $data);
+    return view('observation.videoDisplay', $data);
   }
 
   /**
@@ -56,7 +68,7 @@ class VideoController extends Controller
       'video' => $video
     );
 
-    return view($videoTypes[$video->type]::getCreateViewName(), $data);
+    return view('observation.videos.'.$video->type.'.create', $data);
   }
 
   /**
@@ -74,10 +86,12 @@ class VideoController extends Controller
       abort(403, 'Video type not defined');
     }
 
+    // @TODO : don't create new video for every step. Works for now with Mediamosa
     $video = new Video();
     $video->type = $type;
     $video->questionaire_id = $questionaire_id;
     $video->creator_id = Auth::user()->id;
+    $video->analysis = "no";
 
     $videoTypes = $this->getVideoTypes();
     $class = $videoTypes[$type];
@@ -91,11 +105,11 @@ class VideoController extends Controller
     }
 
     $video->name = $request->name;
-    $video->data = $class::processCreateForm($request);
+    $class::processCreateForm($request, $video);
 
     $video->save();
 
-    return Redirect::action('Observation\QuestionaireController@getQuestionaire', $questionaire->id)->with('status', 'Video saved');
+    return Redirect::action('Observation\VideoController@getVideo', $video->id);
   }
 
   /**
@@ -115,7 +129,7 @@ class VideoController extends Controller
 
     $videoTypes = $this->getVideoTypes();
 
-    return view($videoTypes[$video->type]::getEditViewName(), $data);
+    return view('observation.videos.'.$video->type.'.edit', $data);
   }
 
   /**
@@ -143,7 +157,7 @@ class VideoController extends Controller
     }
 
     $video->name = $request->name;
-    $video->data = array_merge($video->data , $class::processEditForm($request));
+    $class::processEditForm($request);
 
     $video->save();
 
@@ -169,7 +183,7 @@ class VideoController extends Controller
 
     $videoTypes = $this->getVideoTypes();
 
-    return view($videoTypes[$video->type]::getRemoveViewName(), $data);
+    return view('observation.videos.'.$video->type.'.remove', $data);
   }
 
   /**
@@ -185,17 +199,108 @@ class VideoController extends Controller
 
     $this->authorize('video-remove', $questionaire);
 
+    $videoTypes = $this->getVideoTypes();
+    $class = $videoTypes[$video->type];
+
+    $class::processRemoveForm($request, $video);
+
     $video->delete();
 
     return Redirect::action('Observation\QuestionaireController@getQuestionaire', $video->questionaire_id)->with('status', 'Removed video');
   }
 
   /**
-   * Video types
+   * Process when the upload is finished
    */
-  static function getVideoTypes(){
-    return array(
-      'Mediamosa' => '\App\Videos\Mediamosa',
+  protected function getUploadFinished(Request $request, $id){
+    $video = Video::where('id',$id)->firstOrFail();
+
+    $questionaire = $video->questionaire()->get()->first();
+
+    $this->authorize('video-edit', $questionaire);
+
+    $videoTypes = $this->getVideoTypes();
+    $class = $videoTypes[$video->type];
+
+    return response()->json($class::uploadFinished($request, $video));
+  }
+
+  /**
+   * Get the upload progress
+   */
+  protected function getUploadProgress(Request $request, $id){
+    $video = Video::where('id',$id)->firstOrFail();
+
+    $questionaire = $video->questionaire()->get()->first();
+
+    $this->authorize('video-edit', $questionaire);
+
+    $videoTypes = $this->getVideoTypes();
+    $class = $videoTypes[$video->type];
+
+    return response()->json($class::uploadProgress($request, $video));
+  }
+
+  /**
+   * Get the edit form for the transcript of a video
+   */
+  protected function getEditTranscript(Request $request, $id){
+    $video = Video::where('id',$id)->firstOrFail();
+
+    $questionaire = $video->questionaire()->get()->first();
+
+    $this->authorize('video-edit-transcript', $questionaire);
+
+    $data = array(
+      'video' => $video,
     );
+
+    return view('observation.editTranscript', $data);
+
+  }
+
+  /**
+   * Process the edit form for the transcript of a video
+   */
+  protected function postEditTranscript(Request $request, $id){
+    $video = Video::where('id',$id)->firstOrFail();
+
+    $questionaire = $video->questionaire()->get()->first();
+
+    $this->authorize('video-edit-transcript', $questionaire);
+
+    $video->transcript = $request->transcript;
+    $video->save();
+
+    return Redirect::action('Observation\VideoController@getVideo', $video->id);
+  }
+
+  /**
+   * Get the edit form for the transcript of a video
+   */
+  protected function getAnalysis(Request $request, $id){
+    $video = Video::where('id',$id)->firstOrFail();
+
+    $questionaire = $video->questionaire()->get()->first();
+
+    if(!$questionaire->locked){
+      $questionaire->locked = true;
+      $questionaire->save();
+    }
+
+    if($video->analysis == "no"){
+      $video->analysis = "running";
+      $video->save();
+    }
+
+    $this->authorize('video-analysis', $questionaire);
+
+    $data = array(
+      'video' => $video,
+      'video_types' => $this->getVideoTypes(),
+      'questionaire' => $questionaire,
+    );
+
+    return view('observation.analysis', $data);
   }
 }

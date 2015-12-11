@@ -31,7 +31,7 @@
                         @if($questionaire->videos()->count())
                             @foreach( $questionaire->videos()->orderBy('created_at', 'desc')->get() as $key => $video )
                             <div class="list-row-wrapper">
-                                <div class="list-row-image circle teal white-text"><i class="material-icons">videocam</i></div>
+                                <div class="list-row-image circle {{ $video->analysis == 'no' ? 'cyan' : '' }}{{ $video->analysis == 'running' ? 'orange' : '' }}{{ $video->analysis == 'done' ? 'light-green' : '' }} lighten-1 white-text"><i class="material-icons">videocam</i></div>
                                 <a class="list-row-link has-action-button has-image waves-effect waves-light" href="{{ action('Observation\VideoController@getVideo', $video->id) }}">
                                     {{ $video->name }}
                                     <span class="teal-text text-lighten-2">
@@ -44,8 +44,15 @@
                                 @can('video-menu', $questionaire)
                                 <a class='dropdown-button btn blue action-btn' data-alignment="right" href='#' data-activates='dropdown-video-{{ $key }}'><i class="material-icons">more_horiz</i></a>
                                 <ul id='dropdown-video-{{ $key }}' class='dropdown-content action-btn'>
+
                                     @can('video-edit', $questionaire)
                                     <li><a href="{{ action('Observation\VideoController@getEditVideo', $video->id ) }}">Edit</a></li>
+                                    @endcan
+                                    @can('video-edit-transcript', $questionaire)
+                                    <li><a href="{{ action('Observation\VideoController@getEditTranscript', $video->id) }}">Transcript</a></li>
+                                    @endcan
+                                    @can('video-analysis', $questionaire)
+                                    <li><a href="{{ action('Observation\VideoController@getAnalysis', $video->id) }}" target="_blank">Analysis</a></li>
                                     @endcan
                                     @can('video-remove', $questionaire)
                                     <li><a href="{{ action('Observation\VideoController@getRemoveVideo', $video->id ) }}">Remove</a></li>
@@ -59,7 +66,7 @@
                         @endif
                     </div>
                     <div class="card-action">
-                        <a class='dropdown-button btn white-text' href='#' data-activates='dropdown-add-video'><i class="material-icons left">create</i>Add Video</a>
+                        <a class='dropdown-button btn white-text' href='#' data-activates='dropdown-add-video'><i class="material-icons left">more_vert</i>Add Video</a>
                         <ul id='dropdown-add-video' class='dropdown-content'>
                             @foreach($video_types as $key => $class)
                             <li><a class="teal-text text-lighten-1" href="{{ action('Observation\VideoController@getCreateVideo', [$questionaire->id, $key]) }}" ><i class="material-icons left">add</i>{{ $class::getHumanName() }}</a></li>

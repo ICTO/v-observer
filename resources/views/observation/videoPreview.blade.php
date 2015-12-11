@@ -7,7 +7,7 @@
             <div class="col s12">
                 <div class="card left-align">
                     <div class="card-content">
-                        @include($video_types[$video->type]::getPreviewViewName(), ['video' => $video, 'video_types' => $video_types])
+                        @include('observation.videos.'.$video->type.'.create', ['video' => $video, 'video_types' => $video_types])
                     </div>
                 </div>
             </div>

@@ -83,4 +83,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('video/{id}/edit', 'Observation\VideoController@postEditVideo');
     Route::get('video/{id}/remove', 'Observation\VideoController@getRemoveVideo');
     Route::post('video/{id}/remove', 'Observation\VideoController@postRemoveVideo');
+    Route::get('video/{id}/upload_finished', 'Observation\VideoController@getUploadFinished');
+    Route::get('video/{id}/upload_progress', 'Observation\VideoController@getUploadProgress');
+    Route::get('video/{id}/transcript', 'Observation\VideoController@getEditTranscript');
+    Route::post('video/{id}/transcript', 'Observation\VideoController@postEditTranscript');
+    Route::get('video/{id}/analysis', 'Observation\VideoController@getAnalysis');
+
 });

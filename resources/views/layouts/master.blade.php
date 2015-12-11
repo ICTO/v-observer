@@ -2,8 +2,10 @@
 <html>
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0">
-    <?php $title = 'Video observation application'; ?>
-    <title>{{ $title }} | V-observer</title>
+    @section('title')
+        Video observation application | V-observer
+    @endsection
+    <title>@yield('title')</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="/stylesheets/main.css">
   </head>

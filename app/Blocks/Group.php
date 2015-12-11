@@ -28,8 +28,8 @@ class Group implements BlockInterface{
   /**
    * {@inheritdoc}
    */
-  static function processCreateForm($request){
-    return array(
+  static function processCreateForm($request, $block){
+    $block->data = array(
       'title' => $request->title
     );
   }
@@ -37,15 +37,15 @@ class Group implements BlockInterface{
   /**
    * {@inheritdoc}
    */
-  static function processRemoveForm($request){
+  static function processRemoveForm($request, $block){
     // no extra actions needed
   }
 
   /**
    * {@inheritdoc}
    */
-  static function processEditForm($request){
-    return array(
+  static function processEditForm($request, $block){
+    $block->data = array(
       'title' => $request->title
     );
   }
@@ -55,34 +55,6 @@ class Group implements BlockInterface{
    */
   static function canAddChildBlock(){
     return true;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  static function getCreateViewName(){
-    return 'observation.blocks.Group.create';
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  static function getEditViewName(){
-    return 'observation.blocks.Group.edit';
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  static function getRemoveViewName(){
-    return 'observation.blocks.Group.remove';
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  static function getPreviewViewName(){
-    return 'observation.blocks.Group.preview';
   }
 
   /**

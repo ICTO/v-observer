@@ -39,6 +39,7 @@ elixir(function(mix) {
 
     // single page scripts
     mix.scripts(['../javascript/MultipleChoiceQuestion.js'], 'public/javascript/MultipleChoiceQuestion.js');
+    mix.scripts(['../../../bower_components/jquery-form/jquery.form.js', '../javascript/VideoUpload.js'], 'public/javascript/VideoUpload.js');
 
     // fonts
     mix.copy('bower_components/Materialize/dist/font', 'public/font');

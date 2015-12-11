@@ -46,7 +46,7 @@
                                     <li><a href="{{ action('Observation\QuestionaireController@getEditQuestionaire', $questionaire->id ) }}">Edit questionaire</a></li>
                                     @endcan
                                     @can('questionaire-questions-edit', $questionaire)
-                                    <li><a href="{{ action('Observation\QuestionaireController@getBlocks', $questionaire->id ) }}">Edit blocks</a></li>
+                                    <li><a href="{{ action('Observation\QuestionaireController@getBlocks', $questionaire->id ) }}">Edit questions</a></li>
                                     @endcan
                                     @can('questionaire-remove', $questionaire)
                                     <li><a href="{{ action('Observation\QuestionaireController@getRemoveQuestionaire', $questionaire->id ) }}">Remove questionaire</a></li>

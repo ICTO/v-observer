@@ -93,6 +93,9 @@ class ObservationPolicy
      */
     public function QuestionaireBlockEdit(User $user, Questionaire $questionaire)
     {
+        if($questionaire->locked){
+            return false;
+        }
         return $this->QuestionaireEdit($user, $questionaire);
     }
 
@@ -135,11 +138,49 @@ class ObservationPolicy
     {
         if(    $this->VideoEdit($user, $questionaire)
             || $this->VideoRemove($user, $questionaire)
+            || $this->VideoEditTranscript($user, $questionaire)
+            || $this->VideoAnalysis($user, $questionaire)
         ){
             return true;
         }
 
         return false;
+    }
+
+    /**
+     * Determine if user can view the video menu.
+     *
+     * @return bool
+     */
+    public function VideoMenu2(User $user, Questionaire $questionaire)
+    {
+        if($this->VideoEditTranscript($user, $questionaire)
+            || $this->VideoAnalysis($user, $questionaire)
+        ){
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Determine if user can edit a transcript of a video.
+     *
+     * @return bool
+     */
+    public function VideoEditTranscript(User $user, Questionaire $questionaire)
+    {
+        return $this->QuestionaireEdit($user, $questionaire);
+    }
+
+    /**
+     * Determine if user can do an analysis of a video.
+     *
+     * @return bool
+     */
+    public function VideoAnalysis(User $user, Questionaire $questionaire)
+    {
+        return $this->QuestionaireView($user, $questionaire);
     }
 
     /**

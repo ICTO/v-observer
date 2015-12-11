@@ -31,26 +31,29 @@ Interface BlockInterface {
      * Transform the request data from the create form to a data array that will be stored
      *
      * @param Request $request
+     * @param Block $block
      *
      * @return array $data
      */
-    static function processCreateForm($request);
+    static function processCreateForm($request, $block);
 
     /**
     * Transform the request data from the edit form to a data array that will be stored
     *
     * @param Request $request
+    * @param Block $block
     *
     * @return array $data
      */
-    static function processEditForm($request);
+    static function processEditForm($request, $block);
 
     /**
      * Process the remove form
      *
      * @param Request $request
+     * @param Block $block
      */
-    static function processRemoveForm($request);
+    static function processRemoveForm($request, $block);
 
     /**
      * Can this block add child blocks?
@@ -58,25 +61,5 @@ Interface BlockInterface {
      * @return boolean
      */
     static function canAddChildBlock();
-
-    /**
-     * Return the name of the preview template
-     */
-    static function getPreviewViewName();
-
-    /**
-     * Return the name of the create template
-     */
-    static function getCreateViewName();
-
-    /**
-     * Return the name of the edit template
-     */
-    static function getEditViewName();
-
-    /**
-     * Return the name of the remove template
-     */
-    static function getRemoveViewName();
 
 }

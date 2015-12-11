@@ -16,6 +16,7 @@ class Questionaire extends Migration
             $table->increments('id');
             $table->string('name');
             $table->integer('interval')->unsigned();
+            $table->boolean('locked');
             $table->integer('creator_id')->unsigned()->nullable()->index();
             $table->foreign('creator_id')->references('id')->on('users')->onDelete('set null');
             $table->integer('owner_id')->unsigned()->nullable()->index();

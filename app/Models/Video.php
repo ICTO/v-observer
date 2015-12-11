@@ -51,7 +51,7 @@ class Video extends Model
      */
     public function questionaire()
     {
-        return $this->belongsTo('App\Models\Video','questionaire_id');
+        return $this->belongsTo('App\Models\Questionaire','questionaire_id');
     }
 
 }

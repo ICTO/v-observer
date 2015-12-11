@@ -15,6 +15,16 @@ use App\Http\Controllers\Observation\VideoController;
 class QuestionaireController extends Controller
 {
   /**
+   * Block types
+   */
+  private function getBlockTypes(){
+    return array(
+      'Group' => '\App\Blocks\Group',
+      'MultipleChoiceQuestion' => '\App\Blocks\MultipleChoiceQuestion',
+    );
+  }
+
+  /**
    * Get the questionaire.
    *
    * @return View
@@ -84,6 +94,7 @@ class QuestionaireController extends Controller
     $questionaire = new Questionaire();
     $questionaire->name = $request->name;
     $questionaire->owner_id = $owner->id;
+    $questionaire->locked = false;
     $questionaire->creator_id = Auth::user()->id;
     $questionaire->save();
 
@@ -218,13 +229,11 @@ class QuestionaireController extends Controller
 
     $this->authorize('questionaire-block-edit', $questionaire);
 
-    $blockTypes = $this->getBlockTypes();
-
     $data = array(
       'block' => $block,
     );
 
-    return view($blockTypes[$block->type]::getCreateViewName(), $data);
+    return view('observation.blocks.'.$block->type.'.create', $data);
   }
 
   /**
@@ -258,7 +267,7 @@ class QuestionaireController extends Controller
             ->withErrors($validator);
     }
 
-    $block->data = $class::processCreateForm($request);
+    $class::processCreateForm($request, $block);
 
     $block->save();
 
@@ -282,7 +291,7 @@ class QuestionaireController extends Controller
 
     $blockTypes = $this->getBlockTypes();
 
-    return view($blockTypes[$block->type]::getEditViewName(), $data);
+    return view('observation.blocks.'.$block->type.'.edit', $data);
   }
 
   /**
@@ -309,7 +318,7 @@ class QuestionaireController extends Controller
             ->withErrors($validator);
     }
 
-    $block->data = array_merge($block->data, $class::processEditForm($request));
+    $class::processEditForm($request, $block);
 
     $block->save();
 
@@ -333,7 +342,7 @@ class QuestionaireController extends Controller
 
     $blockTypes = $this->getBlockTypes();
 
-    return view($blockTypes[$block->type]::getRemoveViewName(), $data);
+    return view('observation.blocks.'.$block->type.'.remove', $data);
   }
 
   /**
@@ -360,7 +369,7 @@ class QuestionaireController extends Controller
   private function removeBlock($block, $request){
     $blockTypes = $this->getBlockTypes();
     $class = $blockTypes[$block->type];
-    $class::processRemoveForm($request);
+    $class::processRemoveForm($request, $block);
 
     if($blockTypes[$block->type]::canAddChildBlock()){
       foreach ($block->children()->get() as $child_block) {
@@ -369,16 +378,6 @@ class QuestionaireController extends Controller
     }
 
     $block->delete();
-  }
-
-  /**
-   * Block types
-   */
-  private function getBlockTypes(){
-    return array(
-      'Group' => '\App\Blocks\Group',
-      'MultipleChoiceQuestion' => '\App\Blocks\MultipleChoiceQuestion',
-    );
   }
 
 }

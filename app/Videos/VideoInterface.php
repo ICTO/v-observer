@@ -31,44 +31,45 @@ Interface VideoInterface {
    * Transform the request data from the create form to a data array that will be stored
    *
    * @param Request $request
+   * @param int $step
+   * @param Video $video
    *
    * @return array $data
    */
-  static function processCreateForm($request);
+  static function processCreateForm($request, $video);
 
   /**
   * Transform the request data from the edit form to a data array that will be stored
   *
   * @param Request $request
+  * @param Video $video
   *
   * @return array $data
    */
-  static function processEditForm($request);
+  static function processEditForm($request, $video);
 
   /**
    * Process the remove form
    *
    * @param Request $request
+   * @param Video $video
    */
-  static function processRemoveForm($request);
+  static function processRemoveForm($request, $video);
 
   /**
-   * Return the name of the previewtemplate
+   * Upload finished
+   *
+   * @param Request $request
+   * @param Video $video
    */
-  static function getPreviewViewName();
+  static function uploadFinished($request, $video);
 
   /**
-   * Return the name of the create template
+   * Upload progress
+   *
+   * @param Request $request
+   * @param Video $video
    */
-  static function getCreateViewName();
+  static function uploadProgress($request, $video);
 
-  /**
-   * Return the name of the edit template
-   */
-  static function getEditViewName();
-
-  /**
-   * Return the name of the remove template
-   */
-  static function getRemoveViewName();
 }

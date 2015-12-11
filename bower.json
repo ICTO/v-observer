@@ -19,6 +19,7 @@
     "Materialize": "materialize#~0.97.3",
     "moment": "~2.10.6",
     "noty": "~2.3.7",
-    "numeral": "~1.5.3"
+    "numeral": "~1.5.3",
+    "jquery-form": "~3.46.0"
   }
 }
