@@ -24,6 +24,7 @@ elixir(function(mix) {
 
     mix.styles([
             "../../../bower_components/Materialize/dist/css/materialize.css",
+            "../../../bower_components/video.js/dist/video-js.css",
             "../generated_css/app.css"
        ], 'public/stylesheets/main.css');
 
@@ -34,15 +35,18 @@ elixir(function(mix) {
                  '../../../bower_components/numeral/numeral.js',
                  '../../../bower_components/numeral/languages.js',
                  '../../../bower_components/noty/js/noty/packaged/jquery.noty.packaged.min.js',
+                 '../../../bower_components/video.js/dist/video.js',
                  '../javascript/main.js'
        ], 'public/javascript/main.js');
 
     // single page scripts
     mix.scripts(['../javascript/MultipleChoiceQuestion.js'], 'public/javascript/MultipleChoiceQuestion.js');
+    mix.scripts(['../javascript/AnalyseVideo.js'], 'public/javascript/AnalyseVideo.js');
     mix.scripts(['../../../bower_components/jquery-form/jquery.form.js', '../javascript/VideoUpload.js'], 'public/javascript/VideoUpload.js');
 
-    // fonts
+    // copy
     mix.copy('bower_components/Materialize/dist/font', 'public/font');
+    mix.copy('bower_components/video.js/dist/video-js.swf', 'public/video-js.swf');
 
     // remove unused folders
     mix.remove(__dirname + "/resources/assets/generated_css");

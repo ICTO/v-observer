@@ -100,6 +100,19 @@ class ObservationPolicy
     }
 
     /**
+     * Determine if user can edit a the interval of a questionaire.
+     *
+     * @return bool
+     */
+    public function QuestionaireIntervalEdit(User $user, Questionaire $questionaire)
+    {
+        if($questionaire->locked){
+            return false;
+        }
+        return $this->QuestionaireEdit($user, $questionaire);
+    }
+
+    /**
      * Determine if user can edit a video.
      *
      * @return bool

@@ -20,6 +20,7 @@ class Video extends Migration
             $table->foreign('questionaire_id')->references('id')->on('questionaires')->onDelete('set null');
             $table->string('name');
             $table->bigInteger('size');
+            $table->integer('length')->unsigned();
             $table->string('type');
             $table->text('data');
             $table->text('transcript');

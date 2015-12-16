@@ -88,7 +88,13 @@ class Mediamosa implements VideoInterface{
    * {@inheritdoc}
    */
   static function processRemoveForm($request, $video){
-    // no extra actions needed
+    // soft removes in database so don't remove the file in mediamosa for recovery
+
+    // Remove file from mediamosa
+    // $asset_id = $video->data['asset_id'];
+    // $user_id = $video->creator_id;
+    // $mmc = new MediamosaConnector;
+    // $mmc->deleteAsset($asset_id, $user_id);
   }
 
   /**
@@ -172,6 +178,8 @@ class Mediamosa implements VideoInterface{
       if($done){
         $r = $mmc->getMediafile($video->data['mediafile_id']);
         $video->size = $r['data']['items']['item'][0]['metadata']['filesize'];
+        $length = explode(":", $r['data']['items']['item'][0]['metadata']['file_duration']);
+        $video->length = round((integer) $length[2] + ((integer) $length[1]*60) + ((integer) $length[0]*3600) );
         $vdata = $video->data;
         $vdata['status'] = "ready";
         $video->data = $vdata;

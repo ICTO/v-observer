@@ -17,7 +17,7 @@ class QuestionaireController extends Controller
   /**
    * Block types
    */
-  private function getBlockTypes(){
+  static function getBlockTypes(){
     return array(
       'Group' => '\App\Blocks\Group',
       'MultipleChoiceQuestion' => '\App\Blocks\MultipleChoiceQuestion',
@@ -37,7 +37,8 @@ class QuestionaireController extends Controller
 
     $data = array(
       'questionaire' => $questionaire,
-      'video_types' => VideoController::getVideoTypes()
+      'video_types' => VideoController::getVideoTypes(),
+      'videos' => $questionaire->videos()->orderBy('created_at', 'desc')->paginate(15)
     );
 
     return view('observation.questionaire', $data);
@@ -95,6 +96,7 @@ class QuestionaireController extends Controller
     $questionaire->name = $request->name;
     $questionaire->owner_id = $owner->id;
     $questionaire->locked = false;
+    $questionaire->interval = 300; // default 5 minutes interval
     $questionaire->creator_id = Auth::user()->id;
     $questionaire->save();
 
@@ -134,6 +136,8 @@ class QuestionaireController extends Controller
     $owner = User::where('id',$request->owner_id)->firstOrFail();
     $questionaire = Questionaire::where('id',$id)->firstOrFail();
 
+    $this->authorize('questionaire-edit', $questionaire);
+
     $validator = Validator::make($request->all(), [
         'name' => 'required',
         'owner_id' => 'required'
@@ -145,13 +149,56 @@ class QuestionaireController extends Controller
             ->withErrors($validator);
     }
 
-    $this->authorize('questionaire-edit', $questionaire);
-
     $questionaire->name = $request->name;
     $questionaire->owner_id = $owner->id;
     $questionaire->save();
 
     return Redirect::action('Observation\QuestionaireController@getQuestionaire', $questionaire->id)->with('status', 'Questionaire saved');
+  }
+
+  /**
+   * Get the form to edit an interval.
+   *
+   * @return View
+   */
+  protected function getEditInterval($id)
+  {
+    $questionaire = Questionaire::where('id',$id)->firstOrFail();
+
+    $this->authorize('questionaire-interval-edit', $questionaire);
+
+    $data = array(
+      'questionaire' => $questionaire,
+    );
+
+    return view('observation.editInterval', $data);
+  }
+
+  /**
+   * save the edited interval
+   *
+   * @return View
+   */
+  protected function postEditInterval(Request $request, $id)
+  {
+    $questionaire = Questionaire::where('id',$id)->firstOrFail();
+
+    $this->authorize('questionaire-interval-edit', $questionaire);
+
+    $validator = Validator::make($request->all(), [
+        'interval' => 'required|numeric',
+    ]);
+
+    if ($validator->fails()) {
+        return Redirect::action('Observation\QuestionaireController@getEditInterval', $questionaire->id)
+            ->withInput()
+            ->withErrors($validator);
+    }
+
+    $questionaire->interval = $request->interval;
+    $questionaire->save();
+
+    return Redirect::action('Observation\QuestionaireController@getQuestionaire', $questionaire->id)->with('status', 'Interval saved');
   }
 
   /**

@@ -1,7 +1,7 @@
 {{-- Video display --}}
 @if($video->data['status'] == 'ready')
 <div class="card-image center-align">
-    <video class="responsive-video" controls>
+    <video id="player" class="video-js vjs-default-skin vjs-big-play-centered responsive-video" controls data-setup='{ "playbackRates": [1, 1.1, 1.2, 1.3, 1.4, 1.5] }'>
     @foreach( $video_types[$video->type]::getVideoSources($video->data['asset_id']) as $source )
         <source src="{{ $source['output'] }}" type="{{ $source['content_type'] }}">
     @endforeach
@@ -10,8 +10,10 @@
 </div>
 <div class="card-content">
     <div class="card-title">{{ $video->name }}
-    @if($video->size)
-        (<span class="numeral" data-number="{{ $video->size }}" data-format="0.0b"></span>)
+    @if($video->length)
+        <span class="teal-text text-lighten-2">
+            (<span class="numeral" data-number="{{ $video->length }}" data-format="00:00:00"></span>)
+        </span>
     @endif
     </div>
     <div class="video-wrapper center-align">

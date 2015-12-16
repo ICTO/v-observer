@@ -32,6 +32,7 @@ Route::post('password/reset', 'Auth\PasswordController@postReset');
 Route::group(['middleware' => 'auth'], function () {
 
     /** User **/
+    // @TODO : create new user for admins only
 
     // Auth routes
     Route::get('auth/logout', 'Auth\AuthController@getLogout');
@@ -66,6 +67,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('questionaire/{id}', 'Observation\QuestionaireController@getQuestionaire');
     Route::get('questionaire/{id}/edit', 'Observation\QuestionaireController@getEditQuestionaire');
     Route::post('questionaire/{id}/edit', 'Observation\QuestionaireController@postEditQuestionaire');
+    Route::get('questionaire/{id}/interval', 'Observation\QuestionaireController@getEditInterval');
+    Route::post('questionaire/{id}/interval', 'Observation\QuestionaireController@postEditInterval');
     Route::get('questionaire/{id}/remove', 'Observation\QuestionaireController@getRemoveQuestionaire');
     Route::post('questionaire/{id}/remove', 'Observation\QuestionaireController@postRemoveQuestionaire');
     Route::get('questionaire/{id}/blocks', 'Observation\QuestionaireController@getBlocks');
@@ -88,5 +91,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('video/{id}/transcript', 'Observation\VideoController@getEditTranscript');
     Route::post('video/{id}/transcript', 'Observation\VideoController@postEditTranscript');
     Route::get('video/{id}/analysis', 'Observation\VideoController@getAnalysis');
+    Route::post('video/{id}/analysis/{part_id}/{block_id}', 'Observation\VideoController@postAnalysisBlock');
 
 });

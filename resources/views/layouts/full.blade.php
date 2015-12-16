@@ -17,5 +17,6 @@
     @yield('content')
     </div>
     <script type="text/javascript" src="/javascript/main.js"></script>
+    @yield('javascript')
   </body>
 </html>

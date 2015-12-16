@@ -55,6 +55,7 @@
                                 @endcan
                             </div>
                         @endforeach
+                        @include('layouts.pagination', ['paginator' => $questionaires])
                         @else
                         This user doesn't own any questionaires.
                         @endif
@@ -108,6 +109,7 @@
                 </div>
             </div>
             @endif
+            {{-- @TODO : add data usage stats for the user --}}
         </div>
     </div>
 </div>

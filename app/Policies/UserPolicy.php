@@ -180,7 +180,7 @@ class UserPolicy
      *
      * @return bool
      *
-     * @TODO : move to UserPolicy
+     * @TODO : move to questionPolicy if possible?
      */
     public function QuestionaireCreate(User $user, User $owner)
     {

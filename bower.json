@@ -20,6 +20,7 @@
     "moment": "~2.10.6",
     "noty": "~2.3.7",
     "numeral": "~1.5.3",
-    "jquery-form": "~3.46.0"
+    "jquery-form": "~3.46.0",
+    "video.js": "~5.4.4"
   }
 }

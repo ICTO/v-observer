@@ -10,6 +10,11 @@
                         <div class="card-title">{{ $questionaire->name }}</div>
                         <p><strong>Owner: </strong><span>{{ $questionaire->owner()->get()->first()->name }}</span></p>
                         <p><strong>Created: </strong><span class="moment-date" data-datetime="{{ $questionaire->created_at }}"></span> by {{$questionaire->creator()->get()->first()->name }}</p>
+                        <p><strong>Interval: </strong><span class="numeral" data-number="{{ $questionaire->interval }}" data-format="00:00:00"></span>
+                        @if($questionaire->locked)
+                            <span class="teal-text text-lighten-1">(Interval locked because analysis started)</span>
+                        @endif
+                        </p>
                     </div>
                     <div class="card-action">
                         @can('questionaire-edit', $questionaire)
@@ -17,6 +22,9 @@
                         @endcan
                         @can('questionaire-block-view', $questionaire)
                         <a class="waves-effect waves-light btn white-text" href="{{ action('Observation\QuestionaireController@getBlocks', $questionaire->id) }}"><i class="material-icons left">assignment</i>Questions</a>
+                        @endcan
+                        @can('questionaire-interval-edit', $questionaire)
+                        <a class="waves-effect waves-light btn white-text" href="{{ action('Observation\QuestionaireController@getEditInterval', $questionaire->id) }}"><i class="material-icons left">mode_edit</i>Interval</a>
                         @endcan
                         @can('questionaire-remove', $questionaire)
                         <a class="waves-effect waves-light btn white-text" href="{{ action('Observation\QuestionaireController@getRemoveQuestionaire', $questionaire->id) }}"><i class="material-icons left">delete</i>Remove</a>
@@ -28,15 +36,15 @@
                 <div class="card left-align">
                     <div class="card-content">
                         <div class="card-title">Videos</div>
-                        @if($questionaire->videos()->count())
-                            @foreach( $questionaire->videos()->orderBy('created_at', 'desc')->get() as $key => $video )
+                        @if($videos->count())
+                            @foreach( $videos as $key => $video )
                             <div class="list-row-wrapper">
                                 <div class="list-row-image circle {{ $video->analysis == 'no' ? 'cyan' : '' }}{{ $video->analysis == 'running' ? 'orange' : '' }}{{ $video->analysis == 'done' ? 'light-green' : '' }} lighten-1 white-text"><i class="material-icons">videocam</i></div>
                                 <a class="list-row-link has-action-button has-image waves-effect waves-light" href="{{ action('Observation\VideoController@getVideo', $video->id) }}">
                                     {{ $video->name }}
                                     <span class="teal-text text-lighten-2">
-                                    @if($video->size)
-                                        (<span class="numeral" data-number="{{ $video->size }}" data-format="0.0b"></span>)
+                                    @if($video->length)
+                                        (<span class="numeral" data-number="{{ $video->length }}" data-format="00:00:00"></span>)
                                     @endif
                                     Created <span class="moment-date" data-datetime="{{ $video->created_at }}"></span>
                                     </span>
@@ -61,10 +69,12 @@
                                 @endcan
                             </div>
                             @endforeach
+                            @include('layouts.pagination', ['paginator' => $videos])
                         @else
                             No videos added to this questionaire
                         @endif
                     </div>
+                    @can('video-create', $questionaire)
                     <div class="card-action">
                         <a class='dropdown-button btn white-text' href='#' data-activates='dropdown-add-video'><i class="material-icons left">more_vert</i>Add Video</a>
                         <ul id='dropdown-add-video' class='dropdown-content'>
@@ -73,9 +83,9 @@
                             @endforeach
                         </ul>
                     </div>
+                    @endcan
                 </div>
             </div>
-
         </div>
     </div>
 </div>

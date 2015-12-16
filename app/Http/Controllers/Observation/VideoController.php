@@ -10,6 +10,7 @@ use Validator;
 use Auth;
 use Illuminate\Http\Request;
 use Redirect;
+use App\Http\Controllers\Observation\QuestionaireController;
 
 class VideoController extends Controller
 {
@@ -86,7 +87,6 @@ class VideoController extends Controller
       abort(403, 'Video type not defined');
     }
 
-    // @TODO : don't create new video for every step. Works for now with Mediamosa
     $video = new Video();
     $video->type = $type;
     $video->questionaire_id = $questionaire_id;
@@ -295,10 +295,31 @@ class VideoController extends Controller
 
     $this->authorize('video-analysis', $questionaire);
 
+    $intervals = array();
+    $position = 0;
+    $end = 0;
+
+    while($position < $video->length){
+      $start = $position;
+      $end += $questionaire->interval;
+      if($end > $video->length){
+        $end = $video->length;
+      }
+      $chapters[] = array(
+        'start' => $start,
+        'end' => $end,
+        'percentage' => (($end - $start)/$video->length)*100,
+      );
+      $position = $end;
+    }
+
     $data = array(
       'video' => $video,
       'video_types' => $this->getVideoTypes(),
+      'block_types' => QuestionaireController::getBlockTypes(),
       'questionaire' => $questionaire,
+      'blocks' => $questionaire->blocks()->whereNull('parent_id')->orderBy('order', 'asc')->get(),
+      'chapters' => $chapters
     );
 
     return view('observation.analysis', $data);

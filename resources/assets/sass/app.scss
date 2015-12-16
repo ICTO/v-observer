@@ -12,7 +12,12 @@ main, header {
 
 @media only screen and (min-width : 993px) {
   .container {
-    width: 85%; }
+    width: 85%;
+  }
+  .full-scroll{
+    max-height: 100%;
+    overflow: auto;
+  }
 }
 
 // extra sidenav tweaks
@@ -87,5 +92,75 @@ ul.bullets li {
 
 // tab
 .tab{
-  margin-left: 40px;
+  margin-left: 20px;
+}
+
+// video
+.video-js, .video-js video {
+  position: relative !important;
+  width: 100% !important;
+  height: auto !important;
+  overflow: hidden;
+  margin-bottom: -2px;
+}
+.video-js{
+  font-size:14px;
+}
+.video-js .vjs-big-play-button {
+  line-height: 2.8em;
+  height: 3em;
+  width: 3em;
+  border-radius: 2em;
+  border: 0.1em solid #fff;
+}
+.vjs-big-play-centered .vjs-big-play-button {
+    top: 50%;
+    left: 50%;
+    margin-top: -1.5em;
+    margin-left: -1.5em;
+}
+.vjs-control-bar {
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+.video-js .vjs-progress-control:hover .vjs-progress-holder {
+  font-size: 1em;
+}
+// chapters
+.chapters-wrapper{
+  width:100%;
+  position: absolute;
+  top: 0px;
+  margin-right: -1px;
+}
+.chapter-wrapper{
+  float:left
+}
+.chapter.active:hover, .chapter.done:hover, .chapter:hover{
+  background-color: rgba(0,105,92,0.6);
+  cursor: pointer;
+}
+.chapter.active:hover{
+  background-color: rgba(255,193,7,0.8);
+  cursor: pointer;
+}
+.chapter.active{
+  background-color: rgba(255,193,7,0.6);
+}
+.chapter{
+  background-color: rgba(255,255,255,0.3);
+  height: 30px;
+  margin-right: 1px;
+}
+.chapter.done{
+  background-color: rgba(205,220,57,0.6);
+}
+.analysis .video-js .vjs-progress-holder {
+  top: -12px;
+}
+.analysis label{
+  margin-right: 20px;
+}
+[type="radio"]:not(:checked) + label, [type="radio"]:checked + label{
+  padding-left:30px;
 }

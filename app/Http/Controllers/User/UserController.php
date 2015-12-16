@@ -40,7 +40,7 @@ class UserController extends Controller
       'user' => $user,
       'users' => $user->users()->get(),
       'groups' => $user->groups()->get(),
-      'questionaires' => $user->questionaires()->get(),
+      'questionaires' => $user->questionaires()->paginate(15),
     );
 
     return view('user.dashboard', $data);

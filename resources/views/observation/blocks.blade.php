@@ -17,7 +17,7 @@
                             Press the "Add" button to start building your questionaire.
                         @endif
                         <div class="blocks-container">
-                            @foreach( $blocks as $key => $block )
+                            @foreach( $blocks as $block )
                                 @include('observation.blocks.'.$block->type.'.preview', ['block' => $block, 'questionaire' => $questionaire, 'block_types' => $block_types])
                             @endforeach
                         </div>
