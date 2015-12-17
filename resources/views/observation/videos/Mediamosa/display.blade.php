@@ -1,7 +1,7 @@
 {{-- Video display --}}
 @if($video->data['status'] == 'ready')
 <div class="card-image center-align">
-    <video id="player" class="video-js vjs-default-skin vjs-big-play-centered responsive-video" controls data-setup='{ "playbackRates": [1, 1.1, 1.2, 1.3, 1.4, 1.5] }'>
+    <video id="player" autoplay preload class="video-js vjs-default-skin vjs-big-play-centered responsive-video" controls data-setup='{ "playbackRates": [1, 1.1, 1.2, 1.3, 1.4, 1.5] }'>
     @foreach( $video_types[$video->type]::getVideoSources($video->data['asset_id']) as $source )
         <source src="{{ $source['output'] }}" type="{{ $source['content_type'] }}">
     @endforeach
@@ -35,7 +35,7 @@
         @endcan
         @if(!Route::is('/video/*/analysis'))
         @can('video-analysis', $questionaire)
-        <a class="waves-effect waves-light btn white-text orange lighten-1" target="_blank" href="{{ action('Observation\VideoController@getAnalysis', $video->id) }}"><i class="material-icons left">art_track</i>Analysis</a>
+        <a class="waves-effect waves-light btn white-text orange lighten-1" href="{{ action('Observation\VideoController@getAnalysis', $video->id) }}"><i class="material-icons left">art_track</i>Analysis</a>
         @endcan
         @endif
     </div>

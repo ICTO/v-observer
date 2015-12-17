@@ -91,6 +91,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('video/{id}/transcript', 'Observation\VideoController@getEditTranscript');
     Route::post('video/{id}/transcript', 'Observation\VideoController@postEditTranscript');
     Route::get('video/{id}/analysis', 'Observation\VideoController@getAnalysis');
-    Route::post('video/{id}/analysis/{part_id}/{block_id}', 'Observation\VideoController@postAnalysisBlock');
+    Route::post('video/{id}/analysis', 'Observation\VideoController@postAnalysisBlock');
+    Route::get('video/{id}/analysis/finished', 'Observation\VideoController@getAnalysisFinished');
 
 });

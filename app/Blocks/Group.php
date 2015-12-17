@@ -63,4 +63,11 @@ class Group implements BlockInterface{
   static function getHumanName(){
     return 'Subtitle';
   }
+
+  /**
+   * {@inheritdoc}
+   */
+  static function getScore($answer, $block){
+    return false;
+  }
 }

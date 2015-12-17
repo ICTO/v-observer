@@ -60,7 +60,7 @@
                                     <li><a href="{{ action('Observation\VideoController@getEditTranscript', $video->id) }}">Transcript</a></li>
                                     @endcan
                                     @can('video-analysis', $questionaire)
-                                    <li><a href="{{ action('Observation\VideoController@getAnalysis', $video->id) }}" target="_blank">Analysis</a></li>
+                                    <li><a href="{{ action('Observation\VideoController@getAnalysis', $video->id) }}">Analysis</a></li>
                                     @endcan
                                     @can('video-remove', $questionaire)
                                     <li><a href="{{ action('Observation\VideoController@getRemoveVideo', $video->id ) }}">Remove</a></li>

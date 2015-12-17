@@ -9771,8 +9771,12 @@ ul.bullets li {
 .chapter-wrapper {
   float: left; }
 
-.chapter.active:hover, .chapter.done:hover, .chapter:hover {
-  background-color: rgba(0, 105, 92, 0.6);
+.chapter:hover {
+  background-color: rgba(255, 255, 255, 0.5);
+  cursor: pointer; }
+
+.chapter.done:hover {
+  background-color: rgba(205, 220, 57, 0.8) !important;
   cursor: pointer; }
 
 .chapter.active:hover {
@@ -9798,6 +9802,19 @@ ul.bullets li {
 
 [type="radio"]:not(:checked) + label, [type="radio"]:checked + label {
   padding-left: 30px; }
+
+.question {
+  position: relative; }
+
+.done-icon {
+  display: none;
+  position: absolute;
+  position: absolute;
+  left: -27px;
+  top: -3px; }
+
+.has-answer .done-icon {
+  display: block; }
 
 /*# sourceMappingURL=app.css.map */
 

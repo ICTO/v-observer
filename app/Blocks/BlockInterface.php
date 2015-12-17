@@ -62,4 +62,14 @@ Interface BlockInterface {
      */
     static function canAddChildBlock();
 
+    /**
+     * get the score for an answer?
+     *
+     * @param string $answer
+     * @param Block $block
+     *
+     * @return int
+     */
+    static function getScore($answer, $block);
+
 }

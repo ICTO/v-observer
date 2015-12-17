@@ -71,4 +71,14 @@ class MultipleChoiceQuestion implements BlockInterface {
     return 'Multiple choice question';
   }
 
+  /**
+   * {@inheritdoc}
+   */
+  static function getScore($answer, $block){
+    if(!isset($block->data['options'][$answer]['score'])){
+      abort(500, 'No score found for this option');
+    }
+    return $block->data['options'][$answer]['score'];
+  }
+
 }

@@ -6,10 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Questionaire;
 use App\Models\Video;
+use App\Models\Block;
+use App\Models\Analysis;
 use Validator;
 use Auth;
 use Illuminate\Http\Request;
 use Redirect;
+use Response;
 use App\Http\Controllers\Observation\QuestionaireController;
 
 class VideoController extends Controller
@@ -308,9 +311,16 @@ class VideoController extends Controller
       $chapters[] = array(
         'start' => $start,
         'end' => $end,
-        'percentage' => (($end - $start)/$video->length)*100,
+        'percentage' => (($end - $start)/$video->length)*100, // @TODO : set percentage in javascript for more accuracy
       );
       $position = $end;
+    }
+
+    // get the analysis
+    $analysis = Analysis::where('video_id', $video->id)->get();
+    $analysis_ordered = array();
+    foreach ($analysis as  $row) {
+      $analysis_ordered[$row->part][$row->block_id] = $row->answer;
     }
 
     $data = array(
@@ -319,9 +329,69 @@ class VideoController extends Controller
       'block_types' => QuestionaireController::getBlockTypes(),
       'questionaire' => $questionaire,
       'blocks' => $questionaire->blocks()->whereNull('parent_id')->orderBy('order', 'asc')->get(),
-      'chapters' => $chapters
+      'chapters' => $chapters,
+      'analysis' => $analysis_ordered
     );
 
     return view('observation.analysis', $data);
+  }
+
+  /**
+   * post an answer of the analysis
+   */
+  protected function postAnalysisBlock(Request $request, $id){
+    $video = Video::where('id',$id)->firstOrFail();
+
+    $questionaire = $video->questionaire()->get()->first();
+
+    $this->authorize('video-analysis', $questionaire);
+
+    $validator = Validator::make($request->all(), [
+        'block_id' => 'required|numeric',
+        'part' => 'required|numeric',
+        'answer' => 'required'
+    ]);
+
+    if ($validator->fails()) {
+      return Response::json([
+        'error' => json_encode($validator)
+      ], 400);
+    }
+
+    $block = Block::where('id',$request->block_id)->firstOrFail();
+
+    $analysis = Analysis::firstOrNew(['block_id' => $block->id, 'video_id' => $video->id, 'part' => $request->part]);
+    $analysis->answer = $request->answer;
+    $analysis->save();
+
+    return Response::json([
+      'message' => 'Answer saved',
+      'analysis' => $analysis
+    ], 200);
+  }
+
+  /**
+   * Process when the analysis is finished
+   */
+  protected function getAnalysisFinished(Request $request, $id){
+    $video = Video::where('id',$id)->firstOrFail();
+
+    $questionaire = $video->questionaire()->get()->first();
+
+    $this->authorize('video-analysis', $questionaire);
+
+    $video->analysis = "done";
+    $video->save();
+
+    return Redirect::action('Observation\QuestionaireController@getQuestionaire', $questionaire->id)->with('status', 'Finsihed analysis');
+  }
+
+  /**
+   * export the analysis
+   */
+  protected function getAnalysisExport($id){
+    // $blockTypes = QuestionaireController::getBlockTypes();
+    // $class = $blockTypes[$block->type];
+    // $score = $class::getScore($request->answer, $block);
   }
 }

@@ -41,7 +41,7 @@ elixir(function(mix) {
 
     // single page scripts
     mix.scripts(['../javascript/MultipleChoiceQuestion.js'], 'public/javascript/MultipleChoiceQuestion.js');
-    mix.scripts(['../javascript/AnalyseVideo.js'], 'public/javascript/AnalyseVideo.js');
+    mix.scripts(['../../../bower_components/jquery-form/jquery.form.js', '../javascript/AnalyseVideo.js'], 'public/javascript/AnalyseVideo.js');
     mix.scripts(['../../../bower_components/jquery-form/jquery.form.js', '../javascript/VideoUpload.js'], 'public/javascript/VideoUpload.js');
 
     // copy

@@ -23,14 +23,14 @@
             <div class="col s12 l6">
                 <div class="card left-align full-scroll">
                     <div class="card-content">
-                        <div class="card-title">
-                            Questionaire
-                        </div>
                         @foreach($chapters as $part => $chapter)
                             <div class="part" id="part-{{$part}}" style="display:none;">
-                            @foreach($blocks as $key => $block)
-                                @include('observation.blocks.'.$block->type.'.display', ['video' => $video, 'block' => $block, 'questionaire' => $questionaire, 'block_types' => $block_types, 'part' => $part])
-                            @endforeach
+                                <div class="card-title">
+                                    {{ $questionaire->name }} <span class="teal-text text-lighten-1">({{ $part+1 }}/{{ count($chapters) }})</span>
+                                </div>
+                                @foreach($blocks as $key => $block)
+                                    @include('observation.blocks.'.$block->type.'.display', ['video' => $video, 'block' => $block, 'questionaire' => $questionaire, 'block_types' => $block_types, 'part' => $part, 'analyse' => $analysis ])
+                                @endforeach
                             </div>
                         @endforeach
                     </div>
@@ -42,5 +42,6 @@
 @endsection
 
 @section('javascript')
+<script>var urlFinished = {!! $video->analysis == "done" ? 'false' : '"' . action('Observation\VideoController@getAnalysisFinished', [$video->id]) . '"' !!};</script>
 <script type="text/javascript" src="/javascript/AnalyseVideo.js"></script>
 @endsection
