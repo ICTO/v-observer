@@ -62,6 +62,11 @@
                                     @can('video-analysis', $questionaire)
                                     <li><a href="{{ action('Observation\VideoController@getAnalysis', $video->id) }}">Analysis</a></li>
                                     @endcan
+                                    @if($video->analysis == 'done')
+                                        @can('video-analysis-export', $questionaire)
+                                        <li><a href="{{ action('Observation\VideoController@getAnalysisExportType', $video->id) }}">Export</a></li>
+                                        @endcan
+                                    @endif
                                     @can('video-remove', $questionaire)
                                     <li><a href="{{ action('Observation\VideoController@getRemoveVideo', $video->id ) }}">Remove</a></li>
                                     @endcan

@@ -70,4 +70,18 @@ class Group implements BlockInterface{
   static function getScore($answer, $block){
     return false;
   }
+
+  /**
+   * {@inheritdoc}
+   */
+  static function getAnswerText($answer, $block){
+    return false;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  static function getExportName($block){
+    return $block->data['title'];
+  }
 }

@@ -81,4 +81,21 @@ class MultipleChoiceQuestion implements BlockInterface {
     return $block->data['options'][$answer]['score'];
   }
 
+  /**
+   * {@inheritdoc}
+   */
+  static function getAnswerText($answer, $block){
+    if(!isset($block->data['options'][$answer]['text'])){
+      abort(500, 'No answer text found for this option');
+    }
+    return $block->data['options'][$answer]['text'];
+  }
+
+
+  /**
+   * {@inheritdoc}
+   */
+  static function getExportName($block){
+    return $block->data['question'];
+  }
 }

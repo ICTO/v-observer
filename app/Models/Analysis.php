@@ -28,7 +28,7 @@ class Analysis extends Model
      *
      * @var array
      */
-    protected $fillable = ['video_id', 'block_id', 'part', 'score'];
+    protected $fillable = ['video_id', 'block_id', 'part', 'answer'];
 
     /**
      * The attributes excluded from the model's JSON form.

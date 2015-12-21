@@ -153,6 +153,7 @@ class ObservationPolicy
             || $this->VideoRemove($user, $questionaire)
             || $this->VideoEditTranscript($user, $questionaire)
             || $this->VideoAnalysis($user, $questionaire)
+            || $this->VideoAnalysisExport($user, $questionaire)
         ){
             return true;
         }
@@ -169,6 +170,7 @@ class ObservationPolicy
     {
         if($this->VideoEditTranscript($user, $questionaire)
             || $this->VideoAnalysis($user, $questionaire)
+            || $this->VideoAnalysisExport($user, $questionaire)
         ){
             return true;
         }
@@ -192,6 +194,16 @@ class ObservationPolicy
      * @return bool
      */
     public function VideoAnalysis(User $user, Questionaire $questionaire)
+    {
+        return $this->QuestionaireView($user, $questionaire);
+    }
+
+    /**
+     * Determine if user can export an analysis of a video.
+     *
+     * @return bool
+     */
+    public function VideoAnalysisExport(User $user, Questionaire $questionaire)
     {
         return $this->QuestionaireView($user, $questionaire);
     }

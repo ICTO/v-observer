@@ -47,6 +47,14 @@ class Video extends Model
     ];
 
     /**
+     * Get the creator of the video.
+     */
+    public function creator()
+    {
+        return $this->belongsTo('App\Models\User','creator_id');
+    }
+
+    /**
      * Get the questionaires attached to this video.
      */
     public function questionaire()

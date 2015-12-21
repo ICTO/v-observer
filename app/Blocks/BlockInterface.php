@@ -72,4 +72,23 @@ Interface BlockInterface {
      */
     static function getScore($answer, $block);
 
+    /**
+     * get the anser text for an answer?
+     *
+     * @param string $answer
+     * @param Block $block
+     *
+     * @return string
+     */
+    static function getAnswerText($answer, $block);
+
+    /**
+     * get the export name?
+     *
+     * @param Block $block
+     *
+     * @return string
+     */
+    static function getExportName($block);
+
 }

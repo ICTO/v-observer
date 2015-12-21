@@ -11,6 +11,7 @@ use App\Models\Analysis;
 use Validator;
 use Auth;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response as HttpResponse;
 use Redirect;
 use Response;
 use App\Http\Controllers\Observation\QuestionaireController;
@@ -23,6 +24,15 @@ class VideoController extends Controller
   static function getVideoTypes(){
     return array(
       'Mediamosa' => '\App\Videos\Mediamosa',
+    );
+  }
+
+  /**
+   * Export types
+   */
+  protected function getAnalysisExportTypes(){
+    return array(
+      'xslx' => '\App\Export\Excel'
     );
   }
 
@@ -387,11 +397,110 @@ class VideoController extends Controller
   }
 
   /**
+   * Select an export type for the analysis
+   */
+  protected function getAnalysisExportType($id){
+    $video = Video::where('id',$id)->firstOrFail();
+
+    $questionaire = $video->questionaire()->get()->first();
+
+    $this->authorize('video-analysis-export', $questionaire);
+
+    $exportTypes = $this->getAnalysisExportTypes();
+
+    $data = array(
+      'video' => $video,
+      'questionaire' => $questionaire,
+      'exportTypes' => $exportTypes
+    );
+
+    return view('observation.analysisExportType', $data);
+  }
+
+  /**
+   * Validate the export type
+   */
+  protected function postAnalysisExportType(Request $request, $id){
+    $video = Video::where('id',$id)->firstOrFail();
+
+    $questionaire = $video->questionaire()->get()->first();
+
+    $this->authorize('video-analysis-export', $questionaire);
+
+    $validator = Validator::make($request->all(), [
+        'type' => 'required'
+    ]);
+
+    if ($validator->fails()) {
+        return Redirect::action('Observation\VideoController@getAnalysisExportType', $video->id)
+            ->withInput()
+            ->withErrors($validator);
+    }
+
+    $exportTypes = $this->getAnalysisExportTypes();
+
+    if(!array_key_exists($request->type, $exportTypes)){
+      abort(501, 'Export type not supported');
+    }
+
+    return Redirect::action('Observation\VideoController@getAnalysisExport', array($video->id, $request->type));
+  }
+
+  /**
    * export the analysis
    */
-  protected function getAnalysisExport($id){
-    // $blockTypes = QuestionaireController::getBlockTypes();
-    // $class = $blockTypes[$block->type];
-    // $score = $class::getScore($request->answer, $block);
+  protected function getAnalysisExport($id, $type){
+    $video = Video::where('id',$id)->firstOrFail();
+
+    $questionaire = $video->questionaire()->get()->first();
+
+    $this->authorize('video-analysis-export', $questionaire);
+
+    $exportTypes = $this->getAnalysisExportTypes();
+    if(!array_key_exists($type, $exportTypes)){
+      abort(501, 'Export type not supported');
+    }
+
+    $export = array();
+    $parentBlocks = $questionaire->blocks()->whereNull('parent_id')->orderBy('order', 'asc')->get();
+
+    $parts = ceil($video->length/$questionaire->interval);
+
+    for($part=0 ; $part < $parts ; $part++){
+      $export[] = $this->getExportBlocks($parentBlocks, $video, $part);
+    }
+
+    return $exportTypes[$type]::exportFile($export, $video, $questionaire);
+  }
+
+  /**
+   * Fill the export array from the blocks
+   */
+  protected function getExportBlocks($blocks, $video, $part){
+    $export = array();
+    foreach($blocks as $block){
+      $blockTypes = QuestionaireController::getBlockTypes();
+      $class = $blockTypes[$block->type];
+
+      $analysis = Analysis::where('video_id', $video->id)->where('block_id', $block->id)->where('part', $part)->get()->first();
+
+      $new = array(
+        'text' => $class::getExportName($block),
+        'type' => $block->type
+      );
+
+      if($analysis){
+        $new['answer'] = $class::getAnswerText($analysis->answer, $block);
+        $new['score'] = $class::getScore($analysis->answer, $block);
+      }
+
+      // get the scores of child blocks
+      if($class::canAddChildBlock()){
+        $childBlocks = $block->children()->orderBy('order', 'asc')->get();
+        $new['childs'] = $this->getExportBlocks($childBlocks, $video, $part);
+      }
+      $export[] = $new;
+    }
+    return $export;
   }
 }
