@@ -6,7 +6,7 @@
 
 [Groups](#groups)
 
-[Questionnaire](#questionnaire)
+[Questionnaire](#questionnaires)
 
 [Videos](#videos)
 
