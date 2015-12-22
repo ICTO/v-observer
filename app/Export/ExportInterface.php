@@ -12,7 +12,7 @@ Interface ExportInterface {
     /**
      * Get the file of the format
      */
-    static function exportFile($data, $video, $questionaire);
+    static function exportFile($data, $video, $questionnaire);
 
     /**
      * Get the content type

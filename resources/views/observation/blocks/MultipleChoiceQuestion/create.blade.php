@@ -5,7 +5,7 @@
     <div class="card-title">
         Create a multiple choice question
     </div>
-    <div class="row questionaire-input-count">
+    <div class="row questionnaire-input-count">
         <div class="input-field col s12">
             <i class="material-icons prefix grey-text">short_text</i>
             <input type="text" name="question" value="{{ old('question') }}">

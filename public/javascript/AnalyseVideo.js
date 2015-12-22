@@ -1266,8 +1266,8 @@ $(function(){
         }
     }
 
-    // set the active questionaire
-    var showQuestionaire = function(part){
+    // set the active questionnaire
+    var showQuestionnaire = function(part){
         if($(".part:visible").not($("#part-"+part)).length){
             if($(".part:visible").length){
                 $(".part:visible").hide();
@@ -1290,7 +1290,7 @@ $(function(){
     // show interface of part
     var showInterface = function(part){
         setActiveTimeline(part);
-        showQuestionaire(part);
+        showQuestionnaire(part);
     }
 
     // check for parts that are done

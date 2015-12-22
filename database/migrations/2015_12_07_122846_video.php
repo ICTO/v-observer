@@ -16,8 +16,8 @@ class Video extends Migration
             $table->increments('id');
             $table->integer('creator_id')->unsigned()->nullable()->index();
             $table->foreign('creator_id')->references('id')->on('users')->onDelete('set null');
-            $table->integer('questionaire_id')->unsigned()->nullable()->index();
-            $table->foreign('questionaire_id')->references('id')->on('questionaires')->onDelete('set null');
+            $table->integer('questionnaire_id')->unsigned()->nullable()->index();
+            $table->foreign('questionnaire_id')->references('id')->on('questionnaires')->onDelete('set null');
             $table->string('name');
             $table->bigInteger('size');
             $table->integer('length')->unsigned();

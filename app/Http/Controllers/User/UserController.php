@@ -37,16 +37,16 @@ class UserController extends Controller
 
     $this->authorize('dashboard', $user);
 
-    $dataUsage = DB::table('questionaires')
-            ->join('videos', 'questionaires.id', '=', 'videos.questionaire_id')
-            ->where('questionaires.owner_id', '=', $user->id)
+    $dataUsage = DB::table('questionnaires')
+            ->join('videos', 'questionnaires.id', '=', 'videos.questionnaire_id')
+            ->where('questionnaires.owner_id', '=', $user->id)
             ->sum('videos.size');
 
     $data = array(
       'user' => $user,
       'users' => $user->users()->get(),
       'groups' => $user->groups()->get(),
-      'questionaires' => $user->questionaires()->paginate(15),
+      'questionnaires' => $user->questionnaires()->paginate(15),
       'dataUsage' => $dataUsage
     );
 

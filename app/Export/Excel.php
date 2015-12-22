@@ -18,10 +18,10 @@ class Excel implements ExportInterface {
     /**
      * {@inheritdoc}
      */
-    static function exportFile($parts, $video, $questionaire){
+    static function exportFile($parts, $video, $questionnaire){
         $excel = new \PHPExcel();
         $excel->getProperties()->setCreator($video->creator()->get()->first()->name)
-                               ->setTitle("Analysis of ". $video->name . ' ('.$questionaire->name.')');
+                               ->setTitle("Analysis of ". $video->name . ' ('.$questionnaire->name.')');
 
         foreach($parts as $p => $part){
             $excel->createSheet($p);

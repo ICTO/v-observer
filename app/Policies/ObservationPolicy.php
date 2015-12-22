@@ -3,7 +3,7 @@
 namespace App\Policies;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
-use App\Models\Questionaire;
+use App\Models\Questionnaire;
 use App\Models\User;
 
 class ObservationPolicy
@@ -11,14 +11,14 @@ class ObservationPolicy
     use HandlesAuthorization;
 
     /**
-     * Determine if user can view the questionaire menu.
+     * Determine if user can view the questionnaire menu.
      *
      * @return bool
      */
-    public function QuestionaireMenu(User $user, Questionaire $questionaire)
+    public function QuestionnaireMenu(User $user, Questionnaire $questionnaire)
     {
-        if(    $this->QuestionaireEdit($user, $questionaire)
-            || $this->QuestionaireRemove($user, $questionaire)
+        if(    $this->QuestionnaireEdit($user, $questionnaire)
+            || $this->QuestionnaireRemove($user, $questionnaire)
         ){
             return true;
         }
@@ -27,39 +27,39 @@ class ObservationPolicy
     }
 
     /**
-     * Determine if user can view the questionaire.
+     * Determine if user can view the questionnaire.
      *
      * @return bool
      */
-    public function QuestionaireView(User $user, Questionaire $questionaire)
+    public function QuestionnaireView(User $user, Questionnaire $questionnaire)
     {
-        // if own questionaire
-        if($questionaire->owner_id === $user->id){
+        // if own questionnaire
+        if($questionnaire->owner_id === $user->id){
             return true;
         }
 
-        // if questionaire of parent (in group)
+        // if questionnaire of parent (in group)
         $user_groups = $user->groups()->get();
         foreach ($user_groups as $user_group) {
-            if($user_group->id === $questionaire->owner_id){
+            if($user_group->id === $questionnaire->owner_id){
                 return true;
             }
         }
     }
 
     /**
-     * Determine if user can edit the questionaire.
+     * Determine if user can edit the questionnaire.
      *
      * @return bool
      */
-    public function QuestionaireEdit(User $user, Questionaire $questionaire)
+    public function QuestionnaireEdit(User $user, Questionnaire $questionnaire)
     {
-        // if own questionaire
-        if($questionaire->owner_id === $user->id){
+        // if own questionnaire
+        if($questionnaire->owner_id === $user->id){
             return true;
         }
 
-        if($this->isGroupAdmin($user, $questionaire->owner()->get()->first())){
+        if($this->isGroupAdmin($user, $questionnaire->owner()->get()->first())){
             return true;
         }
 
@@ -67,49 +67,49 @@ class ObservationPolicy
     }
 
     /**
-     * Determine if user can remove the questionaire.
+     * Determine if user can remove the questionnaire.
      *
      * @return bool
      */
-    public function QuestionaireRemove(User $user, Questionaire $questionaire)
+    public function QuestionnaireRemove(User $user, Questionnaire $questionnaire)
     {
-        return $this->QuestionaireEdit($user, $questionaire);
+        return $this->QuestionnaireEdit($user, $questionnaire);
     }
 
     /**
-     * Determine if user can view the blocks of a questionaire.
+     * Determine if user can view the blocks of a questionnaire.
      *
      * @return bool
      */
-    public function QuestionaireBlockView(User $user, Questionaire $questionaire)
+    public function QuestionnaireBlockView(User $user, Questionnaire $questionnaire)
     {
-        return $this->QuestionaireView($user, $questionaire);
+        return $this->QuestionnaireView($user, $questionnaire);
     }
 
     /**
-     * Determine if user can edit a block of a questionaire.
+     * Determine if user can edit a block of a questionnaire.
      *
      * @return bool
      */
-    public function QuestionaireBlockEdit(User $user, Questionaire $questionaire)
+    public function QuestionnaireBlockEdit(User $user, Questionnaire $questionnaire)
     {
-        if($questionaire->locked){
+        if($questionnaire->locked){
             return false;
         }
-        return $this->QuestionaireEdit($user, $questionaire);
+        return $this->QuestionnaireEdit($user, $questionnaire);
     }
 
     /**
-     * Determine if user can edit a the interval of a questionaire.
+     * Determine if user can edit a the interval of a questionnaire.
      *
      * @return bool
      */
-    public function QuestionaireIntervalEdit(User $user, Questionaire $questionaire)
+    public function QuestionnaireIntervalEdit(User $user, Questionnaire $questionnaire)
     {
-        if($questionaire->locked){
+        if($questionnaire->locked){
             return false;
         }
-        return $this->QuestionaireEdit($user, $questionaire);
+        return $this->QuestionnaireEdit($user, $questionnaire);
     }
 
     /**
@@ -117,9 +117,9 @@ class ObservationPolicy
      *
      * @return bool
      */
-    public function VideoEdit(User $user, Questionaire $questionaire)
+    public function VideoEdit(User $user, Questionnaire $questionnaire)
     {
-        return $this->QuestionaireEdit($user, $questionaire);
+        return $this->QuestionnaireEdit($user, $questionnaire);
     }
 
     /**
@@ -127,9 +127,9 @@ class ObservationPolicy
      *
      * @return bool
      */
-    public function VideoCreate(User $user, Questionaire $questionaire)
+    public function VideoCreate(User $user, Questionnaire $questionnaire)
     {
-        return $this->QuestionaireEdit($user, $questionaire);
+        return $this->QuestionnaireEdit($user, $questionnaire);
     }
 
     /**
@@ -137,9 +137,9 @@ class ObservationPolicy
      *
      * @return bool
      */
-    public function VideoRemove(User $user, Questionaire $questionaire)
+    public function VideoRemove(User $user, Questionnaire $questionnaire)
     {
-        return $this->QuestionaireEdit($user, $questionaire);
+        return $this->QuestionnaireEdit($user, $questionnaire);
     }
 
     /**
@@ -147,13 +147,13 @@ class ObservationPolicy
      *
      * @return bool
      */
-    public function VideoMenu(User $user, Questionaire $questionaire)
+    public function VideoMenu(User $user, Questionnaire $questionnaire)
     {
-        if(    $this->VideoEdit($user, $questionaire)
-            || $this->VideoRemove($user, $questionaire)
-            || $this->VideoEditTranscript($user, $questionaire)
-            || $this->VideoAnalysis($user, $questionaire)
-            || $this->VideoAnalysisExport($user, $questionaire)
+        if(    $this->VideoEdit($user, $questionnaire)
+            || $this->VideoRemove($user, $questionnaire)
+            || $this->VideoEditTranscript($user, $questionnaire)
+            || $this->VideoAnalysis($user, $questionnaire)
+            || $this->VideoAnalysisExport($user, $questionnaire)
         ){
             return true;
         }
@@ -166,11 +166,11 @@ class ObservationPolicy
      *
      * @return bool
      */
-    public function VideoMenu2(User $user, Questionaire $questionaire)
+    public function VideoMenu2(User $user, Questionnaire $questionnaire)
     {
-        if($this->VideoEditTranscript($user, $questionaire)
-            || $this->VideoAnalysis($user, $questionaire)
-            || $this->VideoAnalysisExport($user, $questionaire)
+        if($this->VideoEditTranscript($user, $questionnaire)
+            || $this->VideoAnalysis($user, $questionnaire)
+            || $this->VideoAnalysisExport($user, $questionnaire)
         ){
             return true;
         }
@@ -183,9 +183,9 @@ class ObservationPolicy
      *
      * @return bool
      */
-    public function VideoEditTranscript(User $user, Questionaire $questionaire)
+    public function VideoEditTranscript(User $user, Questionnaire $questionnaire)
     {
-        return $this->QuestionaireEdit($user, $questionaire);
+        return $this->QuestionnaireEdit($user, $questionnaire);
     }
 
     /**
@@ -193,9 +193,9 @@ class ObservationPolicy
      *
      * @return bool
      */
-    public function VideoAnalysis(User $user, Questionaire $questionaire)
+    public function VideoAnalysis(User $user, Questionnaire $questionnaire)
     {
-        return $this->QuestionaireView($user, $questionaire);
+        return $this->QuestionnaireView($user, $questionnaire);
     }
 
     /**
@@ -203,9 +203,9 @@ class ObservationPolicy
      *
      * @return bool
      */
-    public function VideoAnalysisExport(User $user, Questionaire $questionaire)
+    public function VideoAnalysisExport(User $user, Questionnaire $questionnaire)
     {
-        return $this->QuestionaireView($user, $questionaire);
+        return $this->QuestionnaireView($user, $questionnaire);
     }
 
     /**

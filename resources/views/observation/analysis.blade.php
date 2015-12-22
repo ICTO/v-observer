@@ -6,7 +6,7 @@
         <div class="row">
             <div class="col s12 l6">
                 <div class="card left-align video-controls-nohide">
-                    @include('observation.videos.'.$video->type.'.display', ['video' => $video, 'video_types' => $video_types, 'questionaire' => $questionaire])
+                    @include('observation.videos.'.$video->type.'.display', ['video' => $video, 'video_types' => $video_types, 'questionnaire' => $questionnaire])
                 </div>
                 <!--  Timeline to copy into the player -->
                 <div id="chapters-wrapper-copy" style="display:none;">
@@ -26,10 +26,10 @@
                         @foreach($chapters as $part => $chapter)
                             <div class="part" id="part-{{$part}}" style="display:none;">
                                 <div class="card-title">
-                                    {{ $questionaire->name }} <span class="teal-text text-lighten-1">({{ $part+1 }}/{{ count($chapters) }})</span>
+                                    {{ $questionnaire->name }} <span class="teal-text text-lighten-1">({{ $part+1 }}/{{ count($chapters) }})</span>
                                 </div>
                                 @foreach($blocks as $key => $block)
-                                    @include('observation.blocks.'.$block->type.'.display', ['video' => $video, 'block' => $block, 'questionaire' => $questionaire, 'block_types' => $block_types, 'part' => $part, 'analyse' => $analysis ])
+                                    @include('observation.blocks.'.$block->type.'.display', ['video' => $video, 'block' => $block, 'questionnaire' => $questionnaire, 'block_types' => $block_types, 'part' => $part, 'analyse' => $analysis ])
                                 @endforeach
                             </div>
                         @endforeach

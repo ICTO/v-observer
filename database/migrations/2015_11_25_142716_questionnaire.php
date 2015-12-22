@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class Questionaire extends Migration
+class Questionnaire extends Migration
 {
     /**
      * Run the migrations.
@@ -12,7 +12,7 @@ class Questionaire extends Migration
      */
     public function up()
     {
-        Schema::create('questionaires', function (Blueprint $table) {
+        Schema::create('questionnaires', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->integer('interval')->unsigned();
@@ -27,8 +27,8 @@ class Questionaire extends Migration
 
         Schema::create('blocks', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('questionaire_id')->unsigned()->index();
-            $table->foreign('questionaire_id')->references('id')->on('questionaires')->onDelete('cascade');
+            $table->integer('questionnaire_id')->unsigned()->index();
+            $table->foreign('questionnaire_id')->references('id')->on('questionnaires')->onDelete('cascade');
             $table->integer('parent_id')->unsigned()->nullable()->index();
             $table->foreign('parent_id')->references('id')->on('blocks')->onDelete('cascade');
             $table->string('type');

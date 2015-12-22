@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Questionaire extends Model
+class Questionnaire extends Model
 {
     use SoftDeletes;
 
@@ -14,7 +14,7 @@ class Questionaire extends Model
      *
      * @var string
      */
-    protected $table = 'questionaires';
+    protected $table = 'questionnaires';
 
     /**
      * Indicates if the model should be timestamped.
@@ -49,11 +49,11 @@ class Questionaire extends Model
      */
     public function blocks()
     {
-        return $this->hasMany('App\Models\Block', 'questionaire_id');
+        return $this->hasMany('App\Models\Block', 'questionnaire_id');
     }
 
     /**
-     * Get the user who owns the questionaire.
+     * Get the user who owns the questionnaire.
      */
     public function owner()
     {
@@ -61,7 +61,7 @@ class Questionaire extends Model
     }
 
     /**
-     * Get the user who created the questionaire.
+     * Get the user who created the questionnaire.
      */
     public function creator()
     {
@@ -69,10 +69,10 @@ class Questionaire extends Model
     }
 
     /**
-     * Get the videos attached to this questionaire.
+     * Get the videos attached to this questionnaire.
      */
     public function videos()
     {
-        return $this->hasMany('App\Models\Video', 'questionaire_id');
+        return $this->hasMany('App\Models\Video', 'questionnaire_id');
     }
 }

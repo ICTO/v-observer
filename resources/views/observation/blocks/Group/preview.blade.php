@@ -8,7 +8,7 @@
   <div class="sortable-container">
     <div class="draggable">
       @foreach($block->children()->orderBy('order', 'asc')->get() as $child)
-        @include('observation.blocks.'.$child->type.'.preview', ['block' => $child, 'questionaire' => $questionaire])
+        @include('observation.blocks.'.$child->type.'.preview', ['block' => $child, 'questionnaire' => $questionnaire])
       @endforeach
     </div>
   </div>

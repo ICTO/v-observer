@@ -6,7 +6,7 @@
         <div class="row">
             <div class="col s12">
                 <div class="card left-align">
-                    <form method="POST" action="{{ action('Observation\QuestionaireController@postCreateBlock', [$block->questionaire_id, $block->type, $block->parent_id]) }}">
+                    <form method="POST" action="{{ action('Observation\QuestionnaireController@postCreateBlock', [$block->questionnaire_id, $block->type, $block->parent_id]) }}">
                         {!! csrf_field() !!}
                           @yield('block-create-form')
                     </form>

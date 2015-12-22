@@ -64,9 +64,9 @@ class User extends Model implements AuthenticatableContract,
     /**
      * Get all of the questions.
      */
-    public function questionaires()
+    public function questionnaires()
     {
-        return $this->hasMany('App\Models\Questionaire', 'owner_id');
+        return $this->hasMany('App\Models\Questionnaire', 'owner_id');
     }
 
 }

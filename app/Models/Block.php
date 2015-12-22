@@ -56,9 +56,9 @@ class Block extends Model
     /**
      * Get the users attached to this group (user).
      */
-    public function questionaire()
+    public function questionnaire()
     {
-        return $this->belongsTo('App\Models\Questionaire', 'questionaire_id');
+        return $this->belongsTo('App\Models\Questionnaire', 'questionnaire_id');
     }
 
     /**

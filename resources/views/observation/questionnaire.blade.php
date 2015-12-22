@@ -7,27 +7,27 @@
             <div class="col s12">
                 <div class="card left-align">
                     <div class="card-content">
-                        <div class="card-title">{{ $questionaire->name }}</div>
-                        <p><strong>Owner: </strong><span>{{ $questionaire->owner()->get()->first()->name }}</span></p>
-                        <p><strong>Created: </strong><span class="moment-date" data-datetime="{{ $questionaire->created_at }}"></span> by {{$questionaire->creator()->get()->first()->name }}</p>
-                        <p><strong>Interval: </strong><span class="numeral" data-number="{{ $questionaire->interval }}" data-format="00:00:00"></span>
-                        @if($questionaire->locked)
+                        <div class="card-title">{{ $questionnaire->name }}</div>
+                        <p><strong>Owner: </strong><span>{{ $questionnaire->owner()->get()->first()->name }}</span></p>
+                        <p><strong>Created: </strong><span class="moment-date" data-datetime="{{ $questionnaire->created_at }}"></span> by {{$questionnaire->creator()->get()->first()->name }}</p>
+                        <p><strong>Interval: </strong><span class="numeral" data-number="{{ $questionnaire->interval }}" data-format="00:00:00"></span>
+                        @if($questionnaire->locked)
                             <span class="teal-text text-lighten-1">(Interval locked because analysis started)</span>
                         @endif
                         </p>
                     </div>
                     <div class="card-action">
-                        @can('questionaire-edit', $questionaire)
-                        <a class="waves-effect waves-light btn white-text" href="{{ action('Observation\QuestionaireController@getEditQuestionaire', $questionaire->id) }}"><i class="material-icons left">mode_edit</i>Edit</a>
+                        @can('questionnaire-edit', $questionnaire)
+                        <a class="waves-effect waves-light btn white-text" href="{{ action('Observation\QuestionnaireController@getEditQuestionnaire', $questionnaire->id) }}"><i class="material-icons left">mode_edit</i>Edit</a>
                         @endcan
-                        @can('questionaire-block-view', $questionaire)
-                        <a class="waves-effect waves-light btn white-text" href="{{ action('Observation\QuestionaireController@getBlocks', $questionaire->id) }}"><i class="material-icons left">assignment</i>Questions</a>
+                        @can('questionnaire-block-view', $questionnaire)
+                        <a class="waves-effect waves-light btn white-text" href="{{ action('Observation\QuestionnaireController@getBlocks', $questionnaire->id) }}"><i class="material-icons left">assignment</i>Questions</a>
                         @endcan
-                        @can('questionaire-interval-edit', $questionaire)
-                        <a class="waves-effect waves-light btn white-text" href="{{ action('Observation\QuestionaireController@getEditInterval', $questionaire->id) }}"><i class="material-icons left">mode_edit</i>Interval</a>
+                        @can('questionnaire-interval-edit', $questionnaire)
+                        <a class="waves-effect waves-light btn white-text" href="{{ action('Observation\QuestionnaireController@getEditInterval', $questionnaire->id) }}"><i class="material-icons left">mode_edit</i>Interval</a>
                         @endcan
-                        @can('questionaire-remove', $questionaire)
-                        <a class="waves-effect waves-light btn white-text" href="{{ action('Observation\QuestionaireController@getRemoveQuestionaire', $questionaire->id) }}"><i class="material-icons left">delete</i>Remove</a>
+                        @can('questionnaire-remove', $questionnaire)
+                        <a class="waves-effect waves-light btn white-text" href="{{ action('Observation\QuestionnaireController@getRemoveQuestionnaire', $questionnaire->id) }}"><i class="material-icons left">delete</i>Remove</a>
                         @endcan
                     </div>
                 </div>
@@ -49,25 +49,25 @@
                                     Created <span class="moment-date" data-datetime="{{ $video->created_at }}"></span>
                                     </span>
                                 </a>
-                                @can('video-menu', $questionaire)
+                                @can('video-menu', $questionnaire)
                                 <a class='dropdown-button btn blue action-btn' data-alignment="right" href='#' data-activates='dropdown-video-{{ $key }}'><i class="material-icons">more_horiz</i></a>
                                 <ul id='dropdown-video-{{ $key }}' class='dropdown-content action-btn'>
 
-                                    @can('video-edit', $questionaire)
+                                    @can('video-edit', $questionnaire)
                                     <li><a href="{{ action('Observation\VideoController@getEditVideo', $video->id ) }}">Edit</a></li>
                                     @endcan
-                                    @can('video-edit-transcript', $questionaire)
+                                    @can('video-edit-transcript', $questionnaire)
                                     <li><a href="{{ action('Observation\VideoController@getEditTranscript', $video->id) }}">Transcript</a></li>
                                     @endcan
-                                    @can('video-analysis', $questionaire)
+                                    @can('video-analysis', $questionnaire)
                                     <li><a href="{{ action('Observation\VideoController@getAnalysis', $video->id) }}">Analysis</a></li>
                                     @endcan
                                     @if($video->analysis == 'done')
-                                        @can('video-analysis-export', $questionaire)
+                                        @can('video-analysis-export', $questionnaire)
                                         <li><a href="{{ action('Observation\VideoController@getAnalysisExportType', $video->id) }}">Export</a></li>
                                         @endcan
                                     @endif
-                                    @can('video-remove', $questionaire)
+                                    @can('video-remove', $questionnaire)
                                     <li><a href="{{ action('Observation\VideoController@getRemoveVideo', $video->id ) }}">Remove</a></li>
                                     @endcan
                                 </ul>
@@ -76,15 +76,15 @@
                             @endforeach
                             @include('layouts.pagination', ['paginator' => $videos])
                         @else
-                            No videos added to this questionaire
+                            No videos added to this questionnaire
                         @endif
                     </div>
-                    @can('video-create', $questionaire)
+                    @can('video-create', $questionnaire)
                     <div class="card-action">
                         <a class='dropdown-button btn white-text' href='#' data-activates='dropdown-add-video'><i class="material-icons left">more_vert</i>Add Video</a>
                         <ul id='dropdown-add-video' class='dropdown-content'>
                             @foreach($video_types as $key => $class)
-                            <li><a class="teal-text text-lighten-1" href="{{ action('Observation\VideoController@getCreateVideo', [$questionaire->id, $key]) }}" ><i class="material-icons left">add</i>{{ $class::getHumanName() }}</a></li>
+                            <li><a class="teal-text text-lighten-1" href="{{ action('Observation\VideoController@getCreateVideo', [$questionnaire->id, $key]) }}" ><i class="material-icons left">add</i>{{ $class::getHumanName() }}</a></li>
                             @endforeach
                         </ul>
                     </div>

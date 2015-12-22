@@ -28,16 +28,16 @@
 @section('video-actions')
     {{-- only show actions when upload is finished --}}
     @if($video->data['status'] == 'ready')
-    @can('video-menu-2', $questionaire)
+    @can('video-menu-2', $questionnaire)
     <div class="card-action">
-        @can('video-edit-transcript', $questionaire)
+        @can('video-edit-transcript', $questionnaire)
         <a class="waves-effect waves-light btn white-text" href="{{ action('Observation\VideoController@getEditTranscript', $video->id) }}"><i class="material-icons left">subtitles</i>Edit transcript</a>
         @endcan
-        @can('video-analysis', $questionaire)
+        @can('video-analysis', $questionnaire)
         <a class="waves-effect waves-light btn white-text {{ $video->analysis != 'done' ? 'orange' : '' }} lighten-1" href="{{ action('Observation\VideoController@getAnalysis', $video->id) }}"><i class="material-icons left">art_track</i>Analysis</a>
         @endcan
         @if($video->analysis == 'done')
-            @can('video-analysis-export', $questionaire)
+            @can('video-analysis-export', $questionnaire)
             <a class="waves-effect waves-light btn white-text orange lighten-1" href="{{ action('Observation\VideoController@getAnalysisExportType', $video->id) }}"><i class="material-icons left">file_download</i>Export Analysis</a>
             @endcan
         @endif
@@ -62,7 +62,7 @@
 {{-- Video upload form --}}
 @if($video->data['status'] == 'uploadticket')
 <div class="card-content">
-    @can('video-create', $questionaire)
+    @can('video-create', $questionnaire)
         <div class="card-title">Select a file to upload</div>
         <div class="row">
             <script> var video_id = {{ $video->id }}</script>

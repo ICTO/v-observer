@@ -55,11 +55,11 @@ class Video extends Model
     }
 
     /**
-     * Get the questionaires attached to this video.
+     * Get the questionnaires attached to this video.
      */
-    public function questionaire()
+    public function questionnaire()
     {
-        return $this->belongsTo('App\Models\Questionaire','questionaire_id');
+        return $this->belongsTo('App\Models\Questionnaire','questionnaire_id');
     }
 
 }

@@ -31,38 +31,38 @@
             <div class="col s12">
                 <div class="card left-align">
                     <div class="card-content">
-                        <div class="card-title">Questionaires</div>
-                        @if(count($questionaires))
-                        @foreach( $questionaires as $key => $questionaire )
+                        <div class="card-title">Questionnaires</div>
+                        @if(count($questionnaires))
+                        @foreach( $questionnaires as $key => $questionnaire )
                             <div class="list-row-wrapper">
                                 <div class="list-row-image circle teal white-text"><i class="material-icons">assignment</i></div>
-                                <a class="list-row-link has-action-button has-image waves-effect waves-light" href="{{ action('Observation\QuestionaireController@getQuestionaire', $questionaire->id) }}">
-                                    {{ $questionaire->name }}
+                                <a class="list-row-link has-action-button has-image waves-effect waves-light" href="{{ action('Observation\QuestionnaireController@getQuestionnaire', $questionnaire->id) }}">
+                                    {{ $questionnaire->name }}
                                 </a>
-                                @can('questionaire-menu', $questionaire)
-                                <a class='dropdown-button btn blue action-btn' data-alignment="right" href='#' data-activates='dropdown-questionaire-{{ $key }}'><i class="material-icons">more_horiz</i></a>
-                                <ul id='dropdown-questionaire-{{ $key }}' class='dropdown-content action-btn'>
-                                    @can('questionaire-edit', $questionaire)
-                                    <li><a href="{{ action('Observation\QuestionaireController@getEditQuestionaire', $questionaire->id ) }}">Edit questionaire</a></li>
+                                @can('questionnaire-menu', $questionnaire)
+                                <a class='dropdown-button btn blue action-btn' data-alignment="right" href='#' data-activates='dropdown-questionnaire-{{ $key }}'><i class="material-icons">more_horiz</i></a>
+                                <ul id='dropdown-questionnaire-{{ $key }}' class='dropdown-content action-btn'>
+                                    @can('questionnaire-edit', $questionnaire)
+                                    <li><a href="{{ action('Observation\QuestionnaireController@getEditQuestionnaire', $questionnaire->id ) }}">Edit questionnaire</a></li>
                                     @endcan
-                                    @can('questionaire-questions-edit', $questionaire)
-                                    <li><a href="{{ action('Observation\QuestionaireController@getBlocks', $questionaire->id ) }}">Edit questions</a></li>
+                                    @can('questionnaire-questions-edit', $questionnaire)
+                                    <li><a href="{{ action('Observation\QuestionnaireController@getBlocks', $questionnaire->id ) }}">Edit questions</a></li>
                                     @endcan
-                                    @can('questionaire-remove', $questionaire)
-                                    <li><a href="{{ action('Observation\QuestionaireController@getRemoveQuestionaire', $questionaire->id ) }}">Remove questionaire</a></li>
+                                    @can('questionnaire-remove', $questionnaire)
+                                    <li><a href="{{ action('Observation\QuestionnaireController@getRemoveQuestionnaire', $questionnaire->id ) }}">Remove questionnaire</a></li>
                                     @endcan
                                 </ul>
                                 @endcan
                             </div>
                         @endforeach
-                        @include('layouts.pagination', ['paginator' => $questionaires])
+                        @include('layouts.pagination', ['paginator' => $questionnaires])
                         @else
-                        This user doesn't own any questionaires.
+                        This user doesn't own any questionnaires.
                         @endif
                     </div>
-                    @can('questionaire-create', $user)
+                    @can('questionnaire-create', $user)
                     <div class="card-action">
-                        <a class="waves-effect waves-light btn white-text" href="{{ action('Observation\QuestionaireController@getCreateQuestionaire', $user->id) }}"><i class="material-icons left">create</i>Add Questionaire</a>
+                        <a class="waves-effect waves-light btn white-text" href="{{ action('Observation\QuestionnaireController@getCreateQuestionnaire', $user->id) }}"><i class="material-icons left">create</i>Add Questionnaire</a>
                     </div>
                     @endcan
                 </div>

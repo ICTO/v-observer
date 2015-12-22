@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Observation;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Models\Questionaire;
+use App\Models\Questionnaire;
 use App\Models\Video;
 use App\Models\Block;
 use App\Models\Analysis;
@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response as HttpResponse;
 use Redirect;
 use Response;
-use App\Http\Controllers\Observation\QuestionaireController;
+use App\Http\Controllers\Observation\QuestionnaireController;
 
 class VideoController extends Controller
 {
@@ -50,7 +50,7 @@ class VideoController extends Controller
     $data = array(
       'video' => $video,
       'video_types' => $video_types,
-      'questionaire' => $video->questionaire()->get()->first()
+      'questionnaire' => $video->questionnaire()->get()->first()
     );
 
     return view('observation.videoDisplay', $data);
@@ -61,9 +61,9 @@ class VideoController extends Controller
    *
    * @return View
    */
-  protected function getCreateVideo($questionaire_id, $type)
+  protected function getCreateVideo($questionnaire_id, $type)
   {
-    $questionaire = Questionaire::where('id',$questionaire_id)->firstOrFail();
+    $questionnaire = Questionnaire::where('id',$questionnaire_id)->firstOrFail();
 
     if(!array_key_exists($type, $this->getVideoTypes())){
       abort(403, 'Video type not defined');
@@ -71,10 +71,10 @@ class VideoController extends Controller
 
     $video = new Video();
     $video->type = $type;
-    $video->questionaire_id = $questionaire_id;
+    $video->questionnaire_id = $questionnaire_id;
     $video->creator_id = Auth::user()->id;
 
-    $this->authorize('video-create', $questionaire);
+    $this->authorize('video-create', $questionnaire);
 
     $videoTypes = $this->getVideoTypes();
 
@@ -90,11 +90,11 @@ class VideoController extends Controller
    *
    * @return Redirect
    */
-  protected function postCreateVideo(Request $request, $questionaire_id, $type)
+  protected function postCreateVideo(Request $request, $questionnaire_id, $type)
   {
-    $questionaire = Questionaire::where('id',$questionaire_id)->firstOrFail();
+    $questionnaire = Questionnaire::where('id',$questionnaire_id)->firstOrFail();
 
-    $this->authorize('video-create', $questionaire);
+    $this->authorize('video-create', $questionnaire);
 
     if(!array_key_exists($type, $this->getVideoTypes())){
       abort(403, 'Video type not defined');
@@ -102,7 +102,7 @@ class VideoController extends Controller
 
     $video = new Video();
     $video->type = $type;
-    $video->questionaire_id = $questionaire_id;
+    $video->questionnaire_id = $questionnaire_id;
     $video->creator_id = Auth::user()->id;
     $video->analysis = "no";
 
@@ -112,7 +112,7 @@ class VideoController extends Controller
     $validator = $class::validatorCreateForm($request);
 
     if ($validator->fails()) {
-        return Redirect::action('Observation\VideoController@getCreateVideo', array($questionaire->id, $type) )
+        return Redirect::action('Observation\VideoController@getCreateVideo', array($questionnaire->id, $type) )
             ->withInput()
             ->withErrors($validator);
     }
@@ -134,7 +134,7 @@ class VideoController extends Controller
   {
     $video = Video::where('id',$id)->firstOrFail();
 
-    $this->authorize('video-edit', $video->questionaire()->get()->first());
+    $this->authorize('video-edit', $video->questionnaire()->get()->first());
 
     $data = array(
       'video' => $video,
@@ -154,9 +154,9 @@ class VideoController extends Controller
   {
     $video = Video::where('id',$id)->firstOrFail();
 
-    $questionaire = $video->questionaire()->get()->first();
+    $questionnaire = $video->questionnaire()->get()->first();
 
-    $this->authorize('video-edit', $questionaire);
+    $this->authorize('video-edit', $questionnaire);
 
     $videoTypes = $this->getVideoTypes();
     $class = $videoTypes[$video->type];
@@ -174,7 +174,7 @@ class VideoController extends Controller
 
     $video->save();
 
-    return Redirect::action('Observation\QuestionaireController@getQuestionaire', $video->questionaire_id)->with('status', 'Video saved');
+    return Redirect::action('Observation\QuestionnaireController@getQuestionnaire', $video->questionnaire_id)->with('status', 'Video saved');
   }
 
   /**
@@ -186,9 +186,9 @@ class VideoController extends Controller
   {
     $video = Video::where('id',$id)->firstOrFail();
 
-    $questionaire = $video->questionaire()->get()->first();
+    $questionnaire = $video->questionnaire()->get()->first();
 
-    $this->authorize('video-remove', $questionaire);
+    $this->authorize('video-remove', $questionnaire);
 
     $data = array(
       'video' => $video,
@@ -208,9 +208,9 @@ class VideoController extends Controller
   {
     $video = Video::where('id',$id)->firstOrFail();
 
-    $questionaire = $video->questionaire()->get()->first();
+    $questionnaire = $video->questionnaire()->get()->first();
 
-    $this->authorize('video-remove', $questionaire);
+    $this->authorize('video-remove', $questionnaire);
 
     $videoTypes = $this->getVideoTypes();
     $class = $videoTypes[$video->type];
@@ -219,7 +219,7 @@ class VideoController extends Controller
 
     $video->delete();
 
-    return Redirect::action('Observation\QuestionaireController@getQuestionaire', $video->questionaire_id)->with('status', 'Removed video');
+    return Redirect::action('Observation\QuestionnaireController@getQuestionnaire', $video->questionnaire_id)->with('status', 'Removed video');
   }
 
   /**
@@ -228,9 +228,9 @@ class VideoController extends Controller
   protected function getUploadFinished(Request $request, $id){
     $video = Video::where('id',$id)->firstOrFail();
 
-    $questionaire = $video->questionaire()->get()->first();
+    $questionnaire = $video->questionnaire()->get()->first();
 
-    $this->authorize('video-edit', $questionaire);
+    $this->authorize('video-edit', $questionnaire);
 
     $videoTypes = $this->getVideoTypes();
     $class = $videoTypes[$video->type];
@@ -244,9 +244,9 @@ class VideoController extends Controller
   protected function getUploadProgress(Request $request, $id){
     $video = Video::where('id',$id)->firstOrFail();
 
-    $questionaire = $video->questionaire()->get()->first();
+    $questionnaire = $video->questionnaire()->get()->first();
 
-    $this->authorize('video-edit', $questionaire);
+    $this->authorize('video-edit', $questionnaire);
 
     $videoTypes = $this->getVideoTypes();
     $class = $videoTypes[$video->type];
@@ -260,9 +260,9 @@ class VideoController extends Controller
   protected function getEditTranscript(Request $request, $id){
     $video = Video::where('id',$id)->firstOrFail();
 
-    $questionaire = $video->questionaire()->get()->first();
+    $questionnaire = $video->questionnaire()->get()->first();
 
-    $this->authorize('video-edit-transcript', $questionaire);
+    $this->authorize('video-edit-transcript', $questionnaire);
 
     $data = array(
       'video' => $video,
@@ -278,9 +278,9 @@ class VideoController extends Controller
   protected function postEditTranscript(Request $request, $id){
     $video = Video::where('id',$id)->firstOrFail();
 
-    $questionaire = $video->questionaire()->get()->first();
+    $questionnaire = $video->questionnaire()->get()->first();
 
-    $this->authorize('video-edit-transcript', $questionaire);
+    $this->authorize('video-edit-transcript', $questionnaire);
 
     $video->transcript = $request->transcript;
     $video->save();
@@ -294,11 +294,11 @@ class VideoController extends Controller
   protected function getAnalysis(Request $request, $id){
     $video = Video::where('id',$id)->firstOrFail();
 
-    $questionaire = $video->questionaire()->get()->first();
+    $questionnaire = $video->questionnaire()->get()->first();
 
-    if(!$questionaire->locked){
-      $questionaire->locked = true;
-      $questionaire->save();
+    if(!$questionnaire->locked){
+      $questionnaire->locked = true;
+      $questionnaire->save();
     }
 
     if($video->analysis == "no"){
@@ -306,7 +306,7 @@ class VideoController extends Controller
       $video->save();
     }
 
-    $this->authorize('video-analysis', $questionaire);
+    $this->authorize('video-analysis', $questionnaire);
 
     $intervals = array();
     $position = 0;
@@ -314,7 +314,7 @@ class VideoController extends Controller
 
     while($position < $video->length){
       $start = $position;
-      $end += $questionaire->interval;
+      $end += $questionnaire->interval;
       if($end > $video->length){
         $end = $video->length;
       }
@@ -336,9 +336,9 @@ class VideoController extends Controller
     $data = array(
       'video' => $video,
       'video_types' => $this->getVideoTypes(),
-      'block_types' => QuestionaireController::getBlockTypes(),
-      'questionaire' => $questionaire,
-      'blocks' => $questionaire->blocks()->whereNull('parent_id')->orderBy('order', 'asc')->get(),
+      'block_types' => QuestionnaireController::getBlockTypes(),
+      'questionnaire' => $questionnaire,
+      'blocks' => $questionnaire->blocks()->whereNull('parent_id')->orderBy('order', 'asc')->get(),
       'chapters' => $chapters,
       'analysis' => $analysis_ordered
     );
@@ -352,9 +352,9 @@ class VideoController extends Controller
   protected function postAnalysisBlock(Request $request, $id){
     $video = Video::where('id',$id)->firstOrFail();
 
-    $questionaire = $video->questionaire()->get()->first();
+    $questionnaire = $video->questionnaire()->get()->first();
 
-    $this->authorize('video-analysis', $questionaire);
+    $this->authorize('video-analysis', $questionnaire);
 
     $validator = Validator::make($request->all(), [
         'block_id' => 'required|numeric',
@@ -386,14 +386,14 @@ class VideoController extends Controller
   protected function getAnalysisFinished(Request $request, $id){
     $video = Video::where('id',$id)->firstOrFail();
 
-    $questionaire = $video->questionaire()->get()->first();
+    $questionnaire = $video->questionnaire()->get()->first();
 
-    $this->authorize('video-analysis', $questionaire);
+    $this->authorize('video-analysis', $questionnaire);
 
     $video->analysis = "done";
     $video->save();
 
-    return Redirect::action('Observation\QuestionaireController@getQuestionaire', $questionaire->id)->with('status', 'Finsihed analysis');
+    return Redirect::action('Observation\QuestionnaireController@getQuestionnaire', $questionnaire->id)->with('status', 'Finsihed analysis');
   }
 
   /**
@@ -402,15 +402,15 @@ class VideoController extends Controller
   protected function getAnalysisExportType($id){
     $video = Video::where('id',$id)->firstOrFail();
 
-    $questionaire = $video->questionaire()->get()->first();
+    $questionnaire = $video->questionnaire()->get()->first();
 
-    $this->authorize('video-analysis-export', $questionaire);
+    $this->authorize('video-analysis-export', $questionnaire);
 
     $exportTypes = $this->getAnalysisExportTypes();
 
     $data = array(
       'video' => $video,
-      'questionaire' => $questionaire,
+      'questionnaire' => $questionnaire,
       'exportTypes' => $exportTypes
     );
 
@@ -423,9 +423,9 @@ class VideoController extends Controller
   protected function postAnalysisExportType(Request $request, $id){
     $video = Video::where('id',$id)->firstOrFail();
 
-    $questionaire = $video->questionaire()->get()->first();
+    $questionnaire = $video->questionnaire()->get()->first();
 
-    $this->authorize('video-analysis-export', $questionaire);
+    $this->authorize('video-analysis-export', $questionnaire);
 
     $validator = Validator::make($request->all(), [
         'type' => 'required'
@@ -452,9 +452,9 @@ class VideoController extends Controller
   protected function getAnalysisExport($id, $type){
     $video = Video::where('id',$id)->firstOrFail();
 
-    $questionaire = $video->questionaire()->get()->first();
+    $questionnaire = $video->questionnaire()->get()->first();
 
-    $this->authorize('video-analysis-export', $questionaire);
+    $this->authorize('video-analysis-export', $questionnaire);
 
     $exportTypes = $this->getAnalysisExportTypes();
     if(!array_key_exists($type, $exportTypes)){
@@ -462,15 +462,15 @@ class VideoController extends Controller
     }
 
     $export = array();
-    $parentBlocks = $questionaire->blocks()->whereNull('parent_id')->orderBy('order', 'asc')->get();
+    $parentBlocks = $questionnaire->blocks()->whereNull('parent_id')->orderBy('order', 'asc')->get();
 
-    $parts = ceil($video->length/$questionaire->interval);
+    $parts = ceil($video->length/$questionnaire->interval);
 
     for($part=0 ; $part < $parts ; $part++){
       $export[] = $this->getExportBlocks($parentBlocks, $video, $part);
     }
 
-    return $exportTypes[$type]::exportFile($export, $video, $questionaire);
+    return $exportTypes[$type]::exportFile($export, $video, $questionnaire);
   }
 
   /**
@@ -479,7 +479,7 @@ class VideoController extends Controller
   protected function getExportBlocks($blocks, $video, $part){
     $export = array();
     foreach($blocks as $block){
-      $blockTypes = QuestionaireController::getBlockTypes();
+      $blockTypes = QuestionnaireController::getBlockTypes();
       $class = $blockTypes[$block->type];
 
       $analysis = Analysis::where('video_id', $video->id)->where('block_id', $block->id)->where('part', $part)->get()->first();

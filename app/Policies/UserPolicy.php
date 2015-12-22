@@ -176,13 +176,13 @@ class UserPolicy
     }
 
     /**
-     * Determine if user can add a questionaire.
+     * Determine if user can add a questionnaire.
      *
      * @return bool
      *
      * @TODO : move to questionPolicy if possible?
      */
-    public function QuestionaireCreate(User $user, User $owner)
+    public function QuestionnaireCreate(User $user, User $owner)
     {
         // if own profile
         if($owner->id === $user->id){
