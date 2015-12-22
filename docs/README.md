@@ -1,9 +1,18 @@
 # Table of contents
 
-[Login](#Login)
-[Dashboard](#Dashboard)
-[Groups](#Groups)
-[Questionnaire](#Questionnaire)
+[Login](#login)
+
+[Dashboard](#dashboard)
+
+[Groups](#groups)
+
+[Questionnaire](#questionnaire)
+
+[Videos](#videos)
+
+[Analysis](#analysis)
+
+[Export](#export)
 
 # Authentication
 
@@ -21,7 +30,7 @@ This can be accomplished after logging in with your email and password and then 
 
 ## Forgot password
 
-To reset your password, you need to have your registered email address. If you don't now your registered email address. Please contact the application administrator. After filling in the forgot password form, you will receive an email with a link to reset you password.
+To reset your password, you need to have your registered email address. If you don't know your registered email address. Please contact the application administrator. After filling in the forgot password form, you will receive an email with a link to reset you password.
 
 # Dashboard
 
@@ -45,6 +54,6 @@ To add videos to a questionnaire, go to your dashboard or the dashboard of the c
 
 To start the analysis of a video, open the video on the questionnaire page and press the button "analysis". The analysis page opens with on the left side the video player and on the right side the questionnaire. The video player has a timeline that is divided into sections based on the interval set on the questionnaire. Each section of the timeline has a color based on the completeness of the attached questionnaire. The video player loops the section until the questionnaire is filled in completely and then switches to the next section. To fast navigate the sections of the timeline, you can use the arrows of your keyboard. After finishing all sections, you will be redirected to the overview page.
 
-# Export analysis
+# Export
 
 To export the analysis of a video, open the video on the questionnaire page and press the button "export analysis". You can now choose the type of export you like to use. Press the download button to start downloading the requested export file.
