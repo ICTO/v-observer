@@ -14,6 +14,7 @@
 
 [Export](#export)
 
+
 # Authentication
 
 ## Login
@@ -38,7 +39,7 @@ After logging in, you will be viewing your dashboard. The dashboard gives you an
 
 # Groups
 
-When you press the "Group" link in the left side navigation, you will view a list of all groups you are member of. You can create new groups by pressing the "new group" button. When pressing on one of the groups in your list, you will be redirected to the dashboard of the group. This dashboard displays all attached content and users. The list of attached users to this groups also has a label of the users role. You can change the role of a user by pressing the dots button next to the user. If no dots button is visible, you don't have access to change user roles or the group only has 1 member. Only group admins have the permission to change user roles. If you created a new group, you will be assigned as group admin. To add users to the group, press the "add user" button on the groups dashboard. If the user has already a user account on the application, you can select and add him to the group. If the user has no account of the application, you can create a new account for him by pressing the button "create new user". You can check the box to send an email to the new user about his create account. He then will receive an email to set his password.
+When you press the "Group" link in the left side navigation, you will view a list of all groups you are member of. You can create new groups by pressing the "new group" button. When pressing on one of the groups in your list, you will be redirected to the dashboard of the group. This dashboard displays all attached content and users. The list of attached users to this groups also has a label of the users role. You can change the role of a user by pressing the dots button next to the user. If no dots button is visible, you don't have access to change user roles or the group only has 1 member. Only group admins have the permission to change user roles. If you created a new group, you will be assigned as group admin. To add users to the group, press the "add user" button on the groups dashboard. If the user has already a user account of the application, you can select him and add him to the group. If the user has no account of the application, you can create a new account for him by pressing the button "create new user". You can check the box to send an email to the new user about his create account. He then will receive an email to set his password. If you provide a CAS username when creating the user, he will be able to login with CAS.
 
 # Questionnaires
 
@@ -48,11 +49,11 @@ To change the interval of a questionnaire, select the questionnaire on the dashb
 
 # Videos
 
-To add videos to a questionnaire, go to your dashboard or the dashboard of the chosen group and press the questionnaire you want to add a video to. Now press on the button "add video" and choose the type of video upload you like to use. If you don't see an "add video" button, you won't have access to upload a video to that group. You need to be a group admin to be able to add videos to a questionnaire. After pressing the button, give your video a name and press "add video". You can now upload the video. A progressbar will indicate the uploading and transcoding progress of the video. After the upload is finished, you can navigate away from the page even if the transcoding job isn't finished. The transcoding job will continue in the background. After all jobs are finished, a video player starts playing the video.
+To add videos to a questionnaire, go to your dashboard or the dashboard of the chosen group and press the questionnaire you want to add a video to. Now press on the button "add video" and choose the type of video upload you like to use. If you don't see an "add video" button, you won't have access to upload a video to that group. You need to be a group admin to be able to add videos to a questionnaire. After pressing the button, give your video a name and press "add video". You can now upload the video file. A progressbar will indicate the uploading and transcoding progress of the video. After the upload is finished, you can navigate away from the page even if the transcoding job isn't finished. The transcoding job will continue in the background. After all jobs are finished, a video player starts playing the video.
 
 # Analysis
 
-To start the analysis of a video, open the video on the questionnaire page and press the button "analysis". The analysis page opens with on the left side the video player and on the right side the questionnaire. The video player has a timeline that is divided into sections based on the interval set on the questionnaire. Each section of the timeline has a color based on the completeness of the attached questionnaire. The video player loops the section until the questionnaire is filled in completely and then switches to the next section. To fast navigate the sections of the timeline, you can use the arrows of your keyboard. After finishing all sections, you will be redirected to the overview page.
+To start the analysis of a video, open the video on the questionnaire page and press the button "analysis". All members of a group have access to start the analysis of a video. The analysis page opens with on the left side the video player and on the right side the questionnaire. The video player has a timeline that is divided into sections based on the interval set on the questionnaire. Each section of the timeline has a color based on the completeness of the attached questionnaire. The video player loops the section until the questionnaire is filled in completely and then switches to the next section. To fast navigate the sections of the timeline, you can use the arrows of your keyboard. After finishing all sections, you will be redirected to the overview page.
 
 # Export
 
