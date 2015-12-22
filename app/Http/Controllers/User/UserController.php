@@ -9,6 +9,7 @@ use Validator;
 use Illuminate\Http\Request;
 use Redirect;
 use Mail;
+use DB;
 use \Illuminate\Auth\Passwords\TokenRepositoryInterface;
 
 class UserController extends Controller
@@ -36,11 +37,17 @@ class UserController extends Controller
 
     $this->authorize('dashboard', $user);
 
+    $dataUsage = DB::table('questionaires')
+            ->join('videos', 'questionaires.id', '=', 'videos.questionaire_id')
+            ->where('questionaires.owner_id', '=', $user->id)
+            ->sum('videos.size');
+
     $data = array(
       'user' => $user,
       'users' => $user->users()->get(),
       'groups' => $user->groups()->get(),
       'questionaires' => $user->questionaires()->paginate(15),
+      'dataUsage' => $dataUsage
     );
 
     return view('user.dashboard', $data);

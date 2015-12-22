@@ -68,7 +68,7 @@
                 </div>
             </div>
             @if(count($users))
-            <div class="col s12">
+            <div class="col s12 l6">
                 <div class="card left-align">
                     <div class="card-content">
                         <div class="card-title">Users in {{ $user->name }}</div>
@@ -109,7 +109,17 @@
                 </div>
             </div>
             @endif
-            {{-- @TODO : add data usage stats for the user --}}
+            @if($dataUsage)
+            <div class="col s12 m6">
+                <div class="card left-align">
+                    <div class="card-content center-align">
+                        <div class="card-title">Data usage</div>
+                        <i class="material-icons center-align large teal-text text-lighten-1">sd_card</i>
+                        <div class="numeral center-align" data-number="{{ $dataUsage }}" data-format="0.0b"></div>
+                    </div>
+                </div>
+            </div>
+            @endif
         </div>
     </div>
 </div>
