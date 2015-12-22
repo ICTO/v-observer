@@ -1,6 +1,6 @@
 # Table of contents
 
-[Login](#login)
+[Authentication](#authentication)
 
 [Dashboard](#dashboard)
 
