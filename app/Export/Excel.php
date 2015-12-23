@@ -23,10 +23,12 @@ class Excel implements ExportInterface {
         $excel->getProperties()->setCreator($video->creator()->get()->first()->name)
                                ->setTitle("Analysis of ". $video->name . ' ('.$questionnaire->name.')');
 
+        $interval = $questionnaire->interval;
+
         foreach($parts as $p => $part){
             $excel->createSheet($p);
             $excel->setActiveSheetIndex($p);
-            $excel->getActiveSheet()->setTitle('Section '.$p);
+            $excel->getActiveSheet()->setTitle($p*$interval . '->' . ($p+1)*$interval . ' sec');
 
             self::$row = 1;
             self::processBlocks($part, $excel);
