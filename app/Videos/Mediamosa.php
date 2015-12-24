@@ -148,7 +148,7 @@ class Mediamosa implements VideoInterface{
         $name = 'UPLOADING ('.$data->percentage.'%)';
         $percentage = $data->percentage;
       } else {
-        $name = 'UPLOADING';
+        $name = 'Uploading file. This may take a while depending on the size of the file.';
         $percentage = false;
       }
 
