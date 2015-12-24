@@ -40,6 +40,7 @@ class UserController extends Controller
     $dataUsage = DB::table('questionnaires')
             ->join('videos', 'questionnaires.id', '=', 'videos.questionnaire_id')
             ->where('questionnaires.owner_id', '=', $user->id)
+            ->whereNull('videos.deleted_at')
             ->sum('videos.size');
 
     $data = array(
