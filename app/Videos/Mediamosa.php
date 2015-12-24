@@ -144,11 +144,19 @@ class Mediamosa implements VideoInterface{
       $data = json_decode($output);
       curl_close($ch);
 
+      if($data->percentage != "-1"){
+        $name = 'UPLOADING ('.$data->percentage.'%)';
+        $percentage = $data->percentage;
+      } else {
+        $name = 'UPLOADING';
+        $percentage = false;
+      }
+
       return array(
         'loaders' => array(
           array(
-            'name' => 'UPLOAD ('.$data->percentage.'%)',
-            'percentage' => $data->percentage
+            'name' => $name,
+            'percentage' => $percentage
           ),
         ),
         'redirect' => false,
