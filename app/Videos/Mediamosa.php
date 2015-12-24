@@ -139,6 +139,7 @@ class Mediamosa implements VideoInterface{
       $ch = curl_init();
       curl_setopt($ch, CURLOPT_URL, $url);
       curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+      curl_setopt($ch, CURLOPT_TIMEOUT, 5);
       $output = curl_exec($ch);
       $data = json_decode($output);
       curl_close($ch);
