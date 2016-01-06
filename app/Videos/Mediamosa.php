@@ -165,8 +165,7 @@ class Mediamosa implements VideoInterface{
 
     if($video->data['status'] == 'processing'){
       $mmc = new MediamosaConnector();
-      $user = Auth::user();
-      $data = $mmc->getJobs($video->data['mediafile_id'], $user->id);
+      $data = $mmc->getJobs($video->data['mediafile_id'], $video->creator_id);
       $loaders = array();
       $done = true;
       foreach ($data['data']['items']['item'] as $item) {
