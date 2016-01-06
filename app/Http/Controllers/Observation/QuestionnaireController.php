@@ -104,6 +104,88 @@ class QuestionnaireController extends Controller
   }
 
   /**
+   * Get the form to import a questionnaire.
+   *
+   * @return View
+   */
+  protected function getImportQuestionnaire($owner_id = false)
+  {
+    if($owner_id){
+      $owner = User::where('id',$owner_id)->firstOrFail();
+    } else {
+      $owner = Auth::user();
+    }
+
+    $possible_owners = Auth::user()->groups()->withPivot('role')->where('role','admin')->get();
+    $possible_owners->push(Auth::user());
+
+    $this->authorize('questionnaire-create', $owner);
+
+    $data = array(
+      'possible_owners' => $possible_owners,
+      'owner' => $owner,
+    );
+
+    return view('observation.importQuestionnaire', $data);
+  }
+
+  /**
+   * save the new questionnaires import
+   *
+   * @return View
+   */
+  protected function postImportQuestionnaire(Request $request)
+  {
+    $owner = User::where('id',$request->owner_id)->firstOrFail();
+
+    $validator = Validator::make($request->all(), [
+        'import' => 'required|mimes:txt,json',
+        'owner_id' => 'required'
+    ]);
+
+    if ($validator->fails()) {
+        return Redirect::action('Observation\QuestionnaireController@getImportQuestionnaire', $owner->id)
+            ->withInput()
+            ->withErrors($validator);
+    }
+
+    $this->authorize('questionnaire-create', $owner);
+
+    $filePath = $request->file('import')->getRealPath();
+    $content = file_get_contents($filePath);
+    $data = json_decode($content);
+
+    // @TODO : validate import file before importing
+
+    $questionnaire = new Questionnaire();
+    $questionnaire->name = $request->name;
+    $questionnaire->owner_id = $owner->id;
+    $questionnaire->locked = false;
+    $questionnaire->interval = $data->interval;
+    $questionnaire->creator_id = Auth::user()->id;
+    $questionnaire->save();
+
+    $this->importBlocks($data->blocks, $questionnaire);
+
+    return Redirect::action('Observation\QuestionnaireController@getBlocks', $questionnaire->id);
+  }
+
+  private function importBlocks($blocks, $questionnaire, $parent = NULL){
+    foreach($blocks as $block){
+      $newBlock = new Block();
+      $newBlock->questionnaire_id = $questionnaire->id;
+      $newBlock->type = $block->type;
+      $newBlock->order = $block->order;
+      $newBlock->parent_id = $parent;
+      $newBlock->data = $block->data;
+      $newBlock->save();
+      if(property_exists($block, "children")){
+        $this->importBlocks($block->children, $questionnaire, $newBlock->id);
+      }
+    }
+  }
+
+  /**
    * Get the form to edit a questionnaire.
    *
    * @return View
@@ -199,6 +281,52 @@ class QuestionnaireController extends Controller
     $questionnaire->save();
 
     return Redirect::action('Observation\QuestionnaireController@getQuestionnaire', $questionnaire->id)->with('status', 'Interval saved');
+  }
+
+  /**
+   * Get the form to remove a questionnaire.
+   *
+   * @return View
+   */
+  protected function getExportQuestionnaire($id)
+  {
+    $questionnaire = Questionnaire::where('id',$id)->firstOrFail();
+
+    $this->authorize('questionnaire-export', $questionnaire);
+
+    $data = array(
+      'blocks' => array(),
+      'interval' => $questionnaire->interval
+    );
+
+    $blocks = $questionnaire->blocks()->whereNull('parent_id')->get();
+    $data['blocks'] = $this->exportBlocks($blocks);
+
+    header ("Content-Type: application/octet-stream");
+    header ("Content-disposition: attachment; filename=questionnaire-".$questionnaire->id.".json");
+
+    print json_encode($data);
+    exit();
+  }
+
+  /**
+   * export blocks data
+   */
+  private function exportBlocks($blocks){
+    $data = array();
+    foreach($blocks as $block){
+      $new = array(
+        'type' => $block->type,
+        'order' => $block->order,
+        'data' => $block->data,
+      );
+      $children = $block->children()->get();
+      if($children->count()){
+        $new['children'] = $this->exportBlocks($children);
+      }
+      $data[] = $new;
+    }
+    return $data;
   }
 
   /**

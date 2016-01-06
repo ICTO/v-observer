@@ -62,7 +62,8 @@
                     </div>
                     @can('questionnaire-create', $user)
                     <div class="card-action">
-                        <a class="waves-effect waves-light btn white-text" href="{{ action('Observation\QuestionnaireController@getCreateQuestionnaire', $user->id) }}"><i class="material-icons left">create</i>Add Questionnaire</a>
+                        <a class="waves-effect waves-light btn white-text" href="{{ action('Observation\QuestionnaireController@getCreateQuestionnaire', $user->id) }}"><i class="material-icons left">create</i>Create</a>
+                        <a class="waves-effect waves-light btn white-text" href="{{ action('Observation\QuestionnaireController@getImportQuestionnaire', $user->id) }}"><i class="material-icons left">create</i>Import</a>
                     </div>
                     @endcan
                 </div>

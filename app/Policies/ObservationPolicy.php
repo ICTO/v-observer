@@ -18,6 +18,7 @@ class ObservationPolicy
     public function QuestionnaireMenu(User $user, Questionnaire $questionnaire)
     {
         if(    $this->QuestionnaireEdit($user, $questionnaire)
+            || $this->QuestionnaireExport($user, $questionnaire)
             || $this->QuestionnaireRemove($user, $questionnaire)
         ){
             return true;
@@ -72,6 +73,16 @@ class ObservationPolicy
      * @return bool
      */
     public function QuestionnaireRemove(User $user, Questionnaire $questionnaire)
+    {
+        return $this->QuestionnaireEdit($user, $questionnaire);
+    }
+
+    /**
+     * Determine if user can export the questionnaire.
+     *
+     * @return bool
+     */
+    public function QuestionnaireExport(User $user, Questionnaire $questionnaire)
     {
         return $this->QuestionnaireEdit($user, $questionnaire);
     }

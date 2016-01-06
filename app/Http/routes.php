@@ -64,6 +64,8 @@ Route::group(['middleware' => 'auth'], function () {
     // questionnaire
     Route::get('questionnaire/create/{owner_id?}', 'Observation\QuestionnaireController@getCreateQuestionnaire');
     Route::post('questionnaire/create', 'Observation\QuestionnaireController@postCreateQuestionnaire');
+    Route::get('questionnaire/import/{owner_id?}', 'Observation\QuestionnaireController@getImportQuestionnaire');
+    Route::post('questionnaire/import', 'Observation\QuestionnaireController@postImportQuestionnaire');
     Route::get('questionnaire/{id}', 'Observation\QuestionnaireController@getQuestionnaire');
     Route::get('questionnaire/{id}/edit', 'Observation\QuestionnaireController@getEditQuestionnaire');
     Route::post('questionnaire/{id}/edit', 'Observation\QuestionnaireController@postEditQuestionnaire');
@@ -72,6 +74,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('questionnaire/{id}/remove', 'Observation\QuestionnaireController@getRemoveQuestionnaire');
     Route::post('questionnaire/{id}/remove', 'Observation\QuestionnaireController@postRemoveQuestionnaire');
     Route::get('questionnaire/{id}/blocks', 'Observation\QuestionnaireController@getBlocks');
+    Route::get('questionnaire/{id}/export', 'Observation\QuestionnaireController@getExportQuestionnaire');
     Route::get('questionnaire/{id}/block/create/{type}/{parent_id?}', 'Observation\QuestionnaireController@getCreateBlock');
     Route::post('questionnaire/{id}/block/create/{type}/{parent_id?}', 'Observation\QuestionnaireController@postCreateBlock');
     Route::get('block/{id}/edit', 'Observation\QuestionnaireController@getEditBlock');

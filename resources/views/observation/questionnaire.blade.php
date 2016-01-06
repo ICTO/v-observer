@@ -26,6 +26,9 @@
                         @can('questionnaire-interval-edit', $questionnaire)
                         <a class="waves-effect waves-light btn white-text" href="{{ action('Observation\QuestionnaireController@getEditInterval', $questionnaire->id) }}"><i class="material-icons left">mode_edit</i>Interval</a>
                         @endcan
+                        @can('questionnaire-export', $questionnaire)
+                        <a class="waves-effect waves-light btn white-text" href="{{ action('Observation\QuestionnaireController@getExportQuestionnaire', $questionnaire->id) }}"><i class="material-icons left">file_download</i>Export</a>
+                        @endcan
                         @can('questionnaire-remove', $questionnaire)
                         <a class="waves-effect waves-light btn white-text" href="{{ action('Observation\QuestionnaireController@getRemoveQuestionnaire', $questionnaire->id) }}"><i class="material-icons left">delete</i>Remove</a>
                         @endcan
