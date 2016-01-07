@@ -311,6 +311,7 @@ class VideoController extends Controller
     $intervals = array();
     $position = 0;
     $end = 0;
+    $chapters = array();
 
     while($position < $video->length){
       $start = $position;
@@ -338,7 +339,7 @@ class VideoController extends Controller
       'video_types' => $this->getVideoTypes(),
       'block_types' => QuestionnaireController::getBlockTypes(),
       'questionnaire' => $questionnaire,
-      'blocks' => $questionnaire->blocks()->whereNull('parent_id')->orderBy('order', 'asc')->get(),
+      'blocks' => $questionnaire->blocks()->whereNull('parent_id')->orderBy('order', 'asc')->orderBy('id', 'asc')->get(),
       'chapters' => $chapters,
       'analysis' => $analysis_ordered
     );
@@ -462,7 +463,7 @@ class VideoController extends Controller
     }
 
     $export = array();
-    $parentBlocks = $questionnaire->blocks()->whereNull('parent_id')->orderBy('order', 'asc')->get();
+    $parentBlocks = $questionnaire->blocks()->whereNull('parent_id')->orderBy('order', 'asc')->orderBy('id', 'asc')->get();
 
     $parts = ceil($video->length/$questionnaire->interval);
 
@@ -496,7 +497,7 @@ class VideoController extends Controller
 
       // get the scores of child blocks
       if($class::canAddChildBlock()){
-        $childBlocks = $block->children()->orderBy('order', 'asc')->get();
+        $childBlocks = $block->children()->orderBy('order', 'asc')->orderBy('id', 'asc')->get();
         $new['childs'] = $this->getExportBlocks($childBlocks, $video, $part);
       }
       $export[] = $new;

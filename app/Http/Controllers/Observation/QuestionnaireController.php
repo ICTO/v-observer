@@ -299,7 +299,7 @@ class QuestionnaireController extends Controller
       'interval' => $questionnaire->interval
     );
 
-    $blocks = $questionnaire->blocks()->whereNull('parent_id')->get();
+    $blocks = $questionnaire->blocks()->whereNull('parent_id')->orderBy('id', 'asc')->get();
     $data['blocks'] = $this->exportBlocks($blocks);
 
     header ("Content-Type: application/octet-stream");
@@ -320,7 +320,7 @@ class QuestionnaireController extends Controller
         'order' => $block->order,
         'data' => $block->data,
       );
-      $children = $block->children()->get();
+      $children = $block->children()->orderBy('id', 'asc')->get();
       if($children->count()){
         $new['children'] = $this->exportBlocks($children);
       }
@@ -377,7 +377,7 @@ class QuestionnaireController extends Controller
 
     $data = array(
       'questionnaire' => $questionnaire,
-      'blocks' => $questionnaire->blocks()->whereNull('parent_id')->orderBy('order', 'asc')->get(),
+      'blocks' => $questionnaire->blocks()->whereNull('parent_id')->orderBy('order', 'asc')->orderBy('id', 'asc')->get(),
       'block_types' => $this->getBlockTypes()
     );
 
