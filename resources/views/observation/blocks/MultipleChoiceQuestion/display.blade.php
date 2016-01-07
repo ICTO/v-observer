@@ -1,5 +1,5 @@
 
-<div class="question {{ isset($analysis[$part][$block->id]) ? 'has-answer' : '' }}" id="question-{{ $part }}-{{ $block->id }}">
+<div class="question row {{ isset($analysis[$part][$block->id]) ? 'has-answer' : '' }}" id="question-{{ $part }}-{{ $block->id }}">
     <h6>
         {{ $block->data['question'] }}
         <i class="done-icon material-icons green-text" >done</i>
