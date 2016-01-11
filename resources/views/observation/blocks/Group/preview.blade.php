@@ -5,8 +5,8 @@
 <h5>{{ $block->data['title'] }}</h5>
 <i class="material-icons left grey-text text-lighten-2">subdirectory_arrow_right</i>
 <div class="tab">
-  <div class="sortable-container">
-    <div class="draggable">
+  <div>
+    <div class="blocks-container">
       @foreach($block->children()->orderBy('order', 'asc')->orderBy('id', 'asc')->get() as $child)
         @include('observation.blocks.'.$child->type.'.preview', ['block' => $child, 'questionnaire' => $questionnaire])
       @endforeach

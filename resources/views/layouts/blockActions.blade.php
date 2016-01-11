@@ -1,5 +1,7 @@
-<div class="list-row-wrapper">
+<div class="list-row-wrapper" data-block-id="{{ $block->id }}">
     <div class="list-row-link has-action-button">
+        <input type="hidden" name="blocks[{{ $block->id }}][parent_id]" value="{{ $block->parent_id }}">
+        <input type="hidden" name="blocks[{{ $block->id }}][order]" value="{{ $block->order }}">
         @yield('block-preview-'.$block->id)
     </div>
 

@@ -1243,7 +1243,11 @@ $(document).ready(function() {
                     if(typeof data.loaders !== 'undefined' && data.loaders){
                         var loaders_html = "";
                         data.loaders.forEach(function(loader) {
-                            loaders_html = loaders_html + '<div class="center-align grey-text">'+loader.name+'</div><div class="progress"><div class="determinate" style="width: '+loader.percentage+'%"></div></div>'
+                            if(loader.percentage){
+                                loaders_html = loaders_html + '<div class="center-align grey-text">'+loader.name+'</div><div class="progress"><div class="determinate" style="width: '+loader.percentage+'%"></div></div>'
+                            } else {
+                                loaders_html = loaders_html + '<div class="center-align grey-text">'+loader.name+'</div>'
+                            }
                         });
                         $("#loaders").html(loaders_html);
                     }

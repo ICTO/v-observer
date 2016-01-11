@@ -21,6 +21,7 @@
     "noty": "~2.3.7",
     "numeral": "~1.5.3",
     "jquery-form": "~3.46.0",
-    "video.js": "~5.4.4"
+    "video.js": "~5.4.4",
+    "jquery-sortable": "git@github.com:johnny/jquery-sortable.git#~0.9.13"
   }
 }

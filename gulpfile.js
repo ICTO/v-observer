@@ -43,6 +43,7 @@ elixir(function(mix) {
     mix.scripts(['../javascript/MultipleChoiceQuestion.js'], 'public/javascript/MultipleChoiceQuestion.js');
     mix.scripts(['../../../bower_components/jquery-form/jquery.form.js', '../javascript/AnalyseVideo.js'], 'public/javascript/AnalyseVideo.js');
     mix.scripts(['../../../bower_components/jquery-form/jquery.form.js', '../javascript/VideoUpload.js'], 'public/javascript/VideoUpload.js');
+    mix.scripts(['../../../bower_components/jquery-sortable/source/js/jquery-sortable.js', '../javascript/BlocksOrder.js'], 'public/javascript/BlocksOrder.js');
 
     // copy
     mix.copy('bower_components/Materialize/dist/font', 'public/font');

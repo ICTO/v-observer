@@ -3,6 +3,9 @@
 main, header {
   padding-left: 240px;
 }
+main.nopadding, header.no-padding{
+  padding-left: 0px;
+}
 
 @media only screen and (max-width : 992px) {
   main, header {
@@ -18,12 +21,22 @@ main, header {
     max-height: 100%;
     overflow: auto;
   }
+  nav .brand-logo{
+    margin-left: 20px;
+  }
 }
 
 // extra sidenav tweaks
 .side-nav a.normal-link{
   line-height: 1rem;
   height: auto;
+}
+.nav-spacer{
+  margin-left: 20px;
+  margin-right: 20px;
+}
+.button-collapse{
+  float:none;
 }
 
 // extra styling noty
@@ -180,4 +193,32 @@ ul.bullets li {
 }
 .has-answer .done-icon{
   display: block;
+}
+
+/** blocks order **/
+body.block-dragging, body.block-dragging * {
+  cursor: move !important;
+}
+
+.block-dragged {
+  position: absolute;
+  opacity: 0.5;
+  z-index: 2000;
+}
+
+.block-dragging .blocks-order, .block-dragging .blocks-container {
+  min-height: 50px;
+  border: 1px dotted teal;
+}
+.block-dragging .blocks-order li.placeholder, .block-dragging .blocks-container li.placeholder {
+  position: relative;
+  width: 100%;
+  height: 20px;
+  display: block;
+  background-color:teal;
+  /** More li styles **/
+}
+.block-dragging .blocks-order li.placeholder:before, .block-dragging .blocks-container li.placeholder:before {
+  position: absolute;
+  /** Define arrowhead **/
 }

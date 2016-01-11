@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="/stylesheets/main.css">
   </head>
   <body>
+    @include('layouts.sidenav', ["fixed" => false])
+
     @include('common.messages')
     <div class="center-align">
     @yield('content')

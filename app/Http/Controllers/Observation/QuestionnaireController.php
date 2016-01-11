@@ -501,6 +501,28 @@ class QuestionnaireController extends Controller
   }
 
   /**
+   * save the order of the blocks
+   *
+   * @return Redirect
+   */
+  protected function postOrderBlocks(Request $request, $id )
+  {
+    $questionnaire = Questionnaire::where('id',$id)->firstOrFail();
+
+    $this->authorize('questionnaire-block-edit', $questionnaire);
+
+    $blocksOrder = $request->get("blocks");
+    foreach($blocksOrder as $bid => $blockOrder){
+      $block = Block::where('id', $bid)->firstOrFail();
+      $block->order = $blockOrder['order'];
+      $block->parent_id = $blockOrder['parent_id'] ? $blockOrder['parent_id'] : NULL;
+      $block->save();
+    }
+
+    return Redirect::action('Observation\QuestionnaireController@getBlocks', $questionnaire->id)->with('status', 'Blocks order saved');
+  }
+
+  /**
    * Get the remove form from a block
    *
    * @return View

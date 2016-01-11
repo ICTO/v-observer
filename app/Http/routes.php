@@ -69,6 +69,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('questionnaire/{id}', 'Observation\QuestionnaireController@getQuestionnaire');
     Route::get('questionnaire/{id}/edit', 'Observation\QuestionnaireController@getEditQuestionnaire');
     Route::post('questionnaire/{id}/edit', 'Observation\QuestionnaireController@postEditQuestionnaire');
+    Route::post('questionnaire/{id}/order', 'Observation\QuestionnaireController@postOrderBlocks');
     Route::get('questionnaire/{id}/interval', 'Observation\QuestionnaireController@getEditInterval');
     Route::post('questionnaire/{id}/interval', 'Observation\QuestionnaireController@postEditInterval');
     Route::get('questionnaire/{id}/remove', 'Observation\QuestionnaireController@getRemoveQuestionnaire');
