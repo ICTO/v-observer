@@ -1,25 +1,16 @@
 $(function  () {
 
-  var options = {
-    group: 'order',
-    containerSelector: '.blocks-container',
-    itemSelector: '.list-row-wrapper',
-    draggedClass: "block-dragged",
-    bodyClass: "block-dragging",
-    nested: true,
-    onDrop: function ($item, container, _super, event) {
-      $item.removeClass(container.group.options.draggedClass).removeAttr("style");
-      $("body").removeClass(container.group.options.bodyClass);
-      updateFields();
-    }
-  };
+  $(".blocks-container").each( function(){
+    var sort = Sortable.create(this, {
+      group: "blocks",
+      animation: 150, // ms, animation speed moving items when sorting, `0` — without animation
+      draggable: ".list-row-wrapper", // Specifies which items inside the element should be sortable
+      onSort: function (evt/**Event*/){
+         updateFields();
+      }
+    });
+  });
 
-  // doing some multiple sorting because nesting is not working good without this
-  // works for 4 levels
-  $(".blocks-container .blocks-container .blocks-container .blocks-container").sortable(options);
-  $(".blocks-container .blocks-container .blocks-container").sortable(options);
-  $(".blocks-container .blocks-container").sortable(options);
-  $(".blocks-container").sortable(options);
 
   // update input fields when something changed.
   updateFields = function(){

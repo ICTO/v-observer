@@ -519,7 +519,7 @@ class QuestionnaireController extends Controller
       $block->save();
     }
 
-    return Redirect::action('Observation\QuestionnaireController@getBlocks', $questionnaire->id)->with('status', 'Blocks order saved');
+    return Redirect::action('Observation\QuestionnaireController@getBlocks', $questionnaire->id)->with('status', 'Questions order saved');
   }
 
   /**
