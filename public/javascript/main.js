@@ -48977,7 +48977,7 @@ module.exports = exports['default'];
     });
 
     // Moment
-    moment.locale('en');
+    moment.locale('en-gb');
     var displayDates = function(){
       $('.moment-date').each(function(){
         var date = $(this).attr("data-datetime");
