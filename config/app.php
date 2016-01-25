@@ -17,6 +17,18 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Application Default login
+    |--------------------------------------------------------------------------
+    |
+    | When this setting is false, The default login form won't be displayed.
+    | Only external login methods are active.
+    |
+    */
+
+    'app_default_login' => env('APP_DEFAULT_LOGIN', true),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application URL
     |--------------------------------------------------------------------------
     |

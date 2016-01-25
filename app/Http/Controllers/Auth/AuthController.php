@@ -6,6 +6,7 @@ use App\Models\User;
 use Validator;
 use Cas;
 use Auth;
+use Config;
 use Redirect;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
@@ -36,6 +37,15 @@ class AuthController extends Controller
     public function __construct()
     {
         $this->middleware('guest', ['except' => 'getLogout']);
+    }
+
+    public function getLogin()
+    {
+        if (!Config::get('app.app_default_login') && Config::get('cas.cas_hostname')) {
+            return redirect()->action('Auth\AuthController@getCas');
+        }
+
+        return view('auth.login');
     }
 
     /**

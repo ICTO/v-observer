@@ -10,6 +10,7 @@
                         {!! csrf_field() !!}
                         <div class="card-content">
                             <div class="card-title">Login</div>
+                            @if(Config::get('app.app_default_login'))
                             <div class="row">
                                 <div class="input-field col s12">
                                     <input type="email" name="email" value="{{ old('email') }}">
@@ -28,15 +29,18 @@
                                     <label for="remember">Remember Me</label>
                                 </div>
                             </div>
+                            @endif
                         </div>
+                        @if(Config::get('app.app_default_login'))
                         <div class="card-action">
                             <button class="waves-effect waves-light btn" type="submit">Login</button>
                             <a class="white teal-text text-lighten-1 waves-effect waves-teal btn-flat" href="/password/email">Forgot password</a>
                         </div>
+                        @endif
                         @if( Config::get('cas.cas_hostname') )
-                        <div class="card-action">
-                            <a class="waves-effect waves-light btn amber lighten-2 blue-text text-darken-4" type="submit" href="{{ action('Auth\AuthController@getCas') }}"><i class="material-icons left">account_balance</i>Login with CAS</a>
-                        </div>
+                            <div class="card-action">
+                                <a class="waves-effect waves-light btn amber lighten-2 blue-text text-darken-4" type="submit" href="{{ action('Auth\AuthController@getCas') }}"><i class="material-icons left">account_balance</i>Login with CAS</a>
+                            </div>
                         @endif
                     </form>
                 </div>
