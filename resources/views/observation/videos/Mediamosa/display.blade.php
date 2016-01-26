@@ -31,14 +31,14 @@
     @can('video-menu-2', $questionnaire)
     <div class="card-action">
         @can('video-edit-transcript', $questionnaire)
-        <a class="waves-effect waves-light btn white-text" href="{{ action('Observation\VideoController@getEditTranscript', $video->id) }}"><i class="material-icons left">subtitles</i>Edit transcript</a>
+        <a class="waves-effect waves-light btn white-text" href="{{ action('Observation\VideoController@getEditTranscript', ['questionnaire_id' => $questionnaire->id, 'id' => $video->id]) }}"><i class="material-icons left">subtitles</i>Edit transcript</a>
         @endcan
         @can('video-analysis', $questionnaire)
-        <a class="waves-effect waves-light btn white-text {{ $video->analysis != 'done' ? 'orange' : '' }} lighten-1" href="{{ action('Observation\VideoController@getAnalysis', $video->id) }}"><i class="material-icons left">art_track</i>Analysis</a>
+        <a class="waves-effect waves-light btn white-text {{ $video->analysis != 'done' ? 'orange' : '' }} lighten-1" href="{{ action('Observation\VideoController@getAnalysis', ['questionnaire_id' => $questionnaire->id, 'id' => $video->id]) }}"><i class="material-icons left">art_track</i>Analysis</a>
         @endcan
         @if($video->analysis == 'done')
             @can('video-analysis-export', $questionnaire)
-            <a class="waves-effect waves-light btn white-text orange lighten-1" href="{{ action('Observation\VideoController@getAnalysisExportType', $video->id) }}"><i class="material-icons left">file_download</i>Export Analysis</a>
+            <a class="waves-effect waves-light btn white-text orange lighten-1" href="{{ action('Observation\VideoController@getAnalysisExportType', ['questionnaire_id' => $questionnaire->id, 'id' => $video->id]) }}"><i class="material-icons left">file_download</i>Export Analysis</a>
             @endcan
         @endif
     </div>
@@ -51,7 +51,11 @@
 @if($video->data['status'] == 'processing')
 <div class="card-content">
     <div class="card-title">Processing {{ $video->name }}</div>
-    <script> var video_id = {{ $video->id }}; var start_progress = true;</script>
+    <script>
+        var video_id = {{ $video->id }};
+        var questionnaire_id = {{ $questionnaire->id }};
+        var start_progress = true;
+    </script>
     <div id="loaders"></div>
     @section('javascript')
     <script type="text/javascript" src="/javascript/VideoUpload.js"></script>
@@ -65,7 +69,10 @@
     @can('video-create', $questionnaire)
         <div class="card-title">Select a file to upload</div>
         <div class="row">
-            <script> var video_id = {{ $video->id }}</script>
+            <script>
+                var video_id = {{ $video->id }};
+                var questionnaire_id = {{ $questionnaire->id }};
+            </script>
             <form class="col s12" id="upload_form" action="{{$video->data['uploadticket_data']['action']}}" method="POST" enctype="multipart/form-data">
                 <input type="hidden" name="upload_ticket" value="{{$video->data['uploadticket_data']['ticket_id']}}">
                 <input type="hidden" name="transcode" value="17">

@@ -43,7 +43,7 @@
                             @foreach( $videos as $key => $video )
                             <div class="list-row-wrapper">
                                 <div class="list-row-image circle {{ $video->analysis == 'no' ? 'cyan' : '' }}{{ $video->analysis == 'running' ? 'orange' : '' }}{{ $video->analysis == 'done' ? 'light-green' : '' }} lighten-1 white-text"><i class="material-icons">videocam</i></div>
-                                <a class="list-row-link has-action-button has-image waves-effect waves-light" href="{{ action('Observation\VideoController@getVideo', $video->id) }}">
+                                <a class="list-row-link has-action-button has-image waves-effect waves-light" href="{{ action('Observation\VideoController@getVideo', ['questionnaire_id' => $questionnaire->id, 'id' => $video->id]) }}">
                                     {{ $video->name }}
                                     <span class="teal-text text-lighten-2">
                                     @if($video->length)
@@ -57,21 +57,21 @@
                                 <ul id='dropdown-video-{{ $key }}' class='dropdown-content action-btn'>
 
                                     @can('video-edit', $questionnaire)
-                                    <li><a href="{{ action('Observation\VideoController@getEditVideo', $video->id ) }}">Edit</a></li>
+                                    <li><a href="{{ action('Observation\VideoController@getEditVideo', ['questionnaire_id' => $questionnaire->id, 'id' => $video->id] ) }}">Edit</a></li>
                                     @endcan
                                     @can('video-edit-transcript', $questionnaire)
-                                    <li><a href="{{ action('Observation\VideoController@getEditTranscript', $video->id) }}">Transcript</a></li>
+                                    <li><a href="{{ action('Observation\VideoController@getEditTranscript', ['questionnaire_id' => $questionnaire->id, 'id' => $video->id]) }}">Transcript</a></li>
                                     @endcan
                                     @can('video-analysis', $questionnaire)
-                                    <li><a href="{{ action('Observation\VideoController@getAnalysis', $video->id) }}">Analysis</a></li>
+                                    <li><a href="{{ action('Observation\VideoController@getAnalysis', ['questionnaire_id' => $questionnaire->id, 'id' => $video->id]) }}">Analysis</a></li>
                                     @endcan
                                     @if($video->analysis == 'done')
                                         @can('video-analysis-export', $questionnaire)
-                                        <li><a href="{{ action('Observation\VideoController@getAnalysisExportType', $video->id) }}">Export</a></li>
+                                        <li><a href="{{ action('Observation\VideoController@getAnalysisExportType', ['questionnaire_id' => $questionnaire->id, 'id' => $video->id]) }}">Export</a></li>
                                         @endcan
                                     @endif
                                     @can('video-remove', $questionnaire)
-                                    <li><a href="{{ action('Observation\VideoController@getRemoveVideo', $video->id ) }}">Remove</a></li>
+                                    <li><a href="{{ action('Observation\VideoController@getRemoveVideo', ['questionnaire_id' => $questionnaire->id, 'id' => $video->id] ) }}">Remove</a></li>
                                     @endcan
                                 </ul>
                                 @endcan

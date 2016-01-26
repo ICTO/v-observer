@@ -73,6 +73,6 @@ class Questionnaire extends Model
      */
     public function videos()
     {
-        return $this->hasMany('App\Models\Video', 'questionnaire_id');
+        return $this->belongsToMany('App\Models\Video','questionnaire_video', 'questionnaire_id', 'video_id')->withTimestamps();
     }
 }

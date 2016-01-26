@@ -124,6 +124,16 @@ class ObservationPolicy
     }
 
     /**
+     * Determine if user can view a video.
+     *
+     * @return bool
+     */
+    public function VideoView(User $user, Questionnaire $questionnaire)
+    {
+        return $this->QuestionnaireView($user, $questionnaire);
+    }
+
+    /**
      * Determine if user can edit a video.
      *
      * @return bool

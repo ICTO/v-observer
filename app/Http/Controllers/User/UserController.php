@@ -38,7 +38,8 @@ class UserController extends Controller
     $this->authorize('dashboard', $user);
 
     $dataUsage = DB::table('questionnaires')
-            ->join('videos', 'questionnaires.id', '=', 'videos.questionnaire_id')
+            ->join('questionnaire_video', 'questionnaires.id', '=', 'questionnaire_video.questionnaire_id')
+            ->join('videos', 'questionnaire_video.video_id', '=', 'videos.id')
             ->where('questionnaires.owner_id', '=', $user->id)
             ->whereNull('videos.deleted_at')
             ->sum('videos.size');

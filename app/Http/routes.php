@@ -85,20 +85,20 @@ Route::group(['middleware' => 'auth'], function () {
     // video
     Route::get('questionnaire/{id}/video/create/{type}', 'Observation\VideoController@getCreateVideo');
     Route::post('questionnaire/{id}/video/create/{type}', 'Observation\VideoController@postCreateVideo');
-    Route::get('video/{id}', 'Observation\VideoController@getVideo');
-    Route::get('video/{id}/edit', 'Observation\VideoController@getEditVideo');
-    Route::post('video/{id}/edit', 'Observation\VideoController@postEditVideo');
-    Route::get('video/{id}/remove', 'Observation\VideoController@getRemoveVideo');
-    Route::post('video/{id}/remove', 'Observation\VideoController@postRemoveVideo');
-    Route::get('video/{id}/upload_finished', 'Observation\VideoController@getUploadFinished');
-    Route::get('video/{id}/upload_progress', 'Observation\VideoController@getUploadProgress');
-    Route::get('video/{id}/transcript', 'Observation\VideoController@getEditTranscript');
-    Route::post('video/{id}/transcript', 'Observation\VideoController@postEditTranscript');
-    Route::get('video/{id}/analysis', 'Observation\VideoController@getAnalysis');
-    Route::post('video/{id}/analysis', 'Observation\VideoController@postAnalysisBlock');
-    Route::get('video/{id}/analysis/finished', 'Observation\VideoController@getAnalysisFinished');
-    Route::get('video/{id}/analysis/export', 'Observation\VideoController@getAnalysisExportType');
-    Route::post('video/{id}/analysis/export', 'Observation\VideoController@postAnalysisExportType');
-    Route::get('video/{id}/analysis/export/{type}', 'Observation\VideoController@getAnalysisExport');
+    Route::get('questionnaire/{questionnaire_id}/video/{id}', 'Observation\VideoController@getVideo');
+    Route::get('questionnaire/{questionnaire_id}/video/{id}/edit', 'Observation\VideoController@getEditVideo');
+    Route::post('questionnaire/{questionnaire_id}/video/{id}/edit', 'Observation\VideoController@postEditVideo');
+    Route::get('questionnaire/{questionnaire_id}/video/{id}/remove', 'Observation\VideoController@getRemoveVideo');
+    Route::post('questionnaire/{questionnaire_id}/video/{id}/remove', 'Observation\VideoController@postRemoveVideo');
+    Route::get('questionnaire/{questionnaire_id}/video/{id}/upload_finished', 'Observation\VideoController@getUploadFinished');
+    Route::get('questionnaire/{questionnaire_id}/video/{id}/upload_progress', 'Observation\VideoController@getUploadProgress');
+    Route::get('questionnaire/{questionnaire_id}/video/{id}/transcript', 'Observation\VideoController@getEditTranscript');
+    Route::post('questionnaire/{questionnaire_id}/video/{id}/transcript', 'Observation\VideoController@postEditTranscript');
+    Route::get('questionnaire/{questionnaire_id}/video/{id}/analysis', 'Observation\VideoController@getAnalysis');
+    Route::post('questionnaire/{questionnaire_id}/video/{id}/analysis', 'Observation\VideoController@postAnalysisBlock');
+    Route::get('questionnaire/{questionnaire_id}/video/{id}/analysis/finished', 'Observation\VideoController@getAnalysisFinished');
+    Route::get('questionnaire/{questionnaire_id}/video/{id}/analysis/export', 'Observation\VideoController@getAnalysisExportType');
+    Route::post('questionnaire/{questionnaire_id}/video/{id}/analysis/export', 'Observation\VideoController@postAnalysisExportType');
+    Route::get('questionnaire/{questionnaire_id}/video/{id}/analysis/export/{type}', 'Observation\VideoController@getAnalysisExport');
 
 });

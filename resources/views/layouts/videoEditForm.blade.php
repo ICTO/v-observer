@@ -6,7 +6,7 @@
         <div class="row">
             <div class="col s12">
                 <div class="card left-align">
-                    <form method="POST" action="{{ action('Observation\VideoController@postEditVideo', [$video->id]) }}">
+                    <form method="POST" action="{{ action('Observation\VideoController@postEditVideo', ['questionnaire_id' => $questionnaire->id, 'id' => $video->id]) }}">
                         {!! csrf_field() !!}
                         @yield('video-edit-form')
                     </form>

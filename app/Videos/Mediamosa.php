@@ -128,7 +128,7 @@ class Mediamosa implements VideoInterface{
   /**
    * {@inheritdoc}
    */
-  static function uploadProgress($request, $video){
+  static function uploadProgress($request, $questionnaire, $video){
     if($video->data['status'] == 'uploadticket'){
       $url = $video->data['uploadticket_data']['uploadprogress_url'];
       // change id in the url @TODO : is this needed????
@@ -191,7 +191,7 @@ class Mediamosa implements VideoInterface{
 
       $response = array(
         'loaders' => $loaders,
-        'redirect' => $done ? action('Observation\VideoController@getVideo', $video->id) : false
+        'redirect' => $done ? action('Observation\VideoController@getVideo', array($questionnaire->id, $video->id)) : false
       );
 
       if($done){

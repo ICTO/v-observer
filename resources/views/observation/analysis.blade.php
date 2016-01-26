@@ -42,6 +42,6 @@
 @endsection
 
 @section('javascript')
-<script>var urlFinished = {!! $video->analysis == "done" ? 'false' : '"' . action('Observation\VideoController@getAnalysisFinished', [$video->id]) . '"' !!};</script>
+<script>var urlFinished = {!! $video->analysis == "done" ? 'false' : '"' . action('Observation\VideoController@getAnalysisFinished', ['questionnaire_id' => $questionnaire->id, 'id' => $video->id]) . '"' !!};</script>
 <script type="text/javascript" src="/javascript/AnalyseVideo.js"></script>
 @endsection

@@ -4,7 +4,7 @@
         {{ $block->data['question'] }}
         <i class="done-icon material-icons green-text" >done</i>
     </h6>
-    <form method="POST" action="{{ action('Observation\VideoController@postAnalysisBlock', $video->id) }}">
+    <form method="POST" action="{{ action('Observation\VideoController@postAnalysisBlock', ['questionnaire_id' => $questionnaire->id, 'id' => $video->id]) }}">
         {!! csrf_field() !!}
         <input type="hidden" name="block_id" value="{{ $block->id }}">
         <input type="hidden" name="part" value="{{ $part }}">

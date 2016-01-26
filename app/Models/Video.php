@@ -57,9 +57,9 @@ class Video extends Model
     /**
      * Get the questionnaires attached to this video.
      */
-    public function questionnaire()
+    public function questionnaires()
     {
-        return $this->belongsTo('App\Models\Questionnaire','questionnaire_id');
+        return $this->belongsToMany('App\Models\Questionnaire','questionnaire_video', 'video_id', 'questionnaire_id')->withTimestamps();
     }
 
 }

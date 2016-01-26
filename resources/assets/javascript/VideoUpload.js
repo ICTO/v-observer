@@ -20,7 +20,7 @@ $(document).ready(function() {
         var progress = setInterval(function() {
                 $.ajax({
                   method: "GET",
-                  url: "/video/"+video_id+"/upload_progress"
+                  url: "/questionnaire/"+questionnaire_id+"/video/"+video_id+"/upload_progress"
                 }).done(function(data){
                     if(typeof data.loaders !== 'undefined' && data.loaders){
                         var loaders_html = "";
@@ -28,7 +28,7 @@ $(document).ready(function() {
                             if(loader.percentage){
                                 loaders_html = loaders_html + '<div class="center-align grey-text">'+loader.name+'</div><div class="progress"><div class="determinate" style="width: '+loader.percentage+'%"></div></div>'
                             } else {
-                                loaders_html = loaders_html + '<div class="center-align grey-text">'+loader.name+'</div>'
+                                loaders_html = loaders_html + '<div class="center-align grey-text">'+loader.name+'</div><div class="progress"><div class="determinate" style="width: 0%"></div></div>'
                             }
                         });
                         $("#loaders").html(loaders_html);
@@ -43,7 +43,7 @@ $(document).ready(function() {
     function uploadFinished(){
         $.ajax({
           method: "GET",
-          url: "/video/"+video_id+"/upload_finished"
+          url: "/questionnaire/"+questionnaire_id+"/video/"+video_id+"/upload_finished"
         }).done(function(data){
             data = JSON.parse(data);
         });

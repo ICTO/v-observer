@@ -68,8 +68,9 @@ Interface VideoInterface {
    * Upload progress
    *
    * @param Request $request
+   * @param Questionnaire $questionnaire
    * @param Video $video
    */
-  static function uploadProgress($request, $video);
+  static function uploadProgress($request, $questionnaire, $video);
 
 }
