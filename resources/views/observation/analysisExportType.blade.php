@@ -6,7 +6,7 @@
         <div class="row">
             <div class="col s12 m8 push-m2 l6 push-l3">
                 <div class="card left-align">
-                    <form method="POST" action="{{ action('Observation\VideoController@postAnalysisExportType', ['questionnaire_id' => $questionnaire->id, 'id' => $video->id]) }}">
+                    <form method="POST" action="{{ action('Observation\VideoController@postAnalysisExportType', $analysis->id) }}">
                         {!! csrf_field() !!}
                         <div class="card-content">
                             <span class="card-title">

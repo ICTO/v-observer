@@ -1378,7 +1378,7 @@ $(function(){
         success: requestFinished
     };
     function requestFinished (data, statusText){
-        $("#question-"+data.analysis.part+"-"+data.analysis.block_id).addClass("has-answer");
+        $("#question-"+data.answer.part+"-"+data.answer.block_id).addClass("has-answer");
         setTimeout(checkPartsDone(), 1000); // first show the finished icon and then navigate
     }
 

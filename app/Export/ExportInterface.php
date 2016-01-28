@@ -12,11 +12,6 @@ Interface ExportInterface {
     /**
      * Get the file of the format
      */
-    static function exportFile($data, $video, $questionnaire);
-
-    /**
-     * Get the content type
-     */
-    static function getContentType();
+    static function exportFile($data, $analysis);
 
 }

@@ -18,11 +18,11 @@ class Excel implements ExportInterface {
     /**
      * {@inheritdoc}
      */
-    static function exportFile($parts, $video, $questionnaire){
+    static function exportFile($parts, $analysis){
+        $questionnaire = $analysis->questionnaire()->get()->first();
         $excel = new \PHPExcel();
-        $excel->getProperties()->setCreator($video->creator()->get()->first()->name)
-                               ->setTitle("Analysis of ". $video->name . ' ('.$questionnaire->name.')');
-
+        $excel->getProperties()->setCreator($analysis->creator()->get()->first()->name)
+                               ->setTitle("Analysis of ". $analysis->video()->get()->first()->name . ' ('.$questionnaire->name.')');
         $interval = $questionnaire->interval;
 
         foreach($parts as $p => $part){
@@ -36,7 +36,7 @@ class Excel implements ExportInterface {
         }
 
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        header('Content-Disposition: attachment;filename="analysis-video-'.$video->id.'.xlsx"');
+        header('Content-Disposition: attachment;filename="analysis-'.$analysis->id.'.xlsx"');
         header('Cache-Control: max-age=0');
         // If you're serving to IE 9, then the following may be needed
         header('Cache-Control: max-age=1');
@@ -69,13 +69,6 @@ class Excel implements ExportInterface {
                 self::processBlocks($block['childs'], $excel);
             }
         }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    static function getContentType(){
-        return 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
     }
 
 }

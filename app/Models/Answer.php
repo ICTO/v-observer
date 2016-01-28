@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Analysis extends Model
+class Answer extends Model
 {
     use SoftDeletes;
 
@@ -14,7 +14,7 @@ class Analysis extends Model
      *
      * @var string
      */
-    protected $table = 'analyses';
+    protected $table = 'answers';
 
     /**
      * Indicates if the model should be timestamped.
@@ -28,7 +28,7 @@ class Analysis extends Model
      *
      * @var array
      */
-    protected $fillable = ['video_id', 'questionnaire_id', 'creator_id', 'completed'];
+    protected $fillable = ['analysis_id', 'block_id', 'part', 'answer'];
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -45,26 +45,18 @@ class Analysis extends Model
     protected $dates = ['deleted_at'];
 
     /**
-     * Get the questionnaire of the analysis
+     * Get the analysis of the response
      */
-    public function questionnaire()
+    public function analysis()
     {
-        return $this->belongsTo('App\Models\Questionnaire', 'questionnaire_id');
+        return $this->belongsTo('App\Models\Analysis', 'analysis_id');
     }
 
     /**
-     * Get the video of the analysis
+     * Get the block of the analysis
      */
-    public function video()
+    public function block()
     {
-        return $this->belongsTo('App\Models\Video', 'video_id');
-    }
-
-    /**
-     * Get the creator of the analysis
-     */
-    public function creator()
-    {
-        return $this->belongsTo('App\Models\User', 'creator_id');
+        return $this->belongsTo('App\Models\Block', 'block_id');
     }
 }

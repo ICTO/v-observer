@@ -18,6 +18,8 @@ class ObservationPolicy
     public function QuestionnaireMenu(User $user, Questionnaire $questionnaire)
     {
         if(    $this->QuestionnaireEdit($user, $questionnaire)
+            || $this->QuestionnaireBlockView($user, $questionnaire)
+            || $this->QuestionnaireIntervalEdit($user, $questionnaire)
             || $this->QuestionnaireExport($user, $questionnaire)
             || $this->QuestionnaireRemove($user, $questionnaire)
         ){
@@ -173,8 +175,6 @@ class ObservationPolicy
         if(    $this->VideoEdit($user, $questionnaire)
             || $this->VideoRemove($user, $questionnaire)
             || $this->VideoEditTranscript($user, $questionnaire)
-            || $this->VideoAnalysis($user, $questionnaire)
-            || $this->VideoAnalysisExport($user, $questionnaire)
         ){
             return true;
         }
@@ -183,16 +183,13 @@ class ObservationPolicy
     }
 
     /**
-     * Determine if user can view the video menu.
+     * Determine if user can view the analysis menu.
      *
      * @return bool
      */
-    public function VideoMenu2(User $user, Questionnaire $questionnaire)
+    public function AnalysisMenu(User $user, Questionnaire $questionnaire)
     {
-        if($this->VideoEditTranscript($user, $questionnaire)
-            || $this->VideoAnalysis($user, $questionnaire)
-            || $this->VideoAnalysisExport($user, $questionnaire)
-        ){
+        if($this->VideoAnalysisExport($user, $questionnaire)){
             return true;
         }
 
@@ -210,11 +207,31 @@ class ObservationPolicy
     }
 
     /**
+     * Determine if user can view an analysis.
+     *
+     * @return bool
+     */
+    public function VideoAnalysisView(User $user, Questionnaire $questionnaire)
+    {
+        return $this->QuestionnaireView($user, $questionnaire);
+    }
+
+    /**
      * Determine if user can do an analysis of a video.
      *
      * @return bool
      */
-    public function VideoAnalysis(User $user, Questionnaire $questionnaire)
+    public function VideoAnalysisCreate(User $user, Questionnaire $questionnaire)
+    {
+        return $this->QuestionnaireView($user, $questionnaire);
+    }
+
+    /**
+     * Determine if user can do an analysis of a video.
+     *
+     * @return bool
+     */
+    public function VideoAnalysisAnswer(User $user, Questionnaire $questionnaire)
     {
         return $this->QuestionnaireView($user, $questionnaire);
     }
@@ -227,6 +244,16 @@ class ObservationPolicy
     public function VideoAnalysisExport(User $user, Questionnaire $questionnaire)
     {
         return $this->QuestionnaireView($user, $questionnaire);
+    }
+
+    /**
+     * Determine if user can remove an analysis of a video.
+     *
+     * @return bool
+     */
+    public function VideoAnalysisRemove(User $user, Questionnaire $questionnaire)
+    {
+        return $this->QuestionnaireEdit($user, $questionnaire);
     }
 
     /**

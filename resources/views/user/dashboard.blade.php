@@ -42,11 +42,18 @@
                                 @can('questionnaire-menu', $questionnaire)
                                 <a class='dropdown-button btn blue action-btn' data-alignment="right" href='#' data-activates='dropdown-questionnaire-{{ $key }}'><i class="material-icons">more_horiz</i></a>
                                 <ul id='dropdown-questionnaire-{{ $key }}' class='dropdown-content action-btn'>
+                                    <!--  @TODO add all buttons -->
                                     @can('questionnaire-edit', $questionnaire)
                                     <li><a href="{{ action('Observation\QuestionnaireController@getEditQuestionnaire', $questionnaire->id ) }}">Edit questionnaire</a></li>
                                     @endcan
-                                    @can('questionnaire-questions-edit', $questionnaire)
-                                    <li><a href="{{ action('Observation\QuestionnaireController@getBlocks', $questionnaire->id ) }}">Edit questions</a></li>
+                                    @can('questionnaire-block-view', $questionnaire)
+                                    <li><a href="{{ action('Observation\QuestionnaireController@getBlocks', $questionnaire->id ) }}">Questions</a></li>
+                                    @endcan
+                                    @can('questionnaire-interval-edit', $questionnaire)
+                                    <li><a href="{{ action('Observation\QuestionnaireController@getEditInterval', $questionnaire->id) }}">Interval</a></li>
+                                    @endcan
+                                    @can('questionnaire-export', $questionnaire)
+                                    <li><a href="{{ action('Observation\QuestionnaireController@getExportQuestionnaire', $questionnaire->id) }}">Export</a></li>
                                     @endcan
                                     @can('questionnaire-remove', $questionnaire)
                                     <li><a href="{{ action('Observation\QuestionnaireController@getRemoveQuestionnaire', $questionnaire->id ) }}">Remove questionnaire</a></li>

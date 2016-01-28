@@ -28,19 +28,9 @@
 @section('video-actions')
     {{-- only show actions when upload is finished --}}
     @if($video->data['status'] == 'ready')
-    @can('video-menu-2', $questionnaire)
+    @can('video-edit-transcript', $questionnaire)
     <div class="card-action">
-        @can('video-edit-transcript', $questionnaire)
         <a class="waves-effect waves-light btn white-text" href="{{ action('Observation\VideoController@getEditTranscript', ['questionnaire_id' => $questionnaire->id, 'id' => $video->id]) }}"><i class="material-icons left">subtitles</i>Edit transcript</a>
-        @endcan
-        @can('video-analysis', $questionnaire)
-        <a class="waves-effect waves-light btn white-text {{ $video->analysis != 'done' ? 'orange' : '' }} lighten-1" href="{{ action('Observation\VideoController@getAnalysis', ['questionnaire_id' => $questionnaire->id, 'id' => $video->id]) }}"><i class="material-icons left">art_track</i>Analysis</a>
-        @endcan
-        @if($video->analysis == 'done')
-            @can('video-analysis-export', $questionnaire)
-            <a class="waves-effect waves-light btn white-text orange lighten-1" href="{{ action('Observation\VideoController@getAnalysisExportType', ['questionnaire_id' => $questionnaire->id, 'id' => $video->id]) }}"><i class="material-icons left">file_download</i>Export Analysis</a>
-            @endcan
-        @endif
     </div>
     @endcan
     @endif
@@ -61,6 +51,8 @@
     <script type="text/javascript" src="/javascript/VideoUpload.js"></script>
     @endsection
 </div>
+@section('video-analyses')
+@endsection
 @endif
 
 {{-- Video upload form --}}
@@ -107,4 +99,6 @@
         No video uploaded yet.
     @endcan
 </div>
+@section('video-analyses')
+@endsection
 @endif

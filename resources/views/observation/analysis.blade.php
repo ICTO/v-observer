@@ -29,7 +29,7 @@
                                     {{ $questionnaire->name }} <span class="teal-text text-lighten-1">({{ $part+1 }}/{{ count($chapters) }})</span>
                                 </div>
                                 @foreach($blocks as $key => $block)
-                                    @include('observation.blocks.'.$block->type.'.display', ['video' => $video, 'block' => $block, 'questionnaire' => $questionnaire, 'block_types' => $block_types, 'part' => $part, 'analyse' => $analysis ])
+                                    @include('observation.blocks.'.$block->type.'.display', ['video' => $video, 'block' => $block, 'questionnaire' => $questionnaire, 'block_types' => $block_types, 'part' => $part, 'answers' => $answers ])
                                 @endforeach
                             </div>
                         @endforeach
@@ -42,6 +42,6 @@
 @endsection
 
 @section('javascript')
-<script>var urlFinished = {!! $video->analysis == "done" ? 'false' : '"' . action('Observation\VideoController@getAnalysisFinished', ['questionnaire_id' => $questionnaire->id, 'id' => $video->id]) . '"' !!};</script>
+<script>var urlFinished = {!! $analysis->completed ? 'false' : '"' . action('Observation\VideoController@getAnalysisFinished', $analysis->id) . '"' !!};</script>
 <script type="text/javascript" src="/javascript/AnalyseVideo.js"></script>
 @endsection
