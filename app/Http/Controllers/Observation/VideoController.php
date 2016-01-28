@@ -177,11 +177,11 @@ class VideoController extends Controller
     }
 
     $video->name = $request->name;
-    $class::processEditForm($request);
+    $class::processEditForm($request, $video);
 
     $video->save();
 
-    return Redirect::action('Observation\QuestionnaireController@getQuestionnaire', $video->questionnaire_id)->with('status', 'Video saved');
+    return Redirect::action('Observation\VideoController@getVideo', array($questionnaire->id, $video->id))->with('status', 'Video saved');
   }
 
   /**
