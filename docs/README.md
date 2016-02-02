@@ -12,8 +12,6 @@
 
 [Analysis](#analysis)
 
-[Export](#export)
-
 
 # Authentication
 
@@ -53,12 +51,10 @@ You can export and import questionnaires by pressing the buttons "Import" and "E
 
 # Videos
 
-To add videos to a questionnaire, go to your dashboard or the dashboard of the chosen group and press the questionnaire you want to add a video to. Now press on the button "add video" and choose the type of video upload you like to use. If you don't see an "add video" button, you won't have access to upload a video to that group. You need to be a group admin to be able to add videos to a questionnaire. After pressing the button, give your video a name and press "add video". You can now upload the video file. A progressbar will indicate the uploading and transcoding progress of the video. After the upload is finished, you can navigate away from the page even if the transcoding job isn't finished. The transcoding job will continue in the background. After all jobs are finished, a video player starts playing the video.
+To add videos to a questionnaire, go to your dashboard or the dashboard of the chosen group and press the questionnaire you want to add a video to. Now press on the button "add video" and choose the type of video upload you like to use. If you don't see an "add video" button, you won't have access to upload a video to that group. You need to be a group admin to be able to add videos to a questionnaire. After pressing the button, give your video a name and press "add video". You can now upload the video file. A progress bar will indicate the uploading and transcoding progress of the video. After the upload is finished, you can navigate away from the page even if the transcoding job isn't finished. The transcoding job will continue in the background. After all jobs are finished, a video player starts playing the video.
 
 # Analysis
 
-To start the analysis of a video, open the video on the questionnaire page and press the button "analysis". All members of a group have access to start the analysis of a video. The analysis page opens with on the left side the video player and on the right side the questionnaire. The video player has a timeline that is divided into sections based on the interval set on the questionnaire. Each section of the timeline has a color based on the completeness of the attached questionnaire. The video player loops the section until the questionnaire is filled in completely and then switches to the next section. To fast navigate the sections of the timeline, you can use the arrows of your keyboard. After finishing all sections, you will be redirected to the overview page.
+To start the analysis of a video, open the video on the questionnaire page and press the button "start new analysis". All members of a group have access to start or resume the analysis of a video. The analysis page opens with on the left side the video player and on the right side the questionnaire. The video player has a timeline that is divided into sections based on the interval set on the questionnaire. Each section of the timeline has a color based on the completeness of the attached questionnaire. The video player loops the section until the questionnaire is filled in completely and then switches to the next section. To fast navigate the sections of the timeline, you can use the arrows of your keyboard. After finishing all sections, you will be redirected to the overview page of the video. You can view a list of analyses performed on the video. All analyses that are completed are labeled with the label "completed". To view a specific analysis, just press the name of the creator to open all questions.  
 
-# Export
-
-To export the analysis of a video, open the video on the questionnaire page and press the button "export analysis". You can now choose the type of export you like to use. Press the download button to start downloading the requested export file.
+To export the analysis of a video, open the video on the questionnaire page and press the dotted button next to the analysis you want to export and select export. You can now choose the type of export you like to use. Currently only Microsoft Excel is supported. Press the download button to start downloading the requested export file.
