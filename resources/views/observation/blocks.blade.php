@@ -34,7 +34,9 @@
                                 @endif
                                 @endforeach
                             </ul>
+                            @if($blocks->count())
                             <button type="submit" class='waves-effect waves-light btn white-text' href='#'><i class="material-icons left">reorder</i>Save order</button>
+                            @endif
                         </div>
                         @endcan
                     </form>

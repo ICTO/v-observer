@@ -12,7 +12,7 @@
                             <span class="card-title">Reset your password</span>
                             <div class="row">
                                 <div class="input-field col s12">
-                                    <input type="email" name="email" value="{{ old('email') }}">
+                                    <input type="email" id="email" name="email" value="{{ old('email') }}">
                                     <label for="email">Email</label>
                                 </div>
                             </div>

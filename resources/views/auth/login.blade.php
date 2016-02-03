@@ -13,13 +13,13 @@
                             @if(Config::get('app.app_default_login'))
                             <div class="row">
                                 <div class="input-field col s12">
-                                    <input type="email" name="email" value="{{ old('email') }}">
+                                    <input type="email" id="email" name="email" value="{{ old('email') }}">
                                     <label for="email">Email</label>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="input-field col s12">
-                                    <input type="password" name="password" id="password">
+                                    <input type="password" id="password" name="password" id="password">
                                     <label for="password">Password</label>
                                 </div>
                             </div>

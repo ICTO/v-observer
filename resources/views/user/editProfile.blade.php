@@ -11,20 +11,20 @@
                         <div class="card-content">
                             <div class="row">
                                 <div class="input-field col s12">
-                                    <input type="text" name="name" value="{{ old('name') ? old('name') : $user->name }}">
+                                    <input type="text" id="name" name="name" value="{{ old('name') ? old('name') : $user->name }}">
                                     <label for="name">Name</label>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="input-field col s12">
-                                    <input type="email" name="email" value="{{ old('email') ? old('email') : $user->email }}">
+                                    <input type="email" id="email" name="email" value="{{ old('email') ? old('email') : $user->email }}">
                                     <label for="email">Email</label>
                                 </div>
                             </div>
                             @if( Config::get('cas.cas_hostname') )
                             <div class="row">
                                 <div class="input-field col s12">
-                                    <input type="text" name="cas_username" value="{{ old('cas_username') ? old('cas_username') : $user->cas_username }}">
+                                    <input type="text" id="cas_username" name="cas_username" value="{{ old('cas_username') ? old('cas_username') : $user->cas_username }}">
                                     <label for="cas_username">CAS username</label>
                                 </div>
                             </div>

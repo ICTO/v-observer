@@ -5,8 +5,8 @@
     <div class="row">
         <div class="input-field col s12">
             <i class="material-icons prefix grey-text">text_fields</i>
-            <input type="text" name="name" value="{{ old('name') ? old('name') : $video->name }}">
-            <label for="title">Video name</label>
+            <input type="text" id="name" name="name" value="{{ old('name') ? old('name') : $video->name }}">
+            <label for="name">Video name</label>
         </div>
     </div>
 </div>

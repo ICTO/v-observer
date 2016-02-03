@@ -6,7 +6,7 @@
     <div class="row">
         <div class="input-field col s12">
             <i class="material-icons prefix grey-text">text_fields</i>
-            <input type="text" name="name" value="{{ old('name') }}">
+            <input type="text" id="name" name="name" value="{{ old('name') }}">
             <label for="name">Video name</label>
         </div>
     </div>

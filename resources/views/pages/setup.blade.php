@@ -12,20 +12,20 @@
                             <div class="card-title">Setup - Create Super Admin</div>
                             <div class="row">
                                 <div class="input-field col s12">
-                                    <input type="text" name="name" value="{{ old('name') }}">
+                                    <input type="text" id="name" name="name" value="{{ old('name') }}">
                                     <label for="name">Name</label>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="input-field col s12">
-                                    <input type="email" name="email" value="{{ old('email') }}">
+                                    <input type="email" id="email" name="email" value="{{ old('email') }}">
                                     <label for="email">Email</label>
                                 </div>
                             </div>
                             @if( Config::get('cas.cas_hostname') )
                             <div class="row">
                                 <div class="input-field col s12">
-                                    <input type="text" name="cas_username" value="{{ old('cas_username') }}">
+                                    <input type="text" id="cas_username" name="cas_username" value="{{ old('cas_username') }}">
                                     <label for="cas_username">CAS Username</label>
                                 </div>
                             </div>

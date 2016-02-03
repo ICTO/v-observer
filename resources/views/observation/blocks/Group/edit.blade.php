@@ -5,7 +5,7 @@
     <div class="row">
         <div class="input-field col s12">
             <i class="material-icons prefix grey-text">text_fields</i>
-            <input type="text" name="title" value="{{ old('title') ? old('title') : $block->data['title'] }}">
+            <input type="text" id="title" name="title" value="{{ old('title') ? old('title') : $block->data['title'] }}">
             <label for="title">Subtitle</label>
         </div>
     </div>

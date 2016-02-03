@@ -14,7 +14,7 @@
                             </span>
                             <div class="row">
                                 <div class="input-field col s12">
-                                    <input type="text" name="name" value="{{ old('name') ? old('name') : $questionnaire->name }}">
+                                    <input type="text" id="name" name="name" value="{{ old('name') ? old('name') : $questionnaire->name }}">
                                     <label for="name">Name</label>
                                 </div>
                             </div>
