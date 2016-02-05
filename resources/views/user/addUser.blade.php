@@ -16,7 +16,7 @@
                                     <select class="icons" name="user_id">
                                       <option value="" disabled selected>Select a user</option>
                                       @foreach($users as $user)
-                                      <option value="{{ $user->id }}" data-icon="/images/no_avatar.png" class="left circle">{{ $user->name }}</option>
+                                      <option value="{{ $user->id }}" data-icon="/images/no_avatar.png" class="left circle">{{ $user->name }} {{ $user->email ? '('.$user->email.')' : '' }}</span></option>
                                       @endforeach
                                     </select>
                                 </div>
