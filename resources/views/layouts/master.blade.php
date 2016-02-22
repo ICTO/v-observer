@@ -19,5 +19,9 @@
     </main>
     <script type="text/javascript" src="/javascript/main.js"></script>
     @yield('javascript')
+    <!--  Tracking -->
+    @if(Config::get('app.tracking_snippet'))
+      {!! Config::get('app.tracking_snippet') !!}
+    @endif
   </body>
 </html>

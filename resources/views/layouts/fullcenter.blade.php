@@ -1,5 +1,3 @@
-<?php $color = "grey" ?>
-
 <!DOCTYPE html>
 <html style="height:100%; min-height:610px">
   <head>
@@ -17,5 +15,9 @@
     @yield('content')
     </div>
     <script type="text/javascript" src="/javascript/main.js"></script>
+    <!--  Tracking -->
+    @if(Config::get('app.tracking_snippet'))
+      {!! Config::get('app.tracking_snippet') !!}
+    @endif
   </body>
 </html>
