@@ -412,7 +412,7 @@ class VideoController extends Controller
     $analysis->completed = true;
     $analysis->save();
 
-    return Redirect::action('Observation\VideoController@getVideo', array('questionnaire_id' => $questionnaire->id, 'video_id' => $video->id))->with('status', 'Finsihed analysis');
+    return Redirect::action('Observation\VideoController@getVideo', array('questionnaire_id' => $questionnaire->id, 'video_id' => $video->id))->with('status', 'Finished analysis');
   }
 
   /**
