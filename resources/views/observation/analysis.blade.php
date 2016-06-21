@@ -41,6 +41,12 @@
 </div>
 @endsection
 
+@section('header-buttons')
+<ul id="nav-mobile" class="right">
+    <li><a href="{{ action('Observation\VideoController@getVideo', ['questionnaire_id' => $questionnaire->id, 'id' => $video->id]) }}"><span class="hide-on-med-and-down">Stop Analysis</span><i class="material-icons right">exit_to_app</i></a></li>
+</ul>
+@endsection
+
 @section('javascript')
 <script>var urlFinished = {!! $analysis->completed ? 'false' : '"' . action('Observation\VideoController@getAnalysisFinished', $analysis->id) . '"' !!};</script>
 <script type="text/javascript" src="/javascript/AnalyseVideo.js"></script>

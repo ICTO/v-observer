@@ -26,6 +26,7 @@
         <a id="logo-container" href="{{ action("User\UserController@getDashboard") }}" class="brand-logo">
           <span class="logo-text-navbar">V-observer</span>
         </a>
+        @yield('header-buttons')
       </div>
     </div>
   </nav>
