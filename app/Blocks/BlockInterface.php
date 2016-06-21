@@ -63,6 +63,13 @@ Interface BlockInterface {
     static function canAddChildBlock();
 
     /**
+     * Can this block be copied?
+     *
+     * @return boolean
+     */
+    static function canCopyBlock();
+
+    /**
      * get the score for an answer?
      *
      * @param string $answer

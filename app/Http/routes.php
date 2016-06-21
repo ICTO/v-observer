@@ -79,6 +79,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('questionnaire/{id}/blocks', 'Observation\QuestionnaireController@getBlocks');
     Route::get('questionnaire/{id}/block/create/{type}/{parent_id?}', 'Observation\QuestionnaireController@getCreateBlock');
     Route::post('questionnaire/{id}/block/create/{type}/{parent_id?}', 'Observation\QuestionnaireController@postCreateBlock');
+    Route::get('block/{id}/copy', 'Observation\QuestionnaireController@getCopyBlock');
     Route::get('block/{id}/edit', 'Observation\QuestionnaireController@getEditBlock');
     Route::post('block/{id}/edit', 'Observation\QuestionnaireController@postEditBlock');
     Route::get('block/{id}/remove', 'Observation\QuestionnaireController@getRemoveBlock');

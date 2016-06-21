@@ -64,6 +64,14 @@ class MultipleChoiceQuestion implements BlockInterface {
     return false;
   }
 
+
+  /**
+   * {@inheritdoc}
+   */
+  static function canCopyBlock(){
+    return true;
+  }
+
   /**
    * {@inheritdoc}
    */

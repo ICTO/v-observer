@@ -60,6 +60,13 @@ class Group implements BlockInterface{
   /**
    * {@inheritdoc}
    */
+  static function canCopyBlock(){
+    return false;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   static function getHumanName(){
     return 'Subtitle';
   }
