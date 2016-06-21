@@ -41,9 +41,13 @@ When you press the "Group" link in the left side navigation, you will view a lis
 
 # Questionnaires
 
-To create a new questionnaire, go to your dashboard or the dashboard of the chosen group and press the button "Add questionnaire". Fill in the title field and choose an owner. If the owner is a group, all members will be able to view the questionnaire. Only group admins will be able to adjust the questionnaire. After saving the questionnaire, you can start creating the questions. Press the add button and select "subtitle". A subtitle can be used to group multiple questions. You always need to start by creating a subtitle before you can add questions. Fill in the form and save the subtitle. After saving the subtitle, you can add a question by pressing the dots button next to the subtitle and choose the question type you want to add. Fill in the form and save your question. You can repeat this process until you have created the questionnaire you want. Questionnaires are locked and can't be modified anymore when the video analysis process is started.
+To create a new questionnaire, go to your dashboard or the dashboard of the chosen group and press the button "Add questionnaire". Fill in the title field and choose an owner. If the owner is a group, all members will be able to view the questionnaire. Only group admins will be able to adjust the questionnaire. After saving the questionnaire, you can start creating the questions.
+
+Press the add button and select "subtitle". A subtitle can be used to group multiple questions. Fill in the form and save the subtitle. After saving the subtitle, you can add a question by pressing the dots button next to the subtitle and choose the question type you want to add. Fill in the form and save your question. You can repeat this process until you have created the questionnaire you want. Questionnaires are locked and can't be modified anymore when the video analysis process is started.
 
 To add a multiple choice question, press the dotted button next to the subtitle where you like to add this question and select "Add child -> Multiple choice question". Input the question and fill in the options of the question. Score fields aren't mandatory. To remove a saved option, just clear the option input field and save the question again.
+
+To copy a multiple choice question, press the dotted button next to the question you want to copy and select "Copy". You will get a form to create a new question with the values already filled in of the selected question you want to copy. Adjust values as desired and save the question.
 
 You can reorder questions by dragging and dropping them where you want them. If the order is correct, press the "save order" button on the bottom of the page.
 
