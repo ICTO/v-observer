@@ -10,6 +10,9 @@
     <ul id='dropdown-block-{{ $block->id }}' class='dropdown-content action-btn'>
         <li><a href="{{ action('Observation\QuestionnaireController@getEditBlock', $block->id ) }}">Edit</a></li>
         <li><a href="{{ action('Observation\QuestionnaireController@getRemoveBlock', $block->id ) }}">Remove</a></li>
+        @if( $block_types[$block->type]::canCopyBlock() )
+        <li><a href="{{ action('Observation\QuestionnaireController@getCopyBlock', $block->id ) }}">Copy</a></li>
+        @endif
         @if( $block_types[$block->type]::canAddChildBlock() )
         <li class="divider"></li>
         <li><a href="#" class="black-text">Add child</a></li>

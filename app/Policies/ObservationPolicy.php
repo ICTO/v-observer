@@ -113,6 +113,19 @@ class ObservationPolicy
     }
 
     /**
+     * Determine if user can copy a block of a questionnaire.
+     *
+     * @return bool
+     */
+    public function QuestionnaireBlockCopy(User $user, Questionnaire $questionnaire)
+    {
+        if($questionnaire->locked){
+            return false;
+        }
+        return $this->QuestionnaireEdit($user, $questionnaire);
+    }
+
+    /**
      * Determine if user can edit a the interval of a questionnaire.
      *
      * @return bool

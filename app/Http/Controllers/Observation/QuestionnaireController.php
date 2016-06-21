@@ -450,6 +450,30 @@ class QuestionnaireController extends Controller
   }
 
   /**
+   * Get the form to copy a block.
+   *
+   * @return View
+   */
+  protected function getCopyBlock($id)
+  {
+    $block = Block::where('id',$id)->firstOrFail();
+
+    $newBlock = new Block();
+    $newBlock->questionnaire_id = $block->questionnaire_id;
+    $newBlock->type = $block->type;
+    $newBlock->parent_id = $block->parent_id;
+    $newBlock->data = $block->data;
+
+    $this->authorize('questionnaire-block-copy', $block->questionnaire()->get()->first());
+
+    $data = array(
+      'block' => $newBlock,
+    );
+
+    return view('observation.blocks.'.$block->type.'.copy', $data);
+  }
+
+  /**
    * Get the edit form from a block
    *
    * @return View
