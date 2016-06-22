@@ -3,10 +3,12 @@
 namespace App\Export;
 
 use App\Export\ExportInterface;
+use Auth;
 
 class Excel implements ExportInterface {
 
     static $row;
+    static $column;
 
     /**
      * {@inheritdoc}
@@ -18,25 +20,55 @@ class Excel implements ExportInterface {
     /**
      * {@inheritdoc}
      */
-    static function exportFile($parts, $analysis){
-        $questionnaire = $analysis->questionnaire()->get()->first();
+    static function exportFile($analyses){
+        $user = Auth::user();
         $excel = new \PHPExcel();
-        $excel->getProperties()->setCreator($analysis->creator()->get()->first()->name)
-                               ->setTitle("Analysis of ". $analysis->video()->get()->first()->name . ' ('.$questionnaire->name.')');
-        $interval = $questionnaire->interval;
+        $questionnaireName = $analyses[0]['analysis']->questionnaire()->get()->first()->name;
+        $excel->getProperties()->setCreator($user->name)
+                               ->setTitle($questionnaireName);
 
-        foreach($parts as $p => $part){
-            $excel->createSheet($p);
-            $excel->setActiveSheetIndex($p);
-            $excel->getActiveSheet()->setTitle($p*$interval . '->' . ($p+1)*$interval . ' sec');
+        foreach($analyses as $r => $row){
+            if($r){
+                $excel->createSheet();
+                $excel->setActiveSheetIndex($r);
+            }
+            $analysis = $row['analysis'];
+            $questionnaire = $analysis->questionnaire()->get()->first();
+            $interval = $questionnaire->interval;
 
-            self::$row = 1;
-            self::processBlocks($part, $excel);
+            // analysis info
+            $creatorName = $analysis->creator()->get()->first()->name;
+            $videoName = $analysis->video()->get()->first()->name;
+            $excel->getActiveSheet()->setTitle($creatorName);
+            $excel->getActiveSheet()->setCellValueByColumnAndRow(0, 1, 'Questionnaire');
+            $excel->getActiveSheet()->setCellValueByColumnAndRow(1, 1, $questionnaireName);
+            $excel->getActiveSheet()->setCellValueByColumnAndRow(0, 2, 'Video');
+            $excel->getActiveSheet()->setCellValueByColumnAndRow(1, 2, $videoName);
+            $excel->getActiveSheet()->setCellValueByColumnAndRow(0, 3, 'Creator');
+            $excel->getActiveSheet()->setCellValueByColumnAndRow(1, 3, $creatorName);
 
+            self::$column = 0;
+            self::$row = 6;
+            self::processAnswerText($row['answers'][0], $excel);
+            self::$column = 1;
+
+            foreach($row['answers'] as $p => $part){
+                self::$row = 5;
+                self::processAnswerInterval($p, $interval, $excel);
+                self::$row = 6;
+                self::processAnswerScores($part, $excel);
+                self::$column++;
+            }
+        }
+
+        if(count($analyses) > 1){
+            $filename = str_replace('/', ' - ', $questionnaireName . ' - ' . $videoName);
+        } else {
+            $filename = str_replace('/', ' - ', $questionnaireName . ' - ' . $videoName . ' - ' . $creatorName);
         }
 
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        header('Content-Disposition: attachment;filename="analysis-'.$analysis->id.'.xlsx"');
+        header('Content-Disposition: attachment;filename="'.$filename.'.xlsx"');
         header('Cache-Control: max-age=0');
         // If you're serving to IE 9, then the following may be needed
         header('Cache-Control: max-age=1');
@@ -50,23 +82,37 @@ class Excel implements ExportInterface {
         exit;
     }
 
-    private static function processBlocks($blocks, $excel){
+    private static function processAnswerInterval($p, $interval, $excel){
+        $excel->getActiveSheet()->setCellValueByColumnAndRow(self::$column, self::$row, $p*$interval . '->' . ($p+1)*$interval . ' sec');
+    }
+
+    private static function processAnswerText($blocks, $excel){
         foreach ($blocks as $block) {
-            $excel->getActiveSheet()->setCellValue('A'.self::$row , $block['text']);
+            $excel->getActiveSheet()->setCellValueByColumnAndRow(self::$column, self::$row, $block['text']);
             if($block['type'] == 'Group'){
-                $excel->getActiveSheet()->getStyle('A'.self::$row)->getFont()->setBold(true);
-            }
-            if(!empty($block['answer'])){
-                $excel->getActiveSheet()->setCellValue('B'.self::$row, $block['answer']);
-            }
-            if(isset($block['score'])){
-                $excel->getActiveSheet()->setCellValue('C'.self::$row, $block['score']);
+                $excel->getActiveSheet()->getStyle(self::$column.self::$row)->getFont()->setBold(true);
             }
 
             self::$row++;
 
             if(!empty($block['childs'])){
-                self::processBlocks($block['childs'], $excel);
+                self::processAnswerText($block['childs'], $excel);
+            }
+        }
+    }
+
+    private static function processAnswerScores($blocks, $excel){
+        foreach ($blocks as $block) {
+            if(isset($block['score']) && is_numeric($block['score'])){
+                $excel->getActiveSheet()->setCellValueByColumnAndRow(self::$column, self::$row, $block['score']);
+            } else if(isset($block['answer'])){
+                $excel->getActiveSheet()->setCellValueByColumnAndRow(self::$column, self::$row, $block['answer']);
+            }
+
+            self::$row++;
+
+            if(!empty($block['childs'])){
+                self::processAnswerScores($block['childs'], $excel);
             }
         }
     }

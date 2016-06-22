@@ -106,5 +106,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('analysis/{id}/export', 'Observation\VideoController@getAnalysisExportType');
     Route::post('analysis/{id}/export', 'Observation\VideoController@postAnalysisExportType');
     Route::get('analysis/{id}/export/{type}', 'Observation\VideoController@getAnalysisExport');
+    Route::get('questionnaire/{questionnaire_id}/video/{video_id}/analyses/export', 'Observation\VideoController@getAnalysesExportType');
+    Route::post('questionnaire/{questionnaire_id}/video/{video_id}/analyses/export', 'Observation\VideoController@postAnalysesExportType');
+    Route::get('questionnaire/{questionnaire_id}/video/{video_id}/analyses/export/{type}', 'Observation\VideoController@getAnalysesExport');
 
 });

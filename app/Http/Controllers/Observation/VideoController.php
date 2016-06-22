@@ -521,16 +521,17 @@ class VideoController extends Controller
       abort(501, 'Export type not supported');
     }
 
-    $export = array();
     $parentBlocks = $questionnaire->blocks()->whereNull('parent_id')->orderBy('order', 'asc')->orderBy('id', 'asc')->get();
 
     $parts = ceil($video->length/$questionnaire->interval);
 
+    $analyses[0]['analysis'] = $analysis;
+
     for($part=0 ; $part < $parts ; $part++){
-      $export[] = $this->getExportBlocks($parentBlocks, $analysis, $part);
+      $analyses[0]['answers'][] = $this->getExportBlocks($parentBlocks, $analysis, $part);
     }
 
-    return $exportTypes[$type]::exportFile($export, $analysis);
+    return $exportTypes[$type]::exportFile($analyses);
   }
 
   /**
@@ -562,5 +563,84 @@ class VideoController extends Controller
       $export[] = $new;
     }
     return $export;
+  }
+
+  /**
+   * Select an export type for the analyses
+   */
+  protected function getAnalysesExportType($questionnaire_id, $video_id){
+    $video = Video::where('id',$video_id)->firstOrFail();
+    $questionnaire = $video->questionnaires()->where('questionnaire_id', $questionnaire_id)->get()->first();
+
+    $this->authorize('video-analyses-export', $questionnaire);
+
+    $exportTypes = $this->getAnalysisExportTypes();
+
+    $data = array(
+      'video' => $video,
+      'questionnaire' => $questionnaire,
+      'exportTypes' => $exportTypes
+    );
+
+    return view('observation.analysesExportType', $data);
+  }
+
+  /**
+   * Validate the export type
+   */
+  protected function postAnalysesExportType(Request $request, $questionnaire_id, $video_id){
+    $video = Video::where('id',$video_id)->firstOrFail();
+    $questionnaire = $video->questionnaires()->where('questionnaire_id', $questionnaire_id)->get()->first();
+
+    $this->authorize('video-analyses-export', $questionnaire);
+
+    $validator = Validator::make($request->all(), [
+        'type' => 'required'
+    ]);
+
+    if ($validator->fails()) {
+        return Redirect::action('Observation\VideoController@getAnalysesExportType', array($questionnaire_id, $video_id))
+            ->withInput()
+            ->withErrors($validator);
+    }
+
+    $exportTypes = $this->getAnalysisExportTypes();
+
+    if(!array_key_exists($request->type, $exportTypes)){
+      abort(501, 'Export type not supported');
+    }
+
+    return Redirect::action('Observation\VideoController@getAnalysesExport', array($questionnaire_id, $video_id, $request->type));
+  }
+
+  /**
+   * export the analyses
+   */
+  protected function getAnalysesExport($questionnaire_id, $video_id, $type){
+    $video = Video::where('id',$video_id)->firstOrFail();
+    $questionnaire = $video->questionnaires()->where('questionnaire_id', $questionnaire_id)->get()->first();
+
+    $this->authorize('video-analyses-export', $questionnaire);
+
+    $exportTypes = $this->getAnalysisExportTypes();
+    if(!array_key_exists($type, $exportTypes)){
+      abort(501, 'Export type not supported');
+    }
+
+    $analyses = Analysis::where('questionnaire_id',$questionnaire_id)->where('video_id', $video_id)->get();
+
+    $parentBlocks = $questionnaire->blocks()->whereNull('parent_id')->orderBy('order', 'asc')->orderBy('id', 'asc')->get();
+    $parts = ceil($video->length/$questionnaire->interval);
+
+    $export = array();
+    foreach ($analyses as $analysis) {
+      $export[]['analysis'] = $analysis;
+
+      for($part=0 ; $part < $parts ; $part++){
+        $export[count($export)-1]['answers'][] = $this->getExportBlocks($parentBlocks, $analysis, $part);
+      }
+    }
+
+    return $exportTypes[$type]::exportFile($export);
   }
 }

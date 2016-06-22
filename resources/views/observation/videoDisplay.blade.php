@@ -50,6 +50,8 @@
                             {!! csrf_field() !!}
                             <button type="submit" class="waves-effect waves-light btn white-text lighten-1" href="{{ action('Observation\VideoController@postCreateAnalysis', ['questionnaire_id' => $questionnaire->id, 'video_id' => $video->id]) }}"><i class="material-icons left">create</i>Start new analysis</button>
                         </form>
+                        <br/>
+                        <a class="waves-effect waves-light btn white-text lighten-1" href="{{ action('Observation\VideoController@getAnalysesExportType', ['questionnaire_id' => $questionnaire->id, 'video_id' => $video->id]) }}"><i class="material-icons left">file_download</i>Export all analyses</a>
                         @endcan
                     </div>
                     @endsection

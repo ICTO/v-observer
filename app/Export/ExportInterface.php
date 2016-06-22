@@ -12,6 +12,6 @@ Interface ExportInterface {
     /**
      * Get the file of the format
      */
-    static function exportFile($data, $analysis);
+    static function exportFile($analyses);
 
 }
