@@ -260,6 +260,16 @@ class ObservationPolicy
     }
 
     /**
+     * Determine if user can export all analyses of a video.
+     *
+     * @return bool
+     */
+    public function VideoAnalysesExport(User $user, Questionnaire $questionnaire)
+    {
+        return $this->QuestionnaireView($user, $questionnaire);
+    }
+
+    /**
      * Determine if user can remove an analysis of a video.
      *
      * @return bool
