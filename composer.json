@@ -9,7 +9,8 @@
         "laravel/framework": "5.1.*",
         "xavrsl/cas": "1.2.*",
         "barryvdh/laravel-debugbar": "^2.0",
-        "phpoffice/phpexcel": "^1.8"
+        "phpoffice/phpexcel": "^1.8",
+        "sensiolabs/security-checker": "^4.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
