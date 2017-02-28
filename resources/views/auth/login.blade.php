@@ -44,7 +44,7 @@
                         @endif
                         @if( Config::get('cas.cas_hostname') )
                             <div class="card-action center-align">
-                                <a class="waves-effect waves-light btn lighten-2" onclick="$('.email-login-wrapper').slideToggle()"><i class="material-icons left">account_balance</i>Mail login</a>
+                                <a class="waves-effect waves-light btn lighten-2" onclick="$('.email-login-wrapper').slideToggle()">Login with e-mail</a>
                                 <a class="waves-effect waves-light btn amber lighten-2 blue-text text-darken-4" type="submit" href="{{ action('Auth\AuthController@getCas') }}"><i class="material-icons left">account_balance</i>Login with CAS</a>
                             </div>
                         @endif
