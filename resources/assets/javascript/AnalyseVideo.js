@@ -53,7 +53,7 @@ $(function(){
         if($(".part:visible").not($("#part-"+part)).length){
             if($(".part:visible").length){
                 $(".part:visible").hide();
-                $("#part-"+part).show();
+                $("#part-"+part).fadeIn();
             }
         } else {
             $("#part-"+part).fadeIn("fast");
