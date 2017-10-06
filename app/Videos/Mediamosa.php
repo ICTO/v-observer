@@ -184,7 +184,7 @@ class Mediamosa implements VideoInterface{
           'name' => $item['job_type'] . " (".$item['status'].")",
           'percentage' => round($item['progress']*100)
         );
-        if($item['status'] != "FINISHED" && !($item['job_type'] == 'STILL' && $item['status'] == 'FAILED')){ // STILL creation somethimes fails so we add an exception because we don't use it.
+        if($item['status'] != "FINISHED"){
           $done = false;
         }
       }
