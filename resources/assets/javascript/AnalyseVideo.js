@@ -53,10 +53,10 @@ $(function(){
         if($(".part:visible").not($("#part-"+part)).length){
             if($(".part:visible").length){
                 $(".part:visible").hide();
-                $("#part-"+part).fadeIn();
+                $("#part-"+part).fadeIn("slow");
             }
         } else {
-            $("#part-"+part).fadeIn("fast");
+            $("#part-"+part).fadeIn("slow");
         }
     }
 
